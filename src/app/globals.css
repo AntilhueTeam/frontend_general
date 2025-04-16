@@ -1,0 +1,75 @@
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #fbfbef; /* fondo general claro */
+  --color-bg-secondary: #f1f9f0; /* secciones alternas */
+  --color-bg-muted: #f9f9dc;
+  --color-bg-accent: #2d3940; /* para dark sections o headers */
+  
+  /* Texto */
+  --color-text-primary: #2d3940; /* texto principal */
+  --color-text-secondary: #595a5a; /* texto secundario */
+  --color-text-muted: #6d6e6e; /* textos suaves */
+  --color-text-invert: #ffffff;
+
+  /* Primarios y acentos */
+  --color-primary: #2ea3f2; /* azul vibrante */
+  --color-primary-dark: #0073aa;
+  --color-primary-light: #88bdff;
+
+  --color-secondary: #ef8f61; /* naranja suave */
+  --color-secondary-light: #ffcb8c;
+  --color-secondary-dark: #a96c23;
+
+  /* Éxito, error, advertencia */
+  --color-success: #82cf7c;
+  --color-success-bg: #dff7dd;
+  --color-warning: #ffb660;
+  --color-warning-bg: #fff8e1;
+  --color-error: #ff5f5f;
+  --color-error-bg: #ffd9d5;
+
+  /* Neutrales */
+  --color-border: #e0dadf;
+  --color-muted-bg: #f1fafb;
+  --color-disabled: #c6edf0;
+
+  /* Colores adicionales / decorativos */
+  --color-accent-blue: #60a7ff;
+  --color-accent-teal: #29c4a9;
+  --color-accent-purple: #b15cb9;
+  --color-accent-green: #94e48d;
+  --color-accent-yellow: #efefc0;
+}
+
+
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
