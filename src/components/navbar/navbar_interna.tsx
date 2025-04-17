@@ -82,7 +82,7 @@ const Navbar = () => {
           >
             <Box
               component="video"
-              src="assets/images/logo_antilhue.mp4" // Asegúrate de que el archivo esté en /public o la ruta correcta
+              src="/assets/images/logo_antilhue.mp4" // Asegúrate de que el archivo esté en /public o la ruta correcta
               autoPlay
               loop
               muted
