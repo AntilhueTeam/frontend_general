@@ -75,10 +75,14 @@ const EditarPerfilOperador = () => {
 
   return (
     <Box sx={{ 
+      
       backgroundColor: 'white', 
       minHeight: '100vh', 
-      p: 3,
+
+      p:3,
+      pb:10,
       color: '#ffffff'
+      
     }}>
       <Paper sx={{ 
         p: 3, 

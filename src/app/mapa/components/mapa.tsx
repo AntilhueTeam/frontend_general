@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -30,13 +31,11 @@ const MapClickHandler = ({ onMapClick }: { onMapClick: (point: Point) => void })
   return null;
 };
 
-
-
 const Mapa = () => {
   const [points, setPoints] = useState<Point[]>([]);
   const [newPoint, setNewPoint] = useState<Point>({ lat: 0, lng: 0, name: '' });
 
-  const initialPosition: [number, number] = [-41.463565, -73.019608]; 
+  const initialPosition: [number, number] = [-41.463565, -73.019608];
 
   const handleAddPoint = (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,14 +102,12 @@ const Mapa = () => {
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           />
-          
           <MapClickHandler onMapClick={(point) => setNewPoint(point)} />
-          
           {points.map((point, index) => (
             <Marker key={index} position={[point.lat, point.lng]}>
               <Popup>
-                <strong>{point.name}</strong><br/>
-                Lat: {point.lat}<br/>
+                <strong>{point.name}</strong><br />
+                Lat: {point.lat}<br />
                 Lng: {point.lng}
               </Popup>
             </Marker>
@@ -121,4 +118,5 @@ const Mapa = () => {
   );
 };
 
-export default Mapa;
+// Exportar el componente usando dynamic import
+export default dynamic(() => Promise.resolve(Mapa), { ssr: false });

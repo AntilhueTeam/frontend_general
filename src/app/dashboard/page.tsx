@@ -137,7 +137,7 @@ const DashboardCotizaciones = () => {
           </Typography>
 
           <Box display="flex" gap={2}>
-          <Button
+          <Button 
             variant="contained"
             startIcon={<Add />}
             component={motion.button}

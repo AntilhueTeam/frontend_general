@@ -30,10 +30,8 @@ const Navbar = () => {
 
   useEffect(() => {
     // Este efecto solo se ejecuta en el cliente
-    if (typeof window !== 'undefined') {
       const authToken = Cookies.get('authToken');
       setIsLoggedIn(!!authToken);
-    }
   }, []);
 
   const handleLogout = () => {
@@ -59,15 +57,7 @@ const Navbar = () => {
     setAnchorElQuotes(null);
   };
 
-  const handleCrearCotizacion = () => {
-    // Redirigir a la página principal ("/")
-    window.location.href = '/cotizacion/crear';
-  };
 
-  const handleVerMapa = () => {
-    // Redirigir a la página principal ("/")
-    window.location.href = '/mapa';
-  };
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
   const [anchorElQuotes, setAnchorElQuotes] = useState<null | HTMLElement>(null);
@@ -126,9 +116,9 @@ const Navbar = () => {
                     <AddBusiness fontSize="small" /> Ver Cotizaciones
                   </Box>
                 </MenuItem>
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={handleCloseMenu} component={Link} href="/cotizacion/crear">
                   <Box
-                    component={Link} href="/cotizacion/crear"
+                    
                     sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                   >
                     <AddBusiness fontSize="small" /> Crear Nueva
@@ -141,9 +131,8 @@ const Navbar = () => {
                   </Box>
                 </MenuItem>
 
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={handleCloseMenu} component={Link} href="/mapa">
                   <Box
-                    component={Link} href="/mapa"
                     sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
                   >
                     <Map fontSize="small" /> Mapa
