@@ -1,0 +1,190 @@
+
+> tunegocio-template@0.1.0 start
+> next start
+
+   ▲ Next.js 15.1.6
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.0.4:3000
+
+ ✓ Starting...
+ ✓ Ready in 384ms
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+
+> tunegocio-template@0.1.0 start
+> next start
+
+   ▲ Next.js 15.1.6
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.0.4:3000
+
+ ✓ Starting...
+ ✓ Ready in 390ms
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+
+> tunegocio-template@0.1.0 start
+> next start
+
+   ▲ Next.js 15.1.6
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.0.4:3000
+
+ ✓ Starting...
+ ✓ Ready in 386ms
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+
+> tunegocio-template@0.1.0 start
+> next start
+
+   ▲ Next.js 15.1.6
+   - Local:        http://localhost:3000
+   - Network:      http://10.0.0.4:3000
+
+ ✓ Starting...
+ ✓ Ready in 394ms
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+`x-forwarded-host` header with value `20.75.51.81:80` does not match `origin` header with value `20.75.51.81` from a forwarded Server Actions request. Aborting the action.
+ ⨯ [Error: Invalid Server Actions request.]
+`x-forwarded-host` header with value `20.75.51.81:80` does not match `origin` header with value `20.75.51.81` from a forwarded Server Actions request. Aborting the action.
+ ⨯ [Error: Invalid Server Actions request.]
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+`x-forwarded-host` header with value `20.75.51.81:80` does not match `origin` header with value `20.75.51.81` from a forwarded Server Actions request. Aborting the action.
+ ⨯ [Error: Invalid Server Actions request.]
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /assets/images/bomba.png received text/html; charset=utf-8
+ ⨯ The requested resource isn't a valid image for /images/pruebas.png received text/html; charset=utf-8
