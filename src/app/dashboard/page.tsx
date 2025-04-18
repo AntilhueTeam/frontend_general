@@ -33,6 +33,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import Mapa from '../mapa/components/mapa';
 
 // Datos de ejemplo mejorados
 const mockQuotes = [
@@ -134,6 +135,8 @@ const DashboardCotizaciones = () => {
           <Typography variant="h4" fontWeight="bold" color="primary">
             Gestión de Cotizaciones
           </Typography>
+
+          <Box display="flex" gap={2}>
           <Button
             variant="contained"
             startIcon={<Add />}
@@ -141,6 +144,7 @@ const DashboardCotizaciones = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleCrearCotizacion}
+            
             sx={{
               bgcolor: 'primary.main',
               '&:hover': { bgcolor: 'primary.dark' }
@@ -148,6 +152,22 @@ const DashboardCotizaciones = () => {
           >
             Nueva Cotización
           </Button>
+
+          <Button
+            variant="contained"
+            startIcon={<Add />}
+            component={motion.button}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            sx={{
+              bgcolor: 'primary.main',
+              '&:hover': { bgcolor: 'primary.dark' }
+            }}
+          >
+            Cargar Cotización
+          </Button>
+          </Box>
+
         </Box>
 
         {/* Métricas */}

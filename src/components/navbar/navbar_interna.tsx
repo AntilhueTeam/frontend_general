@@ -12,30 +12,29 @@ import {
   Avatar,
   Button,
   Typography,
-  Divider
+  Divider,
 } from '@mui/material';
 import {
   Notifications,
   AddBusiness,
-  History
+  History,
+  Map,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import Cookies from 'js-cookie';
 import Link from 'next/link';
-import { useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
+  // Estado inicial basado en si estamos en el cliente y si existe la cookie
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-  const [anchorElQuotes, setAnchorElQuotes] = useState<null | HTMLElement>(null);
-  const [notifications] = useState(3);
 
   useEffect(() => {
-    // Verificar cookie al cargar el componente
-    const authToken = Cookies.get('authToken');
-    setIsLoggedIn(!!authToken);
+    // Este efecto solo se ejecuta en el cliente
+    if (typeof window !== 'undefined') {
+      const authToken = Cookies.get('authToken');
+      setIsLoggedIn(!!authToken);
+    }
   }, []);
-
 
   const handleLogout = () => {
     // Cerrar sesión
@@ -61,13 +60,21 @@ const Navbar = () => {
   };
 
   const handleCrearCotizacion = () => {
-
     // Redirigir a la página principal ("/")
     window.location.href = '/cotizacion/crear';
   };
 
+  const handleVerMapa = () => {
+    // Redirigir a la página principal ("/")
+    window.location.href = '/mapa';
+  };
+
+  const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
+  const [anchorElQuotes, setAnchorElQuotes] = useState<null | HTMLElement>(null);
+  const [notifications] = useState(3);
+
   return (
-    <AppBar position="static" sx={{ bgcolor:'#155FBF'}}>
+    <AppBar position="static" sx={{ bgcolor: '#155FBF' }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Logo */}
         <Link href="/dashboard" passHref legacyBehavior>
@@ -77,7 +84,7 @@ const Navbar = () => {
               display: 'flex',
               alignItems: 'center',
               cursor: 'pointer',
-              textDecoration: 'none'
+              textDecoration: 'none',
             }}
           >
             <Box
@@ -114,13 +121,16 @@ const Navbar = () => {
                 open={Boolean(anchorElQuotes)}
                 onClose={handleCloseMenu}
               >
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={handleCloseMenu} component={Link} href="/dashboard">
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <AddBusiness fontSize="small" /> Ver Cotizaciones
                   </Box>
                 </MenuItem>
                 <MenuItem onClick={handleCloseMenu}>
-                  <Box onClick={handleCrearCotizacion} sx={{ display: 'flex', alignItems: 'center', gap: 1 }} >
+                  <Box
+                    component={Link} href="/cotizacion/crear"
+                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                  >
                     <AddBusiness fontSize="small" /> Crear Nueva
                   </Box>
                 </MenuItem>
@@ -128,6 +138,15 @@ const Navbar = () => {
                 <MenuItem onClick={handleCloseMenu}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     <History fontSize="small" /> Historial
+                  </Box>
+                </MenuItem>
+
+                <MenuItem onClick={handleCloseMenu}>
+                  <Box
+                    component={Link} href="/mapa"
+                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+                  >
+                    <Map fontSize="small" /> Mapa
                   </Box>
                 </MenuItem>
               </Menu>
@@ -152,14 +171,16 @@ const Navbar = () => {
                   sx: {
                     mt: 1.5,
                     minWidth: 200,
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)'
-                  }
+                    boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+                  },
                 }}
               >
-                <MenuItem onClick={handleCloseMenu}>
+                <MenuItem onClick={handleCloseMenu} component={Link} href="/perfil">
                   <Typography variant="body2">Ver Perfil</Typography>
                 </MenuItem>
-                <MenuItem onClick={handleCloseMenu}>
+
+                <MenuItem onClick={handleCloseMenu} component={Link} href="/perfil/modificar">
+
                   <Typography variant="body2">Modificar Perfil</Typography>
                 </MenuItem>
                 <Divider />
