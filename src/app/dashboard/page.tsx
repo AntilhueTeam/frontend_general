@@ -34,6 +34,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsive
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import Mapa from '../mapa/components/mapa';
+import Link from 'next/link';
 
 // Datos de ejemplo mejorados
 const mockQuotes = [
@@ -136,7 +137,7 @@ const DashboardCotizaciones = () => {
             Gestión de Cotizaciones
           </Typography>
 
-          <Box display="flex" gap={2}>
+          <Box display="flex" gap={2} component={Link} href="/cotizacion/subir">
           <Button 
             variant="contained"
             startIcon={<Add />}
