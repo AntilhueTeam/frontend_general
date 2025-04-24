@@ -80,12 +80,12 @@ export default function HomePresentation() {
             {
               title: 'Instalación de Bombas Sumergibles',
               desc: 'Monofásica y Trifásica',
-              img: '/assets/images/bomba.png',
+              img: '/assets/images/bombeo.jpeg',
             },
             {
               title: 'Pruebas de Bombeo y Mantención',
               desc: 'Según requerimiento DGA',
-              img: '/images/pruebas.png',
+              img: '/images/pruebas.jpeg',
             },
           ].map((service, idx) => (
             <Grid size={{xs:12, md:4}} key={idx}>
