@@ -10,7 +10,7 @@ export default function HomePresentation() {
   return (
     <Box
       sx={{
-        background: 'linear-gradient(180deg, #0a1929 0%, #1a1a1a 100%)',
+        background: 'linear-gradient(180deg, #0a1929 0%, var(--color-bg-secondary) 100%)',
         color: '#fff',
         minHeight: '100vh',
         px: { xs: 2, md: 4 },

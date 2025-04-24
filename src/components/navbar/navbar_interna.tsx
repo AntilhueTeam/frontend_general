@@ -64,7 +64,7 @@ const Navbar = () => {
   const [notifications] = useState(3);
 
   return (
-    <AppBar position="static" sx={{ bgcolor: '#155FBF' }}>
+    <AppBar position="static" sx={{ bgcolor: 'var(--color-bg-primary)' }}>
       <Toolbar sx={{ justifyContent: 'space-between' }}>
         {/* Logo */}
         <Link href="/dashboard" passHref legacyBehavior>

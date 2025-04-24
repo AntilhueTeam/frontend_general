@@ -270,7 +270,7 @@ export default function SolicitudCotizacion() {
                                         />
                                     </Paper>
                                 </Grid>
-
+                                
                                 {/* Sección Aportes */}
                                 <Grid size={{ xs: 12 }}>
                                     <Grid container spacing={4}>

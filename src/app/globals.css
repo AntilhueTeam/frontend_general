@@ -1,15 +1,11 @@
 :root {
   /* Backgrounds */
-  --color-bg-primary: #fbfbef; /* fondo general claro */
-  --color-bg-secondary: #f1f9f0; /* secciones alternas */
-  --color-bg-muted: #f9f9dc;
-  --color-bg-accent: #2d3940; /* para dark sections o headers */
+  --color-bg-primary: #222831; /* fondo general claro */
+  --color-bg-secondary: #0a2647; /* secciones alternas */
   
   /* Texto */
-  --color-text-primary: #2d3940; /* texto principal */
-  --color-text-secondary: #595a5a; /* texto secundario */
-  --color-text-muted: #6d6e6e; /* textos suaves */
-  --color-text-invert: #ffffff;
+  --color-text-primary: #fffff0; /* texto principal */
+  --color-text-secondary: #1363df; /* texto secundario */
 
   /* Primarios y acentos */
   --color-primary: #2ea3f2; /* azul vibrante */

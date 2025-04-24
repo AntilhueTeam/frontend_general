@@ -123,7 +123,7 @@ const DashboardCotizaciones = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={es}>
-      <Box sx={{ p: 3, backgroundColor: '#f5f6fa', minHeight: '100vh' }}>
+      <Box sx={{ p: 3, backgroundColor: 'var(--color-bg-primary)', minHeight: '100vh' }}>
         {/* Header */}
         <Box sx={{ 
           display: 'flex', 
@@ -184,10 +184,11 @@ const DashboardCotizaciones = () => {
                 p: 2, 
                 borderRadius: 3,
                 boxShadow: 3,
+                bgcolor: 'white', //'var(--color-bg-secondary)',
                 transition: 'transform 0.3s',
                 '&:hover': { transform: 'translateY(-5px)' }
               }}>
-                <Typography variant="subtitle1" color="text.secondary">{metric.label}</Typography>
+                <Typography variant="subtitle1" color="primary">{metric.label}</Typography>
                 <Typography variant="h3" color={`${metric.color}.main`} fontWeight="bold">
                   {metric.value}
                 </Typography>
