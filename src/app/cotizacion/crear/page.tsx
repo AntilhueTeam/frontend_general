@@ -174,7 +174,10 @@ export default function SolicitudCotizacion() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+
+
+
 
         <Box sx={{ flex: 1, bgcolor: 'var(--color-bg-primary)', py: 8 }}>
           <Container maxWidth="lg">
@@ -193,7 +196,30 @@ export default function SolicitudCotizacion() {
                 </Typography>
               </Box>
 
+              {/* ID Proyecto y N° Referencia */}
+              <Box sx={{ display: 'flex', gap: 2, mb: 4 }}>
+                <TextField
+                  fullWidth
+                  label="Título de Cotización *"
+                  name="id_proyecto"
+                  value={formData.id_proyecto}
+                  onChange={handleChange}
+                  size="small"
+                />
+                <TextField
+                  label="N° Referencia"
+                  name="n_referencia"
+                  type="number"
+                  value={formData.n_referencia}
+                  onChange={handleChange}
+                  size="small"
+                  sx={{ width: 140 }}
+                />
+              </Box>
+
               <Grid container spacing={6}>
+
+
                 {/* Sección Datos del Cliente */}
                 <Grid size={{ xs: 12, md: 6 }}>
                   <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
@@ -491,6 +517,59 @@ export default function SolicitudCotizacion() {
                   </Paper>
                 </Grid>
 
+                {/* Datos de la Empresa */}
+                <Grid size={{ xs: 12, md: 6 }}>
+                  <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
+                    <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: '#1a237e' }}>
+                      🏢 Datos de la Empresa
+                    </Typography>
+                    <TextField
+                      fullWidth
+                      label="Nombre Empresa *"
+                      size="small"
+                      name="nombre_empresa"
+                      value={formData.nombre_empresa}
+                      onChange={handleChange}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Dirección Empresa *"
+                      size="small"
+                      name="direccion_empresa"
+                      value={formData.direccion_empresa}
+                      onChange={handleChange}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Región Empresa *"
+                      size="small"
+                      name="region_empresa"
+                      value={formData.region_empresa}
+                      onChange={handleChange}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="País Empresa *"
+                      size="small"
+                      name="pais_empresa"
+                      value={formData.pais_empresa}
+                      onChange={handleChange}
+                      sx={{ mb: 3 }}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Teléfono Empresa *"
+                      size="small"
+                      name="numero_telefono_empresa"
+                      value={formData.numero_telefono_empresa}
+                      onChange={handleChange}
+                    />
+                  </Paper>
+                </Grid>
+
                 {/* Sección Firma */}
                 <Grid size={{ xs: 12 }}>
                   <Paper sx={{ p: 4, borderRadius: 3, bgcolor: '#f8f9fa' }}>
@@ -588,6 +667,23 @@ export default function SolicitudCotizacion() {
                   </Paper>
                 </Grid>
               </Grid>
+
+              {/* Requiere Respuesta */}
+              <Grid size={{ xs: 12 }}>
+                <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        name="requiere_respuesta"
+                        checked={formData.requiere_respuesta}
+                        onChange={handleChange}
+                      />
+                    }
+                    label="Requiere Respuesta"
+                  />
+                </Paper>
+              </Grid>
+
 
               <Box sx={{ mt: 8, textAlign: 'center' }}>
                 <Button
