@@ -85,7 +85,7 @@ export default function HomePresentation() {
             {
               title: 'Pruebas de Bombeo y Mantención',
               desc: 'Según requerimiento DGA',
-              img: '/images/pruebas.jpeg',
+              img: '/assets/images/pruebas.jpeg',
             },
           ].map((service, idx) => (
             <Grid size={{xs:12, md:4}} key={idx}>
