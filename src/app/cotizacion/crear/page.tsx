@@ -174,9 +174,9 @@ export default function SolicitudCotizacion() {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column'}}>
 
-        <Box sx={{ flex: 1, bgcolor: '#f5f5f5', py: 8 }}>
+        <Box sx={{ flex: 1, bgcolor: 'var(--color-bg-primary)', py: 8 }}>
           <Container maxWidth="lg">
             <Paper sx={{ p: 4, mb: 6, borderRadius: 4, boxShadow: 3 }}>
               <Box textAlign="center" mb={6}>

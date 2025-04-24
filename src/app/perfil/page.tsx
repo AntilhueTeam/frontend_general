@@ -51,7 +51,7 @@ const PerfilOperadorPerforacion = () => {
 
   return (
     <Box sx={{ 
-      backgroundColor: '#f5f5f5', 
+      backgroundColor: 'var(--color-bg-primary)', 
       minHeight: '100vh', 
       p: 3,
       fontFamily: 'Roboto, sans-serif'

@@ -76,7 +76,7 @@ const EditarPerfilOperador = () => {
   return (
     <Box sx={{ 
       
-      backgroundColor: 'white', 
+      backgroundColor: 'var(--color-bg-primary)', 
       minHeight: '100vh', 
 
       p:3,

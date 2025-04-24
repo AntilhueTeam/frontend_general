@@ -80,8 +80,8 @@ const PdfExtractorPage: React.FC = () => {
   };
 
   return (
-    <Container maxWidth={false} sx={{ py: 6, bgcolor: "white" }}>
-      <Typography variant="h4" color="black" gutterBottom>
+    <Container maxWidth={false} sx={{ pt: 6 ,pb:90, bgcolor: 'var(--color-bg-primary)' }}>
+      <Typography variant="h4" color="var(--color-text-primary)" gutterBottom>
         Subir PDF y extraer texto
       </Typography>
 
@@ -110,6 +110,7 @@ const PdfExtractorPage: React.FC = () => {
             fullWidth
             rows={10}
             margin="normal"
+            sx={{bgcolor:"white"}}
             value={extractedText}
             InputProps={{ readOnly: true }}
           />
@@ -120,6 +121,7 @@ const PdfExtractorPage: React.FC = () => {
             fullWidth
             rows={14}
             margin="normal"
+            sx={{bgcolor:"white"}}
             value={JSON.stringify(parsedData, null, 2)}
             InputProps={{ readOnly: true }}
           />

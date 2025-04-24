@@ -37,14 +37,15 @@
   --color-accent-yellow: #efefc0;
 }
 
-
-
+/* 2) Forzar ancho máximo y ocultar overflow horizontal en toda la app */
 html,
-body {
+body,
+#__next {
   max-width: 100vw;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
 }
 
+/* 3) Estilos básicos de body */
 body {
   color: var(--foreground);
   background: var(--background);
@@ -53,19 +54,28 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* 4) Box-sizing y reset de margenes/paddings */
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
+/* 5) Links sin decoración */
 a {
   color: inherit;
   text-decoration: none;
 }
 
+/* 6) Soporte de color-scheme */
 @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
   }
+}
+
+/* 7) Extra: asegurar que ningún popover/paper de MUI desborde */
+.MuiPopover-root,
+.MuiPaper-root {
+  overflow-x: hidden !important;
 }
