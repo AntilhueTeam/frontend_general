@@ -310,6 +310,74 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
       </View>
     </Page>
 
+    <Page size="A3" style={styles.page}>
+      <View style={{ position: "relative", width: "100%", height: "100%" }}>
+        {/* Imagen de fondo */}
+        <Image
+          src="/assets/images/imagen_final.png" 
+          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+        />
+
+        {/* Texto 1 */}
+        <Text
+          style={{
+            position: "absolute",
+            // Ajustar estos valores para cambiar posicion
+            top: 150, 
+            left: 30, 
+            fontSize: 12,
+            fontWeight: "bold",
+            color: "black",
+          }}
+        >
+          HOLAholaHOLA
+        </Text>
+
+        {/* Texto 2 */}
+        <Text
+          style={{
+            position: "absolute",
+            // Ajustar estos valores para cambiar posicion
+            top: 975, 
+            left: 30, 
+            fontSize: 12,
+            color: "red",
+          }}
+        >
+          XDxdXD
+        </Text>
+
+        {/* Texto 2 */}
+        <Text
+          style={{
+            position: "absolute",
+            // Ajustar estos valores para cambiar posicion
+            top: 1050, 
+            left: 30, 
+            fontSize: 12,
+            color: "blue",
+          }}
+        >
+          un saludo
+        </Text>
+
+        {/* Texto 2 */}
+        <Text
+          style={{
+            position: "absolute",
+            // Ajustar estos valores para cambiar posicion
+            top: 875, 
+            left: 30, 
+            fontSize: 12,
+            color: "blue",
+          }}
+        >
+          Bibi
+        </Text>
+
+        
+      </View>
+    </Page>
   </Document>
 );
 
