@@ -222,7 +222,7 @@ function App() {
             </div> */}
 
             {/* Vista previa del PDF */}
-            <PDFViewer style={{ width: "100%", height: "600px" }}>
+            <PDFViewer style={{ width: "100%", height: "calc(100vh - 100px)" }}>
                 <MyPDF data={formData} />
             </PDFViewer>
 
