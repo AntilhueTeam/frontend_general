@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import MyPDF from "./mypdf";
 
@@ -14,34 +14,56 @@ interface FormData {
     region_empresa: string;
     pais_empresa: string;
     numero_telefono_empresa: string;
-    n_referencia: string; // ¿Cómo se obtiene este número?
-    id_proyecto: string; // Descripción del proyecto
-    asunto_cliente: string; // Asunto del cliente o "Entrega Carta Oferta"
-    descripcion_proyecto: string; // Información del proyecto
-    id_documento: string; // Identificador del documento
-}
+    n_referencia: string;
+    id_proyecto: string;
+    asunto_cliente: string;
+    descripcion_proyecto: string;
+    id_documento: string;
+    aportes_cliente: string[];
+    aportes_antilhue: string[];
+    imagenes: string[]; // base64 strings
+  }
+
+// function App() {
+//     const [formData, setFormData] = useState<FormData>({
+//         nombre_cliente: "",
+//         direccion_especifica_cliente: "",
+//         comuna_cliente: "",
+//         nombre_empresa: "",
+//         direccion_empresa: "",
+//         region_empresa: "",
+//         pais_empresa: "",
+//         numero_telefono_empresa: "",
+//         n_referencia: "",
+//         id_proyecto: "",
+//         asunto_cliente: "",
+//         descripcion_proyecto: "",
+//         id_documento: "",
+//     });
 
 function App() {
-    const [formData, setFormData] = useState<FormData>({
-        nombre_cliente: "",
-        direccion_especifica_cliente: "",
-        comuna_cliente: "",
-        nombre_empresa: "",
-        direccion_empresa: "",
-        region_empresa: "",
-        pais_empresa: "",
-        numero_telefono_empresa: "",
-        n_referencia: "",
-        id_proyecto: "",
-        asunto_cliente: "",
-        descripcion_proyecto: "",
-        id_documento: "",
-    });
+    const [formData, setFormData] = useState<FormData | null>(null);
+  
+    useEffect(() => {
+      const stored = localStorage.getItem("cotizacionData");
+      if (stored) {
+        try {
+          const parsed = JSON.parse(stored);
+          setFormData(parsed);
+        } catch (error) {
+          console.error("Error parsing localStorage data", error);
+        }
+      }
+    }, []);
+  
+    if (!formData) {
+      return <p>No hay datos guardados. Por favor, complete el formulario primero.</p>;
+    }
 
     return (
         <div className="App">
 
-            {/* Formulario para datos dinámicos */}
+            {/* Formulario para datos dinámicos
             <div style={{ marginBottom: "20px" }}>
                 <label>
                     Nombre Cliente:
@@ -197,31 +219,30 @@ function App() {
                         }
                     />
                 </label>
-            </div>
+            </div> */}
 
             {/* Vista previa del PDF */}
-            <PDFViewer style={{ width: "100%", height: "600px" }}>
+            <PDFViewer style={{ width: "100%", height: "calc(100vh - 100px)" }}>
                 <MyPDF data={formData} />
             </PDFViewer>
 
-            {/* Botón para descargar el PDF */}
             <PDFDownloadLink
                 document={<MyPDF data={formData} />}
                 fileName="carta-oferta.pdf"
                 style={{
-                    marginTop: "20px",
-                    padding: "10px 20px",
-                    backgroundColor: "#007bff",
-                    color: "white",
-                    border: "none",
-                    borderRadius: "4px",
-                    cursor: "pointer",
+                marginTop: "20px",
+                padding: "10px 20px",
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
                 }}
             >
                 {({ loading }) => (loading ? "Cargando..." : "Descargar PDF")}
             </PDFDownloadLink>
-        </div>
-    );
-}
+            </div>
+        );
+        }
 
-export default App;
+        export default App;
