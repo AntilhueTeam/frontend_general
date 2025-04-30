@@ -14,12 +14,15 @@ interface MyPDFProps {
     region_empresa: string;
     pais_empresa: string;
     numero_telefono_empresa: string;
-    n_referencia: string; // ¿Cómo se obtiene este número?
-    id_proyecto: string; // Descripción del proyecto
-    asunto_cliente: string; // Asunto del cliente o "Entrega Carta Oferta"
-    descripcion_proyecto: string; // Información del proyecto
-    id_documento: string; // Identificador del documento
-  }
+    n_referencia: string;
+    id_proyecto: string;
+    asunto_cliente: string;
+    descripcion_proyecto: string;
+    id_documento: string;
+    aportes_cliente: string[];
+    aportes_antilhue: string[];
+    imagenes: string[]; // base64 strings
+  };
 };
 
 // Estilos
@@ -121,11 +124,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const aportesCliente = [
-  "Aporte 1: Descripción del primer aporte.",
-  "Aporte 2: Descripción del segundo aporte.",
-  "Aporte 3: Descripción del tercer aporte.",
-];
+// const aportesCliente = [
+//   "Aporte 1: Descripción del primer aporte.",
+//   "Aporte 2: Descripción del segundo aporte.",
+//   "Aporte 3: Descripción del tercer aporte.",
+// ];
 
 {/*pagina 1 */ }
 const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
@@ -217,15 +220,13 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
     {/*pagina 2*/}
     <Page size="A3" style={styles.page}>
       <View style={styles.header}>
-        {/* Logo en la esquina superior izquierda */}
         <Image src="/assets/images/logo.png" style={styles.logo} />
       </View>
+
       <View>
         <Text style={{ fontWeight: "bold" }}>Aportes del Cliente: {"\n\n"}</Text>
-
-        {/* Lista enumerada */}
         <View style={styles.listContainer}>
-          {aportesCliente.map((item, index) => (
+          {data.aportes_cliente.map((item, index) => (
             <Text key={index} style={styles.listItem}>
               {`${index + 1}. ${item} \n\n`}
             </Text>
@@ -233,26 +234,30 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
         </View>
 
         <Text style={{ fontWeight: "bold" }}>Aportes Antilhue: {"\n\n"}</Text>
-
-        {/* Lista enumerada */}
         <View style={styles.listContainer}>
-          {aportesCliente.map((item, index) => (
+          {data.aportes_antilhue.map((item, index) => (
             <Text key={index} style={styles.listItem}>
               {`${index + 1}. ${item} \n\n`}
             </Text>
           ))}
         </View>
-
       </View>
     </Page>
 
+    {data.imagenes?.length > 0 && (
     <Page size="A3" style={styles.page}>
-      <View>
-        <Text>
-          inserta imagen pajaron
-        </Text>
+      <Text style={styles.title}> Imágenes del Proyecto</Text>
+      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
+        {data.imagenes.map((src, index) => (
+          <Image
+            key={index}
+            src={src}
+            style={{ width: 200, height: 150, margin: 5 }}
+          />
+        ))}
       </View>
     </Page>
+  )}
 
     <Page size="A3" style={styles.page}>
       <View style={styles.section}>

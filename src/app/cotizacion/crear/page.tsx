@@ -28,6 +28,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useRouter } from 'next/navigation';
 
 type FormData = {
   [key: string]: any;
@@ -57,11 +58,13 @@ type FormData = {
   rut_banco: string,
   nombre_firma: string,
   rut_firma: string,
+  imagenes: string[] // base64 strings
 };
 
 
 
 export default function SolicitudCotizacion() {
+  const router = useRouter();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [formData, setFormData] = useState<FormData>({
 
@@ -98,6 +101,7 @@ export default function SolicitudCotizacion() {
     nombre_firma: '',
     rut_firma: '',
     fecha_firma: null,
+    imagenes: ['', '', '']
   });
 
   const handleChange = (
@@ -123,8 +127,23 @@ export default function SolicitudCotizacion() {
   };
 
   const handleSubmit = () => {
-    localStorage.setItem('cotizacionData', JSON.stringify(formData));
-    console.log('Datos guardados:', formData);
+    const updatedFormData = { ...formData };
+  
+    // Forzar incluir las imágenes cargadas (por si no están en el estado sincronizado)
+    const imagenesBase64 = selectedImages.map((file) => {
+      return new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    });
+  
+    Promise.all(imagenesBase64).then((imagenes) => {
+      updatedFormData.imagenes = imagenes;
+      localStorage.setItem("cotizacionData", JSON.stringify(updatedFormData));
+      router.push("/cotizacion/crear/pdf");
+    });
   };
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
@@ -453,6 +472,24 @@ export default function SolicitudCotizacion() {
                               alert("Solo puedes subir hasta 5 imágenes.");
                               return;
                             }
+                        
+                            // Convertir imágenes a base64 y guardar
+                            Promise.all(
+                              nuevosArchivos.map(file => {
+                                return new Promise<string>((resolve, reject) => {
+                                  const reader = new FileReader();
+                                  reader.onload = () => resolve(reader.result as string);
+                                  reader.onerror = reject;
+                                  reader.readAsDataURL(file);
+                                });
+                              })
+                            ).then((base64s) => {
+                              setFormData((prevData) => ({
+                                ...prevData,
+                                imagenes: [...(prevData.imagenes || []), ...base64s],
+                              }));
+                            });
+                        
                             setSelectedImages(prev => [...prev, ...nuevosArchivos]);
                           }
                         }}
