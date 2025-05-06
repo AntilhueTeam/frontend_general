@@ -315,6 +315,89 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
       </View>
     </Page>
 
+    <Page size="A4" style={styles.page}>
+      {/* Encabezado con logo */}
+      <View style={{ flexDirection: "row", justifyContent: "flex-start", marginBottom: 20 }}>
+        <Image src="/assets/images/logo.png" style={{ width: 100, height: 50 }} />
+      </View>
+
+      {/* Línea horizontal */}
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderColor: "#000",
+          marginBottom: 15,
+        }}
+      />
+
+      {/* Título */}
+      <Text style={{ fontSize: 14, fontWeight: "bold", marginBottom: 20 }}>
+        Anexo 1 — Aceptación de la Oferta
+      </Text>
+
+      {/* Párrafo legal */}
+      <Text style={{ fontSize: 12, lineHeight: 1.8, marginBottom: 15 }}>
+        Por medio del presente documento, Sr(a) {data.nombre_cliente}, cliente adjudica a Antilhue SpA, 
+        en adelante “Antilhue”, los servicios a ejecutarse en la forma, plazo, términos y condiciones estipuladas 
+        en la presente Oferta Nº25.850.01 Rev. B [n_referencia + version], presentada por Antilhue con fecha, 28 de Abril del 2025 [fecha_actual].
+      </Text>
+
+      <Text style={{ fontSize: 12, lineHeight: 1.8, marginBottom: 30 }}>
+        El depósito se realizará a la cuenta corriente del Banco de Crédito e Inversiones BCI número
+        635 660 44, a nombre de Antilhue SpA, RUT: 76.876.217-1. Enviar comprobante al correo:
+        susana.loyola@antilhueing.cl
+      </Text>
+
+      {/* Campos estáticos */}
+      <View style={{ marginTop: 20, gap: 20 }}>
+        {["Nombre Cliente", "R.U.T:", "Fecha:"].map((label, i) => (
+          <View
+            key={i}
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <Text style={{ fontSize: 12 }}>{label}</Text>
+            <Text
+              style={{
+                fontSize: 12,
+                borderBottomWidth: 1,
+                width: "60%",
+                textAlign: "left",
+                paddingBottom: 4, // opcional para separación
+              }}
+            >
+
+            </Text>
+          </View>
+        ))}
+
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            marginTop: 40,
+          }}
+        >
+          <Text style={{ fontSize: 12 }}>Firma Cliente</Text>
+          <Text
+            style={{
+              fontSize: 12,
+              borderBottomWidth: 1,
+              width: "60%",
+              textAlign: "left",
+              paddingBottom: 4, // opcional para separación
+            }}
+          >
+            {/* sin texto aquí */}
+          </Text>
+        </View>
+      </View>
+    </Page>
+
+
+
     <Page size="A3" style={styles.page}>
       <View style={{ position: "relative", width: "100%", height: "100%" }}>
         {/* Imagen de fondo */}
