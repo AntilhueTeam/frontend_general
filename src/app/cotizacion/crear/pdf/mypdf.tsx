@@ -432,7 +432,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
             color: "red",
           }}
         >
-          XDxdXD
+          un ejemplo 1
         </Text>
 
         {/* Texto 2 */}
@@ -446,7 +446,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
             color: "blue",
           }}
         >
-          un saludo
+          un ejemplo 2
         </Text>
 
         {/* Texto 2 */}
@@ -460,7 +460,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
             color: "blue",
           }}
         >
-          Bibi
+          un ejemplo 3
         </Text>
 
         
