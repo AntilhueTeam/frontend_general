@@ -61,8 +61,6 @@ type FormData = {
   imagenes: string[] // base64 strings
 };
 
-
-
 export default function SolicitudCotizacion() {
   const router = useRouter();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);

@@ -62,187 +62,46 @@ function App() {
 
     return (
         <div className="App">
-
-            {/* Formulario para datos dinámicos
-            <div style={{ marginBottom: "20px" }}>
-                <label>
-                    Nombre Cliente:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el nombre del cliente"
-                        value={formData.nombre_cliente}
-                        onChange={(e) =>
-                            setFormData({ ...formData, nombre_cliente: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Dirección Específica del Cliente:
-                    <input
-                        type="text"
-                        placeholder="Ingrese la dirección específica del cliente"
-                        value={formData.direccion_especifica_cliente}
-                        onChange={(e) =>
-                            setFormData({ ...formData, direccion_especifica_cliente: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Comuna del Cliente:
-                    <input
-                        type="text"
-                        placeholder="Ingrese la comuna del cliente"
-                        value={formData.comuna_cliente}
-                        onChange={(e) =>
-                            setFormData({ ...formData, comuna_cliente: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Nombre de la Empresa:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el nombre de la empresa"
-                        value={formData.nombre_empresa}
-                        onChange={(e) =>
-                            setFormData({ ...formData, nombre_empresa: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Dirección de la Empresa:
-                    <input
-                        type="text"
-                        placeholder="Ingrese la dirección de la empresa"
-                        value={formData.direccion_empresa}
-                        onChange={(e) =>
-                            setFormData({ ...formData, direccion_empresa: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Región de la Empresa:
-                    <input
-                        type="text"
-                        placeholder="Ingrese la región de la empresa"
-                        value={formData.region_empresa}
-                        onChange={(e) =>
-                            setFormData({ ...formData, region_empresa: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    País de la Empresa:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el país de la empresa"
-                        value={formData.pais_empresa}
-                        onChange={(e) =>
-                            setFormData({ ...formData, pais_empresa: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Teléfono de la Empresa:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el número de teléfono de la empresa"
-                        value={formData.numero_telefono_empresa}
-                        onChange={(e) =>
-                            setFormData({ ...formData, numero_telefono_empresa: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Número de Referencia:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el número de referencia"
-                        value={formData.n_referencia}
-                        onChange={(e) =>
-                            setFormData({ ...formData, n_referencia: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    ID del Proyecto:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el ID del proyecto"
-                        value={formData.id_proyecto}
-                        onChange={(e) =>
-                            setFormData({ ...formData, id_proyecto: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Asunto:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el asunto (ej. Entrega Carta Oferta)"
-                        value={formData.asunto_cliente}
-                        onChange={(e) =>
-                            setFormData({ ...formData, asunto_cliente: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    Descripción del Proyecto:
-                    <textarea
-                        placeholder="Ingrese la descripción del proyecto"
-                        value={formData.descripcion_proyecto}
-                        onChange={(e) =>
-                            setFormData({ ...formData, descripcion_proyecto: e.target.value })
-                        }
-                    />
-                </label>
-
-                <label>
-                    ID del Documento:
-                    <input
-                        type="text"
-                        placeholder="Ingrese el ID del documento"
-                        value={formData.id_documento}
-                        onChange={(e) =>
-                            setFormData({ ...formData, id_documento: e.target.value })
-                        }
-                    />
-                </label>
-            </div> */}
-
-            {/* Vista previa del PDF */}
-            <PDFViewer style={{ width: "100%", height: "calc(100vh - 100px)" }}>
-                <MyPDF data={formData} />
-            </PDFViewer>
-
+          {/* Vista previa del PDF */}
+          <PDFViewer style={{ width: "100%", height: "calc(100vh - 200px)" }}>
+            <MyPDF data={formData} />
+          </PDFViewer>
+      
+          {/* Contenedor de acciones debajo del visor */}
+          <div style={{ marginTop: "20px", padding: "20px", textAlign: "center" }}>
             <PDFDownloadLink
-                document={<MyPDF data={formData} />}
-                fileName="carta-oferta.pdf"
-                style={{
-                marginTop: "20px",
+              document={<MyPDF data={formData} />}
+              fileName="carta-oferta.pdf"
+              style={{
                 padding: "10px 20px",
                 backgroundColor: "#007bff",
                 color: "white",
                 border: "none",
                 borderRadius: "4px",
                 cursor: "pointer",
-                }}
+              }}
             >
-                {({ loading }) => (loading ? "Cargando..." : "Descargar PDF")}
+              {({ loading }) => (loading ? "Cargando..." : "Descargar PDF")}
             </PDFDownloadLink>
-            </div>
-        );
+      
+            {/* Aquí puedes agregar más botones */}
+            <button
+              style={{
+                marginLeft: "15px",
+                padding: "10px 20px",
+                backgroundColor: "#28a745",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+              onClick={() => alert("Otra acción")}
+            >
+              Otra acción
+            </button>
+          </div>
+        </div>
+      );
         }
 
         export default App;
