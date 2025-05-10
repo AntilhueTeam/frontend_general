@@ -124,16 +124,17 @@ const styles = StyleSheet.create({
   },
 });
 
-// const aportesCliente = [
-//   "Aporte 1: Descripción del primer aporte.",
-//   "Aporte 2: Descripción del segundo aporte.",
-//   "Aporte 3: Descripción del tercer aporte.",
-// ];
 
-{/*pagina 1 */ }
 const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
 
   <Document>
+
+    {/* 
+    ##########################################################################################    
+    CARTA OFERTA
+    ##########################################################################################   
+    */}
+
     <Page size="A3" style={styles.page}>
       {/* Header con logo */}
       <View style={styles.header}>
@@ -215,9 +216,28 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           <Text style={{ fontWeight: "bold" }}>Descripción:</Text> {data.asunto_cliente}
         </Text>
       </View>
+
+      {/* Texto inferior izquierdo */}
+      <Text
+        style={{
+          position: "absolute",
+          bottom: 30,
+          left: 50,
+          fontSize: 10,
+          color: "#444",
+        }}
+      >
+        {data.n_referencia} – Envío Carta Oferta
+      </Text>
     </Page>
 
-    {/*pagina 2*/}
+
+    {/* 
+    ##########################################################################################    
+    APORTES CLIENTE & ANTILHUE
+    ##########################################################################################   
+    */}
+
     <Page size="A3" style={styles.page}>
       <View style={styles.header}>
         <Image src="/assets/images/logo.png" style={styles.logo} />
@@ -242,22 +262,94 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           ))}
         </View>
       </View>
+
+      {/* Texto inferior izquierdo */}
+      <Text
+        style={{
+          position: "absolute",
+          bottom: 30,
+          left: 50,
+          fontSize: 10,
+          color: "#444",
+        }}
+      >
+        {data.n_referencia} – Envío Carta Oferta
+      </Text>
     </Page>
 
+    {/* 
+    ##########################################################################################    
+    IMÁGENES DEL PROYECTO (REFERENCIALES)
+    ##########################################################################################   
+    */}
+
     {data.imagenes?.length > 0 && (
-    <Page size="A3" style={styles.page}>
-      <Text style={styles.title}> Imágenes del Proyecto</Text>
-      <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 10 }}>
-        {data.imagenes.map((src, index) => (
-          <Image
-            key={index}
-            src={src}
-            style={{ width: 200, height: 150, margin: 5 }}
-          />
-        ))}
-      </View>
-    </Page>
-  )}
+      <Page size="A3" style={styles.page}>
+        {/* Header con logo */}
+        <View style={styles.header}>
+          <Image src="/assets/images/logo.png" style={styles.logo} />
+        </View>
+
+        <Text style={[styles.title, { marginBottom: 20 }]}>Equipos de perforación, propuestos para el proyecto:</Text>
+
+        {/* Contenedor de las imágenes */}
+        <View style={{ flexDirection: "column", flexWrap: "wrap", height: "75%" }}>
+          {(() => {
+            const total = data.imagenes.length;
+            const columns = Math.ceil(Math.sqrt(total));
+            const rows = Math.ceil(total / columns);
+            const imageWidth = `${100 / columns}%`;
+            const imageHeight = `${100 / rows}%`;
+
+            return data.imagenes.map((src, index) => (
+              <View
+                key={index}
+                style={{
+                  width: imageWidth,
+                  height: imageHeight,
+                  padding: 5
+                }}
+              >
+                <Image
+                  src={src}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                />
+              </View>
+            ));
+          })()}
+        </View>
+
+        {/* Texto centrado debajo de las imágenes */}
+        <View style={{ marginTop: 20, alignItems: "center" }}>
+          <Text style={{ fontSize: 11, textAlign: "center" }}>
+            Imagen referencial, proyecto con cañería de acero 6" con bomba sumergible [ESTO PUEDE SER UN INPUT]
+          </Text>
+        </View>
+
+        {/* Texto inferior izquierdo */}
+        <Text
+          style={{
+            position: "absolute",
+            bottom: 30,
+            left: 50,
+            fontSize: 10,
+            color: "#444",
+          }}
+        >
+          {data.n_referencia} – Envío Carta Oferta
+        </Text>
+      </Page>
+    )}
+
+    {/* 
+    ##########################################################################################    
+    PROPUESTA ECONÓMICA
+    ##########################################################################################   
+    */}
 
     <Page size="A3" style={styles.page}>
       <View style={styles.section}>
@@ -315,7 +407,14 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
       </View>
     </Page>
 
-    <Page size="A4" style={styles.page}>
+
+    {/* 
+    ##########################################################################################    
+    ACEPTACIÓN DE LA OFERTA
+    ##########################################################################################   
+    */}
+
+    <Page size="A3" style={styles.page}>
       {/* Encabezado con logo */}
       <View style={{ flexDirection: "row", justifyContent: "flex-start", marginBottom: 20 }}>
         <Image src="/assets/images/logo.png" style={{ width: 100, height: 50 }} />
@@ -326,12 +425,12 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
         style={{
           borderBottomWidth: 1,
           borderColor: "#000",
-          marginBottom: 15,
+          marginBottom: 40,
         }}
       />
 
       {/* Título */}
-      <Text style={{ fontSize: 14, fontWeight: "bold", marginBottom: 20 }}>
+      <Text style={{ fontSize: 14, fontWeight: "bold", marginBottom: 30 }}>
         Anexo 1 — Aceptación de la Oferta
       </Text>
 
@@ -342,14 +441,14 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
         en la presente Oferta Nº25.850.01 Rev. B [n_referencia + version], presentada por Antilhue con fecha, 28 de Abril del 2025 [fecha_actual].
       </Text>
 
-      <Text style={{ fontSize: 12, lineHeight: 1.8, marginBottom: 30 }}>
+      <Text style={{ fontSize: 12, lineHeight: 1.8, marginBottom: 40 }}>
         El depósito se realizará a la cuenta corriente del Banco de Crédito e Inversiones BCI número
         635 660 44, a nombre de Antilhue SpA, RUT: 76.876.217-1. Enviar comprobante al correo:
         susana.loyola@antilhueing.cl
       </Text>
 
       {/* Campos estáticos */}
-      <View style={{ marginTop: 20, gap: 20 }}>
+      <View style={{ marginTop: 30, gap: 20 }}>
         {["Nombre Cliente", "R.U.T:", "Fecha:"].map((label, i) => (
           <View
             key={i}
@@ -394,9 +493,27 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           </Text>
         </View>
       </View>
+
+      {/* Texto inferior izquierdo */}
+      <Text
+        style={{
+          position: "absolute",
+          bottom: 30,
+          left: 50,
+          fontSize: 10,
+          color: "#444",
+        }}
+      >
+        {data.n_referencia} – Envío Carta Oferta
+      </Text>
     </Page>
 
 
+    {/* 
+    ##########################################################################################    
+    FIGURA POZO
+    ##########################################################################################   
+    */}
 
     <Page size="A3" style={styles.page}>
       <View style={{ position: "relative", width: "100%", height: "100%" }}>
