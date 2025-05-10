@@ -444,17 +444,17 @@ export default function SolicitudCotizacion() {
                       mb: 3,
                       color: '#1a237e'
                     }}>
-                      📷 Imágenes del Proyecto
+                      📷 Imágenes de Referencia
                     </Typography>
 
                     <Typography variant="subtitle1" sx={{ mb: 1, color: '#8e8d8c' }}>
-                      Adjuntar imágenes del proyecto (máx. 5)
+                      Adjuntar imágenes del proyecto (máx. 10)
                     </Typography>
 
                     <Button
                       variant="outlined"
                       component="label"
-                      disabled={selectedImages.length >= 5}
+                      disabled={selectedImages.length >= 10}
                     >
                       Subir Imágenes
                       <input
@@ -466,8 +466,8 @@ export default function SolicitudCotizacion() {
                           const files = e.target.files;
                           if (files) {
                             const nuevosArchivos = Array.from(files);
-                            if (selectedImages.length + nuevosArchivos.length > 5) {
-                              alert("Solo puedes subir hasta 5 imágenes.");
+                            if (selectedImages.length + nuevosArchivos.length > 10) {
+                              alert("Solo puedes subir hasta 10 imágenes.");
                               return;
                             }
                         
@@ -494,9 +494,9 @@ export default function SolicitudCotizacion() {
                       />
                     </Button>
 
-                    {selectedImages.length >= 5 && (
+                    {selectedImages.length >= 10 && (
                       <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
-                        Has alcanzado el máximo de 5 imágenes.
+                        Has alcanzado el máximo de 10 imágenes.
                       </Typography>
                     )}
 
