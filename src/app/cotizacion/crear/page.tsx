@@ -64,6 +64,8 @@ type FormData = {
 export default function SolicitudCotizacion() {
   const router = useRouter();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+  const [previewPosition, setPreviewPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [formData, setFormData] = useState<FormData>({
 
     nombre_cliente: '',
@@ -453,6 +455,8 @@ export default function SolicitudCotizacion() {
                         const imgPath = `/assets/images/ref_images/${fileName}`;
                         const isSelected = formData.imagenes.includes(imgPath);
 
+                        let hoverTimeout: ReturnType<typeof setTimeout>;
+
                         const toggleImage = () => {
                           setFormData(prev => {
                             const updated = isSelected
@@ -469,6 +473,17 @@ export default function SolicitudCotizacion() {
                           <Box
                             key={fileName}
                             onClick={toggleImage}
+                            onMouseEnter={(e) => {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              hoverTimeout = setTimeout(() => {
+                                setHoveredImage(imgPath);
+                                setPreviewPosition({ x: rect.right + 10, y: rect.top });
+                              }, 500);
+                            }}
+                            onMouseLeave={() => {
+                              clearTimeout(hoverTimeout);
+                              setHoveredImage(null);
+                            }}
                             sx={{
                               width: '100%',
                               aspectRatio: '1',
@@ -503,7 +518,7 @@ export default function SolicitudCotizacion() {
                                   width: 22,
                                   height: 22,
                                   borderRadius: '50%',
-                                  backgroundColor: '#34eb52',
+                                  backgroundColor: '#1a237e',
                                   color: 'white',
                                   fontSize: 14,
                                   fontWeight: 'bold',
@@ -518,6 +533,36 @@ export default function SolicitudCotizacion() {
                           </Box>
                         );
                       })}
+                      {hoveredImage && (
+                        <Box
+                          sx={{
+                            position: 'fixed',
+                            top: previewPosition.y,
+                            left: previewPosition.x,
+                            zIndex: 1300,
+                            border: '3px solid #1a237e',
+                            borderRadius: 3,
+                            backgroundColor: 'white',
+                            padding: 1,
+                            boxShadow: 5,
+                            width: 320,
+                            height: 320,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <img
+                            src={hoveredImage}
+                            alt="preview"
+                            style={{
+                              maxWidth: '100%',
+                              maxHeight: '100%',
+                              objectFit: 'contain'
+                            }}
+                          />
+                        </Box>
+                      )}
                     </Box>
 
                     {formData.imagenes.length >= 10 && (
