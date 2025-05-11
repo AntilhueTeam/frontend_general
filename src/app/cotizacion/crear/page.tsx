@@ -64,6 +64,8 @@ type FormData = {
 export default function SolicitudCotizacion() {
   const router = useRouter();
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+  const [previewPosition, setPreviewPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [formData, setFormData] = useState<FormData>({
 
     nombre_cliente: '',
@@ -99,7 +101,7 @@ export default function SolicitudCotizacion() {
     nombre_firma: '',
     rut_firma: '',
     fecha_firma: null,
-    imagenes: ['', '', '']
+    imagenes: []
   });
 
   const handleChange = (
@@ -125,24 +127,9 @@ export default function SolicitudCotizacion() {
   };
 
   const handleSubmit = () => {
-    const updatedFormData = { ...formData };
-  
-    // Forzar incluir las imágenes cargadas (por si no están en el estado sincronizado)
-    const imagenesBase64 = selectedImages.map((file) => {
-      return new Promise<string>((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    });
-  
-    Promise.all(imagenesBase64).then((imagenes) => {
-      updatedFormData.imagenes = imagenes;
-      localStorage.setItem("cotizacionData", JSON.stringify(updatedFormData));
-      router.push("/cotizacion/crear/pdf");
-    });
-  };
+  localStorage.setItem("cotizacionData", JSON.stringify(formData));
+  router.push("/cotizacion/crear/pdf");
+};
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const { name, value } = event.target;
@@ -441,114 +428,148 @@ export default function SolicitudCotizacion() {
                   <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa', mt: 3 }} elevation={0}>
                     <Typography variant="h5" sx={{
                       fontWeight: 600,
-                      mb: 3,
+                      mb: 2,
                       color: '#1a237e'
                     }}>
                       📷 Imágenes de Referencia
                     </Typography>
 
-                    <Typography variant="subtitle1" sx={{ mb: 1, color: '#8e8d8c' }}>
-                      Adjuntar imágenes del proyecto (máx. 10)
+                    <Typography variant="subtitle1" sx={{ mb: 2, color: '#8e8d8c' }}>
+                      Selecciona hasta 10 imágenes referenciales del proyecto
                     </Typography>
 
-                    <Button
-                      variant="outlined"
-                      component="label"
-                      disabled={selectedImages.length >= 10}
+                    <Box
+                      sx={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fill, minmax(90px, 1fr))',
+                        gap: 1.5,
+                        maxHeight: 400,
+                        overflowY: 'auto',
+                        p: 1,
+                        borderRadius: 2,
+                        backgroundColor: '#f0f2f5',
+                        boxShadow: 'inset 0 0 5px rgba(0,0,0,0.05)'
+                      }}
                     >
-                      Subir Imágenes
-                      <input
-                        hidden
-                        accept="image/*"
-                        multiple
-                        type="file"
-                        onChange={(e) => {
-                          const files = e.target.files;
-                          if (files) {
-                            const nuevosArchivos = Array.from(files);
-                            if (selectedImages.length + nuevosArchivos.length > 10) {
-                              alert("Solo puedes subir hasta 10 imágenes.");
-                              return;
-                            }
-                        
-                            // Convertir imágenes a base64 y guardar
-                            Promise.all(
-                              nuevosArchivos.map(file => {
-                                return new Promise<string>((resolve, reject) => {
-                                  const reader = new FileReader();
-                                  reader.onload = () => resolve(reader.result as string);
-                                  reader.onerror = reject;
-                                  reader.readAsDataURL(file);
-                                });
-                              })
-                            ).then((base64s) => {
-                              setFormData((prevData) => ({
-                                ...prevData,
-                                imagenes: [...(prevData.imagenes || []), ...base64s],
-                              }));
-                            });
-                        
-                            setSelectedImages(prev => [...prev, ...nuevosArchivos]);
-                          }
-                        }}
-                      />
-                    </Button>
+                      {Array.from({ length: 23 }, (_, i) => `img_${i + 1}.jpeg`).map((fileName) => {
+                        const imgPath = `/assets/images/ref_images/${fileName}`;
+                        const isSelected = formData.imagenes.includes(imgPath);
 
-                    {selectedImages.length >= 10 && (
+                        let hoverTimeout: ReturnType<typeof setTimeout>;
+
+                        const toggleImage = () => {
+                          setFormData(prev => {
+                            const updated = isSelected
+                              ? prev.imagenes.filter(img => img !== imgPath)
+                              : prev.imagenes.length < 10
+                                ? [...prev.imagenes, imgPath]
+                                : prev.imagenes;
+
+                            return { ...prev, imagenes: updated };
+                          });
+                        };
+
+                        return (
+                          <Box
+                            key={fileName}
+                            onClick={toggleImage}
+                            onMouseEnter={(e) => {
+                              const rect = e.currentTarget.getBoundingClientRect();
+                              hoverTimeout = setTimeout(() => {
+                                setHoveredImage(imgPath);
+                                setPreviewPosition({ x: rect.right + 10, y: rect.top });
+                              }, 500);
+                            }}
+                            onMouseLeave={() => {
+                              clearTimeout(hoverTimeout);
+                              setHoveredImage(null);
+                            }}
+                            sx={{
+                              width: '100%',
+                              aspectRatio: '1',
+                              position: 'relative',
+                              overflow: 'hidden',
+                              borderRadius: 2,
+                              border: isSelected ? '2px solid #1a237e' : '1px solid #ddd',
+                              cursor: 'pointer',
+                              boxShadow: isSelected ? 2 : 1,
+                              transition: 'all 0.2s ease-in-out',
+                              '&:hover': {
+                                boxShadow: 3,
+                                transform: 'scale(1.02)',
+                              }
+                            }}
+                          >
+                            <img
+                              src={imgPath}
+                              alt={fileName}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover'
+                              }}
+                            />
+                            {isSelected && (
+                              <Box
+                                sx={{
+                                  position: 'absolute',
+                                  top: 6,
+                                  left: 6,
+                                  width: 22,
+                                  height: 22,
+                                  borderRadius: '50%',
+                                  backgroundColor: '#1a237e',
+                                  color: 'white',
+                                  fontSize: 14,
+                                  fontWeight: 'bold',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                }}
+                              >
+                                ✓
+                              </Box>
+                            )}
+                          </Box>
+                        );
+                      })}
+                      {hoveredImage && (
+                        <Box
+                          sx={{
+                            position: 'fixed',
+                            top: previewPosition.y,
+                            left: previewPosition.x,
+                            zIndex: 1300,
+                            border: '3px solid #1a237e',
+                            borderRadius: 3,
+                            backgroundColor: 'white',
+                            padding: 1,
+                            boxShadow: 5,
+                            width: 320,
+                            height: 320,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center'
+                          }}
+                        >
+                          <img
+                            src={hoveredImage}
+                            alt="preview"
+                            style={{
+                              maxWidth: '100%',
+                              maxHeight: '100%',
+                              objectFit: 'contain'
+                            }}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+
+                    {formData.imagenes.length >= 10 && (
                       <Typography variant="caption" color="error" sx={{ mt: 1, display: 'block' }}>
                         Has alcanzado el máximo de 10 imágenes.
                       </Typography>
                     )}
-
-                    <Box
-                      sx={{
-                        mt: 2,
-                        display: 'flex',
-                        flexWrap: 'wrap',
-                        gap: 2,
-                      }}
-                    >
-                      {selectedImages.map((file, index) => (
-                        <Box
-                          key={index}
-                          sx={{
-                            position: 'relative',
-                            width: 100,
-                            height: 100,
-                            borderRadius: 2,
-                            overflow: 'hidden',
-                            boxShadow: 2,
-                          }}
-                        >
-                          <img
-                            src={URL.createObjectURL(file)}
-                            alt={`preview-${index}`}
-                            style={{
-                              width: '100%',
-                              height: '100%',
-                              objectFit: 'cover',
-                              display: 'block',
-                            }}
-                          />
-                          <IconButton
-                            size="small"
-                            color="error"
-                            onClick={() =>
-                              setSelectedImages(prev => prev.filter((_, i) => i !== index))
-                            }
-                            sx={{
-                              position: 'absolute',
-                              top: 4,
-                              right: 4,
-                              backgroundColor: 'rgba(255,255,255,0.8)',
-                              '&:hover': { backgroundColor: 'rgba(255,255,255,1)' },
-                            }}
-                          >
-                            <DeleteIcon fontSize="small" />
-                          </IconButton>
-                        </Box>
-                      ))}
-                    </Box>
                   </Paper>
                 </Grid>
 

@@ -24,23 +24,6 @@ interface FormData {
     imagenes: string[]; // base64 strings
   }
 
-// function App() {
-//     const [formData, setFormData] = useState<FormData>({
-//         nombre_cliente: "",
-//         direccion_especifica_cliente: "",
-//         comuna_cliente: "",
-//         nombre_empresa: "",
-//         direccion_empresa: "",
-//         region_empresa: "",
-//         pais_empresa: "",
-//         numero_telefono_empresa: "",
-//         n_referencia: "",
-//         id_proyecto: "",
-//         asunto_cliente: "",
-//         descripcion_proyecto: "",
-//         id_documento: "",
-//     });
-
 function App() {
     const [formData, setFormData] = useState<FormData | null>(null);
   
