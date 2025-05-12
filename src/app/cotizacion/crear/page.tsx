@@ -84,15 +84,19 @@ export default function SolicitudCotizacion() {
     requiere_respuesta: false,
     aportes_cliente: ['', '', ''],
     aportes_antilhue: ['', '', ''],
-    acuerdos: [
-      'IVA: Precios netos, más IVA.',
-      'Validez: 30 días.',
-      'No garantiza caudal de agua ni profundidad de napa.',
-      'No incluye obras de drenaje.',
-      'Sin devolución de anticipo si hay problemas de terreno.',
-      'Saldo al término de la obra.'
-    ],
+    acuerdo1: 'El presupuesto considera la perforación de un pozo Ø <variante_metro>, hasta alcanzar la profundidad de <n_profundidad> metros',
     anticipo: 0,
+    acuerdos: [
+      'Los servicios que prestará Antilhue SpA son netos, se debe agregar IVA.',
+      'Todos los precios están presupuestados en pesos chilenos.',
+      'Presupuesto valido por 30 días.',
+      'Antilhue no cuenta con un estudio de suelos, proporcionado por el Mandante...',
+      'La presente cotización no contempla Obras de Drenaje...',
+      'Este Presupuesto debe ser aceptado mediante una Orden de Compra...',
+      'Metros de perforación adicionales, serán realizados sólo con la aprobación del mandante...',
+      'Antilhue No garantiza el caudal de agua ni la profundidad de la napa.',
+      'El cliente debe definir la ubicación del pozo.'
+    ],
     banco: 'Banco de Chile',
     cuenta: '1234567890',
     rut_banco: '12345678-9',
@@ -126,7 +130,7 @@ export default function SolicitudCotizacion() {
 
   const handleSubmit = () => {
     const updatedFormData = { ...formData };
-  
+
     // Forzar incluir las imágenes cargadas (por si no están en el estado sincronizado)
     const imagenesBase64 = selectedImages.map((file) => {
       return new Promise<string>((resolve, reject) => {
@@ -136,7 +140,7 @@ export default function SolicitudCotizacion() {
         reader.readAsDataURL(file);
       });
     });
-  
+
     Promise.all(imagenesBase64).then((imagenes) => {
       updatedFormData.imagenes = imagenes;
       localStorage.setItem("cotizacionData", JSON.stringify(updatedFormData));
@@ -187,6 +191,32 @@ export default function SolicitudCotizacion() {
       ...prevData,
       aportes_cliente: [...prevData.aportes_cliente, ""], // Agrega un string vacío como nuevo aporte
     }));
+  };
+
+  const renderTextWithInput = (text: string) => {
+    return text.split('<').map((part, index) => {
+      if (part.includes('>')) {
+        const variable = part.split('>')[0];
+        return (
+          <span key={index}>
+            <TextField
+              value={formData[variable] || ''}
+              name={variable}
+              onChange={handleChange}
+              size="small"
+              sx={{
+                backgroundColor: '#f1f8e9',
+                marginLeft: 1,
+                width: 'auto',
+                fontWeight: 'bold',
+              }}
+            />
+            {part.split('>')[1]}
+          </span>
+        );
+      }
+      return part;
+    });
   };
 
   return (
@@ -412,7 +442,7 @@ export default function SolicitudCotizacion() {
                       {formData.acuerdos.map((item, i) => (
                         <ListItem key={i} sx={{ py: 0 }}>
                           <ListItemText
-                            primary={`• ${item}`}
+                            primary={`• ${renderTextWithInput(item)}`}
                             primaryTypographyProps={{ variant: 'body2' }}
                           />
                         </ListItem>
@@ -470,7 +500,7 @@ export default function SolicitudCotizacion() {
                               alert("Solo puedes subir hasta 10 imágenes.");
                               return;
                             }
-                        
+
                             // Convertir imágenes a base64 y guardar
                             Promise.all(
                               nuevosArchivos.map(file => {
@@ -487,7 +517,7 @@ export default function SolicitudCotizacion() {
                                 imagenes: [...(prevData.imagenes || []), ...base64s],
                               }));
                             });
-                        
+
                             setSelectedImages(prev => [...prev, ...nuevosArchivos]);
                           }
                         }}

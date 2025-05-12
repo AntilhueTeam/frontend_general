@@ -15,6 +15,7 @@ import {
 } from '@mui/material';
 import { Email, Lock, Visibility, VisibilityOff } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import axios from 'axios';
 
 const RegisterPage = () => {
   const [email, setEmail] = useState('');
@@ -48,11 +49,19 @@ const RegisterPage = () => {
 
     try {
       setLoading(true);
-      // Simular registro
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Usuario registrado:', { email, password });
+      setError('');
+      const correo = email
+      const response = await axios.post('http://172.210.68.136:8000/go/backend-auth/api/v1/auth/register', {
+        correo,
+        password,
+      });
+      
+      //mover a inicio, me falta
+      console.log('Usuario registrado:', response.data);
+      alert('Usuario registrado con exito')
     } catch (err) {
-      setError('Error en el registro. Intenta nuevamente.');
+      console.error(err);
+      alert('Error en el registro. Intenta nuevamente.');
     } finally {
       setLoading(false);
     }
