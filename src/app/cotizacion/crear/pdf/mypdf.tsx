@@ -19,6 +19,7 @@ interface MyPDFProps {
     asunto_cliente: string;
     descripcion_proyecto: string;
     id_documento: string;
+    acuerdos: string[];
     aportes_cliente: string[];
     aportes_antilhue: string[];
     imagenes: string[]; // base64 strings
@@ -364,6 +365,20 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           Propuesta Económica para Sr(a) Carelin Escobar, Calbuco, Comité Puweichafe. Servicio de perforación y habilitación de pozo profundo 6" Rev. B  marzo 25 de 2025.
         </Text>
 
+        
+
+        {/* Encabezado de Acuerdos */}
+        <View style={[styles.tableRow, styles.headerRow]}>
+          <Text style={[styles.cell, styles.bold]}>Acuerdos y Condiciones</Text>
+        </View>
+
+        {/* Filas dinámicas desde data.acuerdos */}
+        {data.acuerdos.map((item, index) => (
+          <View key={index} style={styles.tableRow}>
+            <Text style={styles.cell}>{item}</Text>
+          </View>
+        ))}
+
         {/* Encabezado tabla */}
         <View style={[styles.tableRow, styles.headerRow]}>
           <Text style={[styles.cell, styles.bold]}>Descripción del Trabajo</Text>
@@ -398,9 +413,9 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           ["7.0 Total pozo profundo de 48 m...", "$9.870.000"]
         ].map(([desc, price], index) => (
           <View key={index} style={styles.tableRow}>
-            style={}
-            <Text style={[styles.cell, { fontWeight: "bold", backgroundColor:"orange"}]} >{desc}</Text>
-            <Text style={[styles.cell, styles.alignRight,{ fontWeight: "bold", backgroundColor:"orange"}]}>{price}</Text>
+            style={ }
+            <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]} >{desc}</Text>
+            <Text style={[styles.cell, styles.alignRight, { fontWeight: "bold", backgroundColor: "orange" }]}>{price}</Text>
           </View>
         ))}
 
@@ -436,8 +451,8 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
 
       {/* Párrafo legal */}
       <Text style={{ fontSize: 12, lineHeight: 1.8, marginBottom: 15 }}>
-        Por medio del presente documento, Sr(a) {data.nombre_cliente}, cliente adjudica a Antilhue SpA, 
-        en adelante “Antilhue”, los servicios a ejecutarse en la forma, plazo, términos y condiciones estipuladas 
+        Por medio del presente documento, Sr(a) {data.nombre_cliente}, cliente adjudica a Antilhue SpA,
+        en adelante “Antilhue”, los servicios a ejecutarse en la forma, plazo, términos y condiciones estipuladas
         en la presente Oferta Nº25.850.01 Rev. B [n_referencia + version], presentada por Antilhue con fecha, 28 de Abril del 2025 [fecha_actual].
       </Text>
 
@@ -519,7 +534,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
       <View style={{ position: "relative", width: "100%", height: "100%" }}>
         {/* Imagen de fondo */}
         <Image
-          src="/assets/images/imagen_final.png" 
+          src="/assets/images/imagen_final.png"
           style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
         />
 
@@ -528,8 +543,8 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           style={{
             position: "absolute",
             // Ajustar estos valores para cambiar posicion
-            top: 150, 
-            left: 30, 
+            top: 150,
+            left: 30,
             fontSize: 12,
             fontWeight: "bold",
             color: "black",
@@ -543,8 +558,8 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           style={{
             position: "absolute",
             // Ajustar estos valores para cambiar posicion
-            top: 975, 
-            left: 30, 
+            top: 975,
+            left: 30,
             fontSize: 12,
             color: "red",
           }}
@@ -557,8 +572,8 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           style={{
             position: "absolute",
             // Ajustar estos valores para cambiar posicion
-            top: 1050, 
-            left: 30, 
+            top: 1050,
+            left: 30,
             fontSize: 12,
             color: "blue",
           }}
@@ -571,8 +586,8 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           style={{
             position: "absolute",
             // Ajustar estos valores para cambiar posicion
-            top: 875, 
-            left: 30, 
+            top: 875,
+            left: 30,
             fontSize: 12,
             color: "blue",
           }}
@@ -580,7 +595,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => (
           un ejemplo 3
         </Text>
 
-        
+
       </View>
     </Page>
   </Document>
