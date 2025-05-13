@@ -19,9 +19,30 @@ interface FormData {
     asunto_cliente: string;
     descripcion_proyecto: string;
     id_documento: string;
+    acuerdos: string[];
     aportes_cliente: string[];
     aportes_antilhue: string[];
     imagenes: string[]; // base64 strings
+    numero_revision:string[];
+    requiere_respuesta:boolean;
+    titulo_imagenes:string;
+    descripcion_imagenes:string;
+    valor_metro:number;
+    valor_servicio:number;
+    valor_bomba:number;
+    anticipo:number;
+
+    columna_input_cero: string;
+    columna_input_uno: string;
+    columna_input_dos: string;
+    columna_input_tres: string;
+    columna_input_cuatro: string;
+    columna_input_cinco: string;
+
+    flechas?: {
+      id: number;
+      value: string;
+    }[];
   }
 
 function App() {

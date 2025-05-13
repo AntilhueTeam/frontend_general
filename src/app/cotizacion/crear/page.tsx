@@ -29,6 +29,28 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/navigation';
+import EastIcon from '@mui/icons-material/East';
+
+// Definición de la flecha y array inicial
+interface Arrow {
+  id: number;
+  top: string;
+  left: string;
+  rotation: number;
+  label: string;
+  active: boolean;
+  value: string;
+}
+
+const initialArrows: Arrow[] = [
+  { id: 1, top: '77%', left: '48%', rotation: 180, label: 'Bomba 1 HP', active: false, value: '' },
+  { id: 2, top: '72%', left: '49%', rotation: 180, label: '2', active: false, value: '' },
+  { id: 3, top: '65%', left: '49%', rotation: 180, label: 'Cañería de acero ranurada', active: false, value: '' },
+  { id: 4, top: '30%', left: '49%', rotation: 180,   label: 'PVC 32 mm',       active: false, value: '' },
+  { id: 5, top: '21%', left: '53%', rotation: 180, label: 'Sello sanitario', active: false, value: '' },
+  { id: 6, top: '19%', left: '52%', rotation: 180,  label: 'Llave de paso',   active: false, value: '' },
+  { id: 7, top: '10%', left: '47%', rotation: 190,  label: 'Llave de paso',   active: false, value: '' },
+];
 
 type FormData = {
     [key: string]: any;
@@ -59,6 +81,21 @@ type FormData = {
     nombre_firma: string,
     rut_firma: string,
     imagenes: string[] // base64 strings
+    numero_revision:string;
+    titulo_imagenes:string;
+    descripcion_imagenes:string;
+    valor_metro:number;
+    valor_servicio:number;
+    valor_bomba:number;
+
+    columna_input_cero:string;
+    columna_input_uno:string;
+    columna_input_dos:string;
+    columna_input_tres:string;
+    columna_input_cuatro:string;
+    columna_input_cinco: string;
+    flechas: { id: number; label: string; value: string }[];
+
 };
 
 export default function SolicitudCotizacion() {
@@ -69,6 +106,19 @@ export default function SolicitudCotizacion() {
     const [formData, setFormData] = useState<FormData>({
 
         nombre_cliente: '',
+        numero_revision: 'A',
+        valor_metro: 0,
+        valor_servicio: 0,
+        valor_bomba: 0,
+        flechas: [],
+        columna_input_cero:'',
+        columna_input_uno: '',
+        columna_input_dos: '',
+        columna_input_tres: '',
+        columna_input_cuatro: '',
+        columna_input_cinco: '',
+        titulo_imagenes: '',
+        descripcion_imagenes: '',
         direccion_especifica_cliente: '',
         comuna_cliente: '',
         nombre_empresa: '',
@@ -109,6 +159,26 @@ export default function SolicitudCotizacion() {
         imagenes: []
     });
 
+     // — estado y lógica de flechas —
+    const [arrows, setArrows] = useState<Arrow[]>(initialArrows);
+
+    function toggleArrow(id: number) {
+        setArrows(a =>
+        a.map(item =>
+            item.id === id ? { ...item, active: !item.active } : item
+        )
+        );
+    }
+
+    function updateArrowValue(id: number, text: string) {
+        setArrows(a =>
+        a.map(item =>
+            item.id === id ? { ...item, value: text } : item
+        )
+        );
+    }
+    //fin flechas
+
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
@@ -132,7 +202,14 @@ export default function SolicitudCotizacion() {
     };
 
     const handleSubmit = () => {
-        localStorage.setItem("cotizacionData", JSON.stringify(formData));
+        const updatedData = {
+        ...formData,
+        flechas: arrows.map(a => ({
+            id: a.id,
+            value: a.value // solo guardamos lo necesario
+        }))
+        };
+        localStorage.setItem("cotizacionData", JSON.stringify(updatedData));
         router.push("/cotizacion/crear/pdf");
     };
 
@@ -211,9 +288,6 @@ export default function SolicitudCotizacion() {
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <Box sx={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
 
-
-
-
                 <Box sx={{ flex: 1, bgcolor: 'var(--color-bg-primary)', py: 8 }}>
                     <Container maxWidth="lg">
                         <Paper sx={{ p: 4, mb: 6, borderRadius: 4, boxShadow: 3 }}>
@@ -244,12 +318,26 @@ export default function SolicitudCotizacion() {
                                 <TextField
                                     label="N° Referencia"
                                     name="n_referencia"
-                                    type="number"
+                                    type="text"
                                     value={formData.n_referencia}
                                     onChange={handleChange}
                                     size="small"
-                                    sx={{ width: 140 }}
+                                    sx={{ width: 230 }}
                                 />
+                                <FormControl size="small" sx={{ width: 100 }}>
+                                    <InputLabel>Rev.</InputLabel>
+                                    <Select
+                                        name="numero_revision"
+                                        value={formData.numero_revision}
+                                        onChange={handleSelectChange}
+                                        label="Rev."
+                                    >
+                                        <MenuItem value="A">A</MenuItem>
+                                        <MenuItem value="B">B</MenuItem>
+                                        <MenuItem value="C">C</MenuItem>
+                                        <MenuItem value="D">D</MenuItem>
+                                    </Select>
+                                </FormControl>
                             </Box>
 
                             <Grid container spacing={6}>
@@ -273,25 +361,36 @@ export default function SolicitudCotizacion() {
                                             sx={{ mb: 3 }}
                                             name="nombre_cliente" value={formData.nombre_cliente} onChange={handleChange} margin="normal"
                                         />
+
                                         <TextField
                                             fullWidth
-                                            label="Dirección específica *"
+                                            label="Asunto *"
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{ mb: 3 }}
+                                            name="asunto_cliente" value={formData.asunto_cliente} onChange={handleChange} margin="normal"
+                                        />
+
+                                        <TextField
+                                            fullWidth
+                                            label="Dirección específica (Calle y Número)*"
                                             variant="outlined"
                                             size="small"
                                             sx={{ mb: 3 }}
                                             name="direccion_especifica_cliente" value={formData.direccion_especifica_cliente} onChange={handleChange} margin="normal"
 
                                         />
-                                        <FormControl fullWidth size="small" sx={{ mb: 3 }}>
-                                            <InputLabel>Comuna *</InputLabel>
-                                            <Select name="comuna_cliente" value={formData.comuna_cliente} onChange={handleSelectChange}>
-                                                <MenuItem value="">Seleccione una comuna</MenuItem>
-                                                <MenuItem value="comuna1">Comuna 1</MenuItem>
-                                                <MenuItem value="comuna2">Comuna 2</MenuItem>
-                                                <MenuItem value="comuna3">Comuna 3</MenuItem>
-                                                <MenuItem value="comuna4">Comuna 4</MenuItem>
-                                            </Select>
-                                        </FormControl>
+                                        <TextField
+                                            fullWidth
+                                            label="Comuna *"
+                                            variant="outlined"
+                                            size="small"
+                                            name="comuna_cliente"
+                                            value={formData.comuna_cliente}
+                                            onChange={handleChange}
+                                            sx={{ mb: 3 }}
+                                            margin="normal"
+                                        />
                                     </Paper>
                                 </Grid>
 
@@ -313,14 +412,7 @@ export default function SolicitudCotizacion() {
                                             sx={{ mb: 3 }}
                                             name="id_proyecto" value={formData.id_proyecto} onChange={handleChange} margin="normal"
                                         />
-                                        <TextField
-                                            fullWidth
-                                            label="Asunto *"
-                                            variant="outlined"
-                                            size="small"
-                                            sx={{ mb: 3 }}
-                                            name="asunto_cliente" value={formData.asunto_cliente} onChange={handleChange} margin="normal"
-                                        />
+                                        
                                         <TextField
                                             fullWidth
                                             label="Descripción del Proyecto"
@@ -482,7 +574,7 @@ export default function SolicitudCotizacion() {
 
 
                                 {/* Sección Imágenes del Proyecto */}
-                                <Grid size={{ xs: 12, md: 6 }}>
+                                <Grid size={{ xs: 12}}>
                                     <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa', mt: 3 }} elevation={0}>
                                         <Typography variant="h5" sx={{
                                             fontWeight: 600,
@@ -495,7 +587,29 @@ export default function SolicitudCotizacion() {
                                         <Typography variant="subtitle1" sx={{ mb: 2, color: '#8e8d8c' }}>
                                             Selecciona hasta 10 imágenes referenciales del proyecto
                                         </Typography>
+                                        <TextField
+                                            fullWidth
+                                            label="Título de sección de imágenes"
+                                            variant="outlined"
+                                            size="small"
+                                            name="titulo_imagenes"
+                                            value={formData.titulo_imagenes}
+                                            onChange={handleChange}
+                                            sx={{ mb: 2 }}
+                                            />
 
+                                            <TextField
+                                            fullWidth
+                                            label="Descripción de las imágenes"
+                                            variant="outlined"
+                                            size="small"
+                                            multiline
+                                            rows={2}
+                                            name="descripcion_imagenes"
+                                            value={formData.descripcion_imagenes}
+                                            onChange={handleChange}
+                                            sx={{ mb: 2 }}
+                                            />
                                         <Box
                                             sx={{
                                                 display: 'grid',
@@ -630,6 +744,8 @@ export default function SolicitudCotizacion() {
                                         )}
                                     </Paper>
                                 </Grid>
+                                
+                                <Grid container spacing={4}>
 
                                 {/* Datos de la Empresa */}
                                 <Grid size={{ xs: 12, md: 6 }}>
@@ -683,6 +799,48 @@ export default function SolicitudCotizacion() {
                                         />
                                     </Paper>
                                 </Grid>
+
+                                {/* Propuesta Económica */}
+                                <Grid size={{ xs: 12, md: 6}}>
+                                <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#fff3e0' }} elevation={0}>
+                                    <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: '#e65100' }}>
+                                    💰 Propuesta Económica
+                                    </Typography>
+
+                                    <TextField
+                                    fullWidth
+                                    label="Valor por Metro (CLP)"
+                                    type="number"
+                                    size="small"
+                                    name="valor_metro"
+                                    value={formData.valor_metro}
+                                    onChange={handleChange}
+                                    sx={{ mb: 2 }}
+                                    />
+
+                                    <TextField
+                                    fullWidth
+                                    label="Valor del Servicio Total (CLP)"
+                                    type="number"
+                                    size="small"
+                                    name="valor_servicio"
+                                    value={formData.valor_servicio}
+                                    onChange={handleChange}
+                                    sx={{ mb: 2 }}
+                                    />
+
+                                    <TextField
+                                    fullWidth
+                                    label="Valor de la Bomba (CLP)"
+                                    type="number"
+                                    size="small"
+                                    name="valor_bomba"
+                                    value={formData.valor_bomba}
+                                    onChange={handleChange}
+                                    />
+                                </Paper>
+                                </Grid>
+                            </Grid>
 
                                 {/* Sección Firma */}
                                 <Grid size={{ xs: 12 }}>
@@ -797,6 +955,155 @@ export default function SolicitudCotizacion() {
                                     />
                                 </Paper>
                             </Grid>
+
+                            {/* Imagen del Pozo con Flechas */} 
+                            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f0f0f0', mb: 4, position: 'relative', height: 900 }} elevation={1}>
+                                <Typography variant="h5" sx={{ fontWeight: 600, mb: 2, color: '#1a237e' }}>
+                                🧭 Anotaciones sobre la Figura del Pozo
+                                </Typography>
+
+                                {/* Imagen del pozo como fondo */}
+                                <Box
+                                sx={{
+                                    position: 'relative',
+                                    width: '100%',
+                                    height: '100%',
+                                    backgroundImage: `url("/assets/images/imagen_pozo_limpia.png")`,
+                                    backgroundSize: 'contain',
+                                    backgroundRepeat: 'no-repeat',
+                                    backgroundPosition: 'center'
+                                }}
+                                >
+                                {/* Flechas predefinidas */}
+                                {arrows.map(({ id, top, left, rotation, active, value, label }) => (
+                                    <React.Fragment key={id}>
+                                    {/* Flecha tenúe sobre la imagen */}
+                                    <EastIcon
+                                        onClick={() => toggleArrow(id)}
+                                        sx={{
+                        
+                                        position: 'absolute',
+                                        top,
+                                        left,
+                                        fontSize: 40, // ajusta para cambiar el "largo visual"
+                                        transform: `rotate(${rotation}deg) scaleX(1.3) scaleY(0.7)`, // puedes experimentar con estos valores
+                                        opacity: active ? 1 : 0.3,
+                                        color: '#000',
+                                        cursor: 'pointer',
+                                        transition: 'opacity 150ms'
+                                        }}
+                                    />
+
+                                    {/* Input que aparece sólo si la flecha está activa */}
+                                    {active && (
+                                        <TextField
+                                        size="small"
+                                        placeholder={label}
+                                        value={value}
+                                        onChange={e => updateArrowValue(id, e.target.value)}
+                                        sx={{
+                                            position: 'absolute',
+                                            top: `calc(${top} + 28px)`,
+                                            left,
+                                            width: 100,
+                                            backgroundColor: 'white'
+                                        }}
+                                        />
+                                    )}
+                                    </React.Fragment>
+                                ))}
+
+                                <TextField
+                                    size="small"
+                                    placeholder="Distancia(m)"
+                                    name="columna_input_cero"
+                                    value={formData.columna_input_cero}
+                                    onChange={handleChange}
+                                    sx={{
+                                    position: 'absolute',
+                                    top: '156px',
+                                    left: '25%',
+                                    width: 120,
+                                    backgroundColor: 'white'
+                                    }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    placeholder="Distancia(m)"
+                                    name="columna_input_uno"
+                                    value={formData.columna_input_uno}
+                                    onChange={handleChange}
+                                    sx={{
+                                    position: 'absolute',
+                                    top: '500px',
+                                    left: '25%',
+                                    width: 120,
+                                    backgroundColor: 'white'
+                                    }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    placeholder="Distancia(m)"
+                                    name="columna_input_dos"
+                                    value={formData.columna_input_dos}
+                                    onChange={handleChange}
+                                    sx={{
+                                    position: 'absolute',
+                                    top: '558px',
+                                    left: '25%',
+                                    width: 120,
+                                    backgroundColor: 'white'
+                                    }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    placeholder="Distancia(m)"
+                                    name="columna_input_tres"
+                                    value={formData.columna_input_tres}
+                                    onChange={handleChange}
+                                    sx={{
+                                    position: 'absolute',
+                                    top: '616px',
+                                    left: '25%',
+                                    width: 120,
+                                    backgroundColor: 'white'
+                                    }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    placeholder="Distancia(m)"
+                                    name="columna_input_cuatro"
+                                    value={formData.columna_input_cuatro}
+                                    onChange={handleChange}
+                                    sx={{
+                                    position: 'absolute',
+                                    top: '680px',
+                                    left: '25%',
+                                    width: 120,
+                                    backgroundColor: 'white'
+                                    }}
+                                />
+
+                                <TextField
+                                    size="small"
+                                    placeholder="Distancia(m)"
+                                    name="columna_input_cinco"
+                                    value={formData.columna_input_cinco}
+                                    onChange={handleChange}
+                                    sx={{
+                                    position: 'absolute',
+                                    top: '735px',
+                                    left: '25%',
+                                    width: 120,
+                                    backgroundColor: 'white'
+                                    }}
+                                />
+                                </Box>
+                            </Paper>
 
 
                             <Box sx={{ mt: 8, textAlign: 'center' }}>
