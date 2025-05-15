@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     AppBar,
     Toolbar,
@@ -87,6 +87,10 @@ type FormData = {
     valor_metro: number;
     valor_servicio: number;
     valor_bomba: number;
+    variante_metro: number;
+    n_profundidad: number;
+    detalle_bomba: string;
+
 
     columna_input_cero: string;
     columna_input_uno: string;
@@ -98,6 +102,19 @@ type FormData = {
 
 };
 
+const acuerdosTemplate = [
+    'Los servicios que prestará Antilhue SpA son netos, se debe agregar IVA.',
+    'Todos los precios están presupuestados en pesos chilenos.',
+    'El presupuesto considera la perforación de un pozo Ø <variante_metro>, hasta alcanzar la profundidad de <n_profundidad> metros',
+    'Presupuesto valido por 30 días.',
+    'Antilhue no cuenta con un estudio de suelos, proporcionado por el Mandante, donde se indique las características del terreno, por lo que la empresa no responde por la calidad del suelo que impida la ejecución de los trabajos.',
+    'La presente cotización no contempla Obras de Drenaje, que puedan ser necesarias para contener posibles afloramientos de agua, por la boca del pozo.',
+    'Este Presupuesto debe ser aceptado mediante una Orden de Compra o correo electrónico y firma del anexo N°1 Aceptación de la Oferta.',
+    'Metros de perforación adicionales, serán realizados sólo con la aprobación del mandante y con las mismas tarifas estimadas en la presente tabla de costo',
+    'Antilhue No garantiza el caudal de agua ni la profundidad de la napa.',
+    'El cliente debe definir la ubicación del pozo, para comenzar con la perforación respectiva.'
+];
+
 export default function SolicitudCotizacion() {
     const router = useRouter();
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
@@ -107,9 +124,12 @@ export default function SolicitudCotizacion() {
 
         nombre_cliente: '',
         numero_revision: 'A',
-        valor_metro: 0,
+        valor_metro: 180000,
         valor_servicio: 0,
         valor_bomba: 0,
+        variante_metro: 0,
+        detalle_bomba: 'Bomba 1.0 HP, PVC 32 mm para impulsión desde 30 metros, controlador digital de presión y materiales Incluye instalación y garantía de la bomba por 1 año.',
+        n_profundidad: 0,
         flechas: [],
         columna_input_cero: '',
         columna_input_uno: '',
@@ -136,7 +156,6 @@ export default function SolicitudCotizacion() {
         requiere_respuesta: false,
         aportes_cliente: ['', '', ''],
         aportes_antilhue: ['', '', ''],
-        acuerdo1: 'El presupuesto considera la perforación de un pozo Ø <variante_metro>, hasta alcanzar la profundidad de <n_profundidad> metros',
         acuerdos: [
             'Los servicios que prestará Antilhue SpA son netos, se debe agregar IVA.',
             'Todos los precios están presupuestados en pesos chilenos.',
@@ -264,31 +283,22 @@ export default function SolicitudCotizacion() {
         }));
     };
 
-    const renderTextWithInput = (text: string) => {
-        return text.split('<').map((part, index) => {
-            if (part.includes('>')) {
-                const variable = part.split('>')[0];
-                return (
-                    <span key={index}>
-                        <TextField
-                            value={formData[variable] || ''}
-                            name={variable}
-                            onChange={handleChange}
-                            size="small"
-                            sx={{
-                                backgroundColor: '#f1f8e9',
-                                marginLeft: 1,
-                                width: 'auto',
-                                fontWeight: 'bold',
-                            }}
-                        />
-                        {part.split('>')[1]}
-                    </span>
-                );
-            }
-            return part;
-        });
-    };
+
+    function generarAcuerdos(template: string[], variante_metro: number, n_profundidad: number): string[] {
+        return template.map(linea =>
+            linea
+                .replace(/<variante_metro>/g, `${variante_metro}"`)
+                .replace(/<n_profundidad>/g, n_profundidad.toString())
+        );
+    }
+
+    useEffect(() => {
+        const acuerdosActualizados = generarAcuerdos(acuerdosTemplate, formData.variante_metro, formData.n_profundidad);
+        setFormData(prev => ({
+            ...prev,
+            acuerdos: acuerdosActualizados
+        }));
+    }, [formData.variante_metro, formData.n_profundidad]);
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -361,7 +371,7 @@ export default function SolicitudCotizacion() {
                                         </Typography>
                                         <TextField
                                             fullWidth
-                                            label="Nombre/RUT del cliente *"
+                                            label="Nombre del cliente *"
                                             variant="outlined"
                                             size="small"
                                             sx={{ mb: 3 }}
@@ -450,7 +460,7 @@ export default function SolicitudCotizacion() {
                                                             onChange={(e) => handleArrayChange(i, 'aportes_cliente', e.target.value)}
                                                             margin="normal"
                                                             sx={{ flexGrow: 1 }}
-                                                            inputProps={{ maxLength: MAX_CARACTERES_APORTE }}  
+                                                            inputProps={{ maxLength: MAX_CARACTERES_APORTE }}
                                                         />
                                                         {/* Botón para eliminar el aporte */}
                                                         <IconButton
@@ -520,64 +530,6 @@ export default function SolicitudCotizacion() {
 
 
 
-                                {/* Sección Acuerdos */}
-                                <Grid size={{ xs: 12 }}>
-                                    <Paper sx={{ p: 4, borderRadius: 3, bgcolor: '#fffde7' }}>
-                                        <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: '#1a237e' }}>
-                                            📝 Acuerdos y Condiciones
-                                        </Typography>
-
-                                        <Grid container spacing={1} sx={{ mb: 2 }}>
-                                            {formData.acuerdos.map((item, i) => (
-                                                <Grid size={{ xs: 12 }} key={i}>
-                                                    <Paper
-                                                        variant="outlined"
-                                                        sx={{
-                                                            p: 1,
-                                                            borderRadius: 2,
-                                                            backgroundColor: '#f1f8e9',
-                                                            borderColor: '#c5e1a5',
-                                                        }}
-                                                    >
-                                                        <TextField
-                                                            fullWidth
-                                                            multiline
-                                                            minRows={2}
-                                                            variant="standard"
-                                                            value={item}
-                                                            onChange={(e) => {
-                                                                const nuevosAcuerdos = [...formData.acuerdos];
-                                                                nuevosAcuerdos[i] = e.target.value;
-                                                                setFormData({ ...formData, acuerdos: nuevosAcuerdos });
-                                                            }}
-                                                            InputProps={{
-                                                                disableUnderline: true,
-                                                                sx: { fontSize: 13, px: 1 },
-                                                            }}
-                                                        />
-                                                    </Paper>
-                                                </Grid>
-                                            ))}
-                                        </Grid>
-
-
-                                        <TextField
-                                            fullWidth
-                                            label="Anticipo (%)"
-                                            variant="outlined"
-                                            size="small"
-                                            sx={{ maxWidth: 200 }}
-                                            InputProps={{
-                                                endAdornment: <InputAdornment position="end">%</InputAdornment>,
-                                            }}
-                                            name="anticipo"
-                                            value={formData.anticipo}
-                                            onChange={handleChange}
-                                            type="number"
-                                            margin="normal"
-                                        />
-                                    </Paper>
-                                </Grid>
 
 
 
@@ -781,7 +733,7 @@ export default function SolicitudCotizacion() {
                                             />
                                             <TextField
                                                 fullWidth
-                                                label="Región Empresa *"
+                                                label="Ciudad Empresa *"
                                                 size="small"
                                                 name="region_empresa"
                                                 value={formData.region_empresa}
@@ -828,12 +780,14 @@ export default function SolicitudCotizacion() {
 
                                             <TextField
                                                 fullWidth
-                                                label="Valor del Servicio Total (CLP)"
-                                                type="number"
+                                                label="Detalle de la Bomba"
+                                                type="text"
                                                 size="small"
-                                                name="valor_servicio"
-                                                value={formData.valor_servicio}
+                                                name="detalle_bomba"
+                                                value={formData.detalle_bomba}
                                                 onChange={handleChange}
+                                                multiline
+                                                rows={2}
                                                 sx={{ mb: 2 }}
                                             />
 
@@ -845,9 +799,91 @@ export default function SolicitudCotizacion() {
                                                 name="valor_bomba"
                                                 value={formData.valor_bomba}
                                                 onChange={handleChange}
+                                                sx={{ mb: 2 }}
+                                            />
+
+                                            <TextField
+                                                fullWidth
+                                                label='Diámetro Ø del Pozo (")'
+                                                type="number"
+                                                size="small"
+                                                name="variante_metro"
+                                                value={formData.variante_metro}
+                                                onChange={handleChange}
+                                                sx={{ mb: 2 }}
+                                            />
+
+                                            <TextField
+                                                fullWidth
+                                                label="Profundidad Estimada del Pozo (m)"
+                                                type="number"
+                                                size="small"
+                                                name="n_profundidad"
+                                                value={formData.n_profundidad}
+                                                onChange={handleChange}
                                             />
                                         </Paper>
                                     </Grid>
+
+                                </Grid>
+
+                                {/* Sección Acuerdos */}
+                                <Grid size={{ xs: 12 }}>
+                                    <Paper sx={{ p: 4, borderRadius: 3, bgcolor: '#fffde7' }}>
+                                        <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: '#1a237e' }}>
+                                            📝 Acuerdos y Condiciones
+                                        </Typography>
+
+                                        <Grid container spacing={1} sx={{ mb: 2 }}>
+                                            {formData.acuerdos.map((item, i) => (
+                                                <Grid size={{ xs: 12 }} key={i}>
+                                                    <Paper
+                                                        variant="outlined"
+                                                        sx={{
+                                                            p: 1,
+                                                            borderRadius: 2,
+                                                            backgroundColor: '#f1f8e9',
+                                                            borderColor: '#c5e1a5',
+                                                        }}
+                                                    >
+                                                        <TextField
+                                                            fullWidth
+                                                            multiline
+                                                            minRows={2}
+                                                            variant="standard"
+                                                            value={item}
+                                                            onChange={(e) => {
+                                                                const nuevosAcuerdos = [...formData.acuerdos];
+                                                                nuevosAcuerdos[i] = e.target.value;
+                                                                setFormData({ ...formData, acuerdos: nuevosAcuerdos });
+                                                            }}
+                                                            InputProps={{
+                                                                disableUnderline: true,
+                                                                sx: { fontSize: 13, px: 1 },
+                                                            }}
+                                                        />
+                                                    </Paper>
+                                                </Grid>
+                                            ))}
+                                        </Grid>
+
+
+                                        <TextField
+                                            fullWidth
+                                            label="Anticipo (%)"
+                                            variant="outlined"
+                                            size="small"
+                                            sx={{ maxWidth: 200 }}
+                                            InputProps={{
+                                                endAdornment: <InputAdornment position="end">%</InputAdornment>,
+                                            }}
+                                            name="anticipo"
+                                            value={formData.anticipo}
+                                            onChange={handleChange}
+                                            type="number"
+                                            margin="normal"
+                                        />
+                                    </Paper>
                                 </Grid>
 
                                 {/* Sección Firma */}

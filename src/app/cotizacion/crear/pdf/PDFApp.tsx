@@ -31,6 +31,9 @@ interface FormData {
     valor_servicio:number;
     valor_bomba:number;
     anticipo:number;
+    variante_metro: number;
+    n_profundidad: number;
+    detalle_bomba: string;
 
     columna_input_cero: string;
     columna_input_uno: string;
