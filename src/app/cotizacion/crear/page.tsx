@@ -181,6 +181,7 @@ export default function SolicitudCotizacion() {
 
     const MAX_TOTAL_CARACTERES = 3100;
     const MAX_CARACTERES_APORTE = 300;
+    const n_profundidad = 30;
 
     const totalCaracteresAportesCliente = formData.aportes_cliente.reduce((acc, item) => acc + item.length, 0);
     const totalCaracteresAportesAntilhue = formData.aportes_antilhue.reduce((acc, item) => acc + item.length, 0);
@@ -450,7 +451,7 @@ export default function SolicitudCotizacion() {
                                                             onChange={(e) => handleArrayChange(i, 'aportes_cliente', e.target.value)}
                                                             margin="normal"
                                                             sx={{ flexGrow: 1 }}
-                                                            inputProps={{ maxLength: MAX_CARACTERES_APORTE }}  
+                                                            inputProps={{ maxLength: MAX_CARACTERES_APORTE }}
                                                         />
                                                         {/* Botón para eliminar el aporte */}
                                                         <IconButton
@@ -1021,95 +1022,119 @@ export default function SolicitudCotizacion() {
                                         </React.Fragment>
                                     ))}
 
-                                    <TextField
-                                        size="small"
-                                        placeholder="Distancia(m)"
-                                        name="columna_input_cero"
-                                        value={formData.columna_input_cero}
-                                        onChange={handleChange}
+                                    <Box
                                         sx={{
                                             position: 'absolute',
                                             top: '156px',
                                             left: '25%',
-                                            width: 120,
-                                            backgroundColor: 'white'
+                                            width: 85,
+                                            height: 30,
+                                            backgroundColor: 'white',
+                                            border: '1px solid #ccc',
+                                            borderRadius: 1,
+                                            padding: '4px 8px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            fontSize: 14,
                                         }}
-                                    />
+                                    >
+                                        0.00 m
+                                    </Box>
 
-                                    <TextField
-                                        size="small"
-                                        placeholder="Distancia(m)"
-                                        name="columna_input_uno"
-                                        value={formData.columna_input_uno}
-                                        onChange={handleChange}
+                                    <Box
                                         sx={{
                                             position: 'absolute',
-                                            top: '500px',
+                                            top: '510px',
                                             left: '25%',
-                                            width: 120,
-                                            backgroundColor: 'white'
+                                            width: 85,
+                                            height: 30,
+                                            backgroundColor: 'white',
+                                            border: '1px solid #ccc',
+                                            borderRadius: 1,
+                                            padding: '4px 8px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            fontSize: 14,
                                         }}
-                                    />
+                                    >
+                                        {formData.n_profundidad-12}.00 m
+                                    </Box>
 
-                                    <TextField
-                                        size="small"
-                                        placeholder="Distancia(m)"
-                                        name="columna_input_dos"
-                                        value={formData.columna_input_dos}
-                                        onChange={handleChange}
+                                    <Box
                                         sx={{
                                             position: 'absolute',
-                                            top: '558px',
+                                            top: '568px',
                                             left: '25%',
-                                            width: 120,
-                                            backgroundColor: 'white'
+                                            width: 85,
+                                            height: 30,
+                                            backgroundColor: 'white',
+                                            border: '1px solid #ccc',
+                                            borderRadius: 1,
+                                            padding: '4px 8px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            fontSize: 14,
                                         }}
-                                    />
+                                    >
+                                        {formData.n_profundidad-9}.00 m
+                                    </Box>
 
-                                    <TextField
-                                        size="small"
-                                        placeholder="Distancia(m)"
-                                        name="columna_input_tres"
-                                        value={formData.columna_input_tres}
-                                        onChange={handleChange}
+                                    <Box
                                         sx={{
                                             position: 'absolute',
-                                            top: '616px',
+                                            top: '626px',
                                             left: '25%',
-                                            width: 120,
-                                            backgroundColor: 'white'
+                                            width: 85,
+                                            height: 30,
+                                            backgroundColor: 'white',
+                                            border: '1px solid #ccc',
+                                            borderRadius: 1,
+                                            padding: '4px 8px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            fontSize: 14,
                                         }}
-                                    />
+                                    >
+                                        {formData.n_profundidad-6}.00 m
+                                    </Box>
 
-                                    <TextField
-                                        size="small"
-                                        placeholder="Distancia(m)"
-                                        name="columna_input_cuatro"
-                                        value={formData.columna_input_cuatro}
-                                        onChange={handleChange}
+                                    <Box
                                         sx={{
                                             position: 'absolute',
-                                            top: '680px',
+                                            top: '690px',
                                             left: '25%',
-                                            width: 120,
-                                            backgroundColor: 'white'
+                                            width: 85,
+                                            height: 30,
+                                            backgroundColor: 'white',
+                                            border: '1px solid #ccc',
+                                            borderRadius: 1,
+                                            padding: '4px 8px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            fontSize: 14,
                                         }}
-                                    />
+                                    >
+                                        {formData.n_profundidad -3}.00 m
+                                    </Box>
 
-                                    <TextField
-                                        size="small"
-                                        placeholder="Distancia(m)"
-                                        name="columna_input_cinco"
-                                        value={formData.columna_input_cinco}
-                                        onChange={handleChange}
+                                    <Box
                                         sx={{
                                             position: 'absolute',
-                                            top: '735px',
+                                            top: '745px',
                                             left: '25%',
-                                            width: 120,
-                                            backgroundColor: 'white'
+                                            width: 85,
+                                            height: 30,
+                                            backgroundColor: 'white',
+                                            border: '1px solid #ccc',
+                                            borderRadius: 1,
+                                            padding: '4px 8px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            fontSize: 14,
                                         }}
-                                    />
+                                    >
+                                        {formData.n_profundidad}.00 m
+                                    </Box>
                                 </Box>
                             </Paper>
 
