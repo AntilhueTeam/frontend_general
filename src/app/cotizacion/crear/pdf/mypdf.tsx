@@ -646,13 +646,12 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
           />
 
           {/* Inputs estáticos a la izquierda */}
-          <Text style={{ position: "absolute", top: 200, left: 40, fontSize: 12 }}>{data.columna_input_cero}</Text>
-          <Text style={{ position: "absolute", top: 677, left: 40, fontSize: 12 }}>{data.columna_input_uno}</Text>
-          <Text style={{ position: "absolute", top: 750, left: 40, fontSize: 12 }}>{data.columna_input_dos}</Text>
-          <Text style={{ position: "absolute", top: 825, left: 40, fontSize: 12 }}>{data.columna_input_tres}</Text>
-          <Text style={{ position: "absolute", top: 907, left: 40, fontSize: 12 }}>{data.columna_input_cuatro}</Text>
-          <Text style={{ position: "absolute", top: 978, left: 40, fontSize: 12 }}>{data.columna_input_cinco}</Text>
-
+          <Text style={{ position: "absolute", top: 200, left: 40, fontSize: 12 }}>0.00 m</Text>
+          <Text style={{ position: "absolute", top: 674, left: 40, fontSize: 12 }}>{data.n_profundidad - 12}.00 m</Text>
+          <Text style={{ position: "absolute", top: 747, left: 40, fontSize: 12 }}>{data.n_profundidad - 9}.00 m</Text>
+          <Text style={{ position: "absolute", top: 822, left: 40, fontSize: 12 }}>{data.n_profundidad - 6}.00 m</Text>
+          <Text style={{ position: "absolute", top: 904, left: 40, fontSize: 12 }}>{data.n_profundidad - 3}.00 m</Text>
+          <Text style={{ position: "absolute", top: 975, left: 40, fontSize: 12 }}>{data.n_profundidad}.00 m</Text>
           {/*Inputs de las 7 flechas */}
 
           {/* Flecha 1 */}
