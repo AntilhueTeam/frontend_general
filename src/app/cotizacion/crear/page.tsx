@@ -886,7 +886,7 @@ export default function SolicitudCotizacion() {
                                     </Paper>
                                 </Grid>
 
-                                {/* Sección Firma */}
+                                {/* Sección Firma 
                                 <Grid size={{ xs: 12 }}>
                                     <Paper sx={{ p: 4, borderRadius: 3, bgcolor: '#f8f9fa' }}>
                                         <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: '#1a237e' }}>
@@ -982,6 +982,7 @@ export default function SolicitudCotizacion() {
                                         </Box>
                                     </Paper>
                                 </Grid>
+                                */}
                             </Grid>
 
                             {/* Requiere Respuesta */}

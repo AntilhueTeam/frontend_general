@@ -571,6 +571,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
 
         {/* Campos estáticos */}
         <View style={{ marginTop: 30, gap: 20 }}>
+          
           {["Nombre Cliente", "R.U.T:", "Fecha:"].map((label, i) => (
             <View
               key={i}
@@ -592,7 +593,10 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
 
               </Text>
             </View>
-          ))}
+          )
+          
+          )}
+          
 
           <View
             style={{
