@@ -649,13 +649,36 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
             style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
           />
 
+          {/* Datos */}
+          <Text style={{
+            fontWeight: "bold", 
+            position: "absolute", 
+            // width: 350,           
+            // height: 100,
+            top: 55, 
+            left: 270, 
+            fontSize: 12,
+            textAlign: "center",
+           }}>{data.n_referencia} Rev. {data.numero_revision} {new Date().getDate()} de {[
+              "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+            ][new Date().getMonth()]} del {new Date().getFullYear()} {data.descripcion_proyecto}{"\n"}
+            {data.nombre_cliente}, {data.direccion_especifica_cliente}, {data.comuna_cliente}  
+          </Text>
+          
+          {/*Datos */}
+
           {/* Inputs estáticos a la izquierda */}
           <Text style={{ position: "absolute", top: 200, left: 40, fontSize: 12 }}>0.00 m</Text>
+          {data.n_profundidad - 12 > 0 && (
+              <>
           <Text style={{ position: "absolute", top: 674, left: 40, fontSize: 12 }}>{data.n_profundidad - 12}.00 m</Text>
           <Text style={{ position: "absolute", top: 747, left: 40, fontSize: 12 }}>{data.n_profundidad - 9}.00 m</Text>
           <Text style={{ position: "absolute", top: 822, left: 40, fontSize: 12 }}>{data.n_profundidad - 6}.00 m</Text>
           <Text style={{ position: "absolute", top: 904, left: 40, fontSize: 12 }}>{data.n_profundidad - 3}.00 m</Text>
           <Text style={{ position: "absolute", top: 975, left: 40, fontSize: 12 }}>{data.n_profundidad}.00 m</Text>
+          </>
+          )}
           {/*Inputs de las 7 flechas */}
 
           {/* Flecha 1 */}

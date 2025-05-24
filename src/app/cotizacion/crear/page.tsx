@@ -1058,6 +1058,124 @@ export default function SolicitudCotizacion() {
                                         </React.Fragment>
                                     ))}
 
+                                    {formData.n_profundidad - 12 >= 0 && (
+                                        <>
+
+                                            <Box
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: '156px',
+                                                    left: '25%',
+                                                    width: 85,
+                                                    height: 30,
+                                                    backgroundColor: 'white',
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: 1,
+                                                    padding: '4px 8px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                0.00 m
+                                            </Box>
+
+                                            <Box
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: '510px',
+                                                    left: '25%',
+                                                    width: 85,
+                                                    height: 30,
+                                                    backgroundColor: 'white',
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: 1,
+                                                    padding: '4px 8px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                {formData.n_profundidad - 12}.00 m
+                                            </Box>
+
+                                            <Box
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: '568px',
+                                                    left: '25%',
+                                                    width: 85,
+                                                    height: 30,
+                                                    backgroundColor: 'white',
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: 1,
+                                                    padding: '4px 8px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                {formData.n_profundidad - 9}.00 m
+                                            </Box>
+
+                                            <Box
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: '626px',
+                                                    left: '25%',
+                                                    width: 85,
+                                                    height: 30,
+                                                    backgroundColor: 'white',
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: 1,
+                                                    padding: '4px 8px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                {formData.n_profundidad - 6}.00 m
+                                            </Box>
+
+                                            <Box
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: '690px',
+                                                    left: '25%',
+                                                    width: 85,
+                                                    height: 30,
+                                                    backgroundColor: 'white',
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: 1,
+                                                    padding: '4px 8px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                {formData.n_profundidad - 3}.00 m
+                                            </Box>
+
+                                            <Box
+                                                sx={{
+                                                    position: 'absolute',
+                                                    top: '745px',
+                                                    left: '25%',
+                                                    width: 85,
+                                                    height: 30,
+                                                    backgroundColor: 'white',
+                                                    border: '1px solid #ccc',
+                                                    borderRadius: 1,
+                                                    padding: '4px 8px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    fontSize: 14,
+                                                }}
+                                            >
+                                                {formData.n_profundidad}.00 m
+                                            </Box>
+                                        </>
+                                    )}
                                 </Box>
                             </Paper>
 
