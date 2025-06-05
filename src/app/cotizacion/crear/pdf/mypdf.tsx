@@ -571,7 +571,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
 
           <View style={styles.tableRow}>
             <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]}>
-              {`${baseIndex}.4 Diámetro Ø del Pozo: ${data.variante_metro}”`}
+              {`${baseIndex}.4 Diámetro Ø del Pozo:`}
             </Text>
             <Text
               style={[
