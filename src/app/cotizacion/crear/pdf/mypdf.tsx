@@ -1,6 +1,8 @@
 
 
 import { Document, Page, Text, View, Image, StyleSheet } from "@react-pdf/renderer";
+import React from "react";
+
 
 // Definir tipos para las props
 
@@ -23,7 +25,7 @@ interface MyPDFProps {
     aportes_cliente: string[];
     aportes_antilhue: string[];
     imagenes: string[]; // base64 strings
-    numero_revision: string[];
+    numero_revision: string;
     requiere_respuesta: boolean;
     titulo_imagenes: string;
     descripcion_imagenes: string;
@@ -34,6 +36,10 @@ interface MyPDFProps {
     variante_metro: number;
     n_profundidad: number;
     detalle_bomba: string;
+
+    tipo_cuenta: string;
+    nombre_banco: string;
+    numero_cuenta: string;
 
     columna_input_cero: string;
     columna_input_uno: string;
@@ -46,6 +52,27 @@ interface MyPDFProps {
       id: number;
       value: string;
     }[];
+
+    descripcion_trabajo: {
+      id: number;
+      titulo: string;
+      subpuntos: string[];
+    }[];
+
+    lineas_economicas: {
+      id: number;
+      descripcion: string;
+      valor: number;
+    }[];
+
+    // Array de subpuntos adicionales en propuesta economica (descripción + valor)
+    resumen_subpuntos: {
+      descripcion: string;
+      valor: number;
+    }[];
+
+    tipo_tuberia:string;
+
   };
 };
 
@@ -175,6 +202,19 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
   const valorMetroProfundidad = valorMetro * profundidad;
   const totalPozo = valorMetro * profundidad + valorBomba;
 
+  // ─────────── Sumar cada valor de data.resumen_subpuntos ───────────
+  const sumaResumenExtras = data.resumen_subpuntos.reduce(
+    (acum, item) => acum + item.valor,
+    0
+  );
+
+  // ──────── Total general: pozo + extras ────────
+  const totalGeneral = totalPozo + sumaResumenExtras;
+
+  const baseIndex = data.descripcion_trabajo.length + 1;
+
+
+
   return (
 
     <Document>
@@ -267,7 +307,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
             {`Adj: ${data.n_referencia} Carta Oferta Rev. ${data.numero_revision}\n`}
             {`${data.n_referencia} Oferta Económica Rev. ${data.numero_revision}\n`}
             {`Requiere Respuesta: ${data.requiere_respuesta ? "Sí" : "No"}\n`}
-            {`${data.n_referencia} - ${data.asunto_cliente}\n`}
+            
           </Text>
 
 
@@ -413,12 +453,11 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
         </Page>
       )}
 
-      {/* 
-    ##########################################################################################    
-    PROPUESTA ECONÓMICA
-    ##########################################################################################   
-    */}
 
+
+{/* ##########################################################################################    
+                                PROPUESTA ECONÓMICA
+########################################################################################## */}
       <Page size="A3" style={styles.page}>
         <View style={styles.section}>
 
@@ -432,64 +471,172 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
             {`Propuesta Económica para Sr(a) ${data.nombre_cliente}, ${data.direccion_especifica_cliente}, ${data.comuna_cliente}, ${data.descripcion_proyecto}.\nRev. ${data.numero_revision} ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}`}
           </Text>
 
-          {/* Encabezado de Acuerdos */}
-          <View style={[styles.tableRow, styles.headerRow]}>
-            <Text style={[styles.cell, styles.bold]}>Acuerdos y Condiciones</Text>
+          {/* ─────────────────────────────────────────────────────────────────── */}
+          {/*               SECCIÓN: Descripción del Trabajo                     */}
+          {/* ─────────────────────────────────────────────────────────────────── */}
+          <View>
+            {/* Título grande de sección */}
+            <Text style={[styles.bold, { fontSize: 14, marginBottom: 8 }]}>
+              Descripción del Trabajo
+            </Text>
           </View>
 
-          {/* Filas dinámicas desde data.acuerdos */}
+          {/* Encabezado de tabla */}
+          <View style={[styles.tableRow, styles.headerRow]}>
+            <Text style={[styles.cell, styles.bold]}>Descripción del Trabajo</Text>
+          </View>
+
+          {/* Filas dinámicas: cada punto y sus subpuntos */}
+          {data.descripcion_trabajo.map((punto, idxPunto) => (
+            <React.Fragment key={punto.id}>
+              {/* 1) Fila del “punto principal” */}
+              <View style={styles.tableRow}>
+                <Text style={styles.cell}>
+                  {`${idxPunto + 1}.0 ${punto.titulo}`}
+                </Text>
+              </View>
+
+              {/* 2) Filas de cada subpunto, con sangría */}
+              {punto.subpuntos.map((subTexto, idxSub) => (
+                <View key={idxSub} style={styles.tableRow}>
+                  <Text
+                    style={[
+                      styles.cell,
+                      { paddingLeft: 20 } // <-- Sangría inline para subpuntos
+                    ]}
+                  >
+                    {`${idxPunto + 1}.${idxSub + 1} ${subTexto}`}
+                  </Text>
+                </View>
+              ))}
+            </React.Fragment>
+          ))}
+
+          {/* ─────────────────────────────────────────────────────────────────── */}
+          {/*                 SECCIÓN: Total del Pago                            */}
+          {/* ─────────────────────────────────────────────────────────────────── */}
+
+  
+          {/* Encabezado de la sección “Total del Pago”, ahora como “X.0 Total del Pago” */}
+          <View style={[styles.tableRow, styles.headerRow]}>
+            <Text style={[styles.cell, styles.bold]}>
+              {`${baseIndex}.0 Total del Pago`}
+            </Text>
+          </View>
+
+          <View style={styles.tableRow}>
+            <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]}>
+              {`${baseIndex}.1 Valor por Metro ${data.variante_metro}”`}
+            </Text>
+            <Text
+              style={[
+                styles.cell,
+                styles.alignRight,
+                { fontWeight: "bold", backgroundColor: "orange" },
+              ]}
+            >
+              {data.valor_metro}
+            </Text>
+          </View>
+
+          <View style={styles.tableRow}>
+            <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]}>
+              {`${baseIndex}.2 Valor del Servicio de Perforación, en Pozo Profundo de ${data.n_profundidad} Metros`}
+            </Text>
+            <Text
+              style={[
+                styles.cell,
+                styles.alignRight,
+                { fontWeight: "bold", backgroundColor: "orange" },
+              ]}
+            >
+              {valorMetroProfundidad}
+            </Text>
+          </View>
+
+          <View style={styles.tableRow}>
+            <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]}>
+              {`${baseIndex}.3 ${data.detalle_bomba}`}
+            </Text>
+            <Text
+              style={[
+                styles.cell,
+                styles.alignRight,
+                { fontWeight: "bold", backgroundColor: "orange" },
+              ]}
+            >
+              {valorBomba}
+            </Text>
+          </View>
+
+          <View style={styles.tableRow}>
+            <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]}>
+              {`${baseIndex}.4 Diámetro Ø del Pozo: ${data.variante_metro}”`}
+            </Text>
+            <Text
+              style={[
+                styles.cell,
+                styles.alignRight,
+                { fontWeight: "bold", backgroundColor: "orange" },
+              ]}
+            >
+              {data.variante_metro}
+            </Text>
+          </View>
+
+          <View style={styles.tableRow}>
+            <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]}>
+              {`${baseIndex}.5 Profundidad Estimada del Pozo: ${data.n_profundidad} m`}
+            </Text>
+            <Text
+              style={[
+                styles.cell,
+                styles.alignRight,
+                { fontWeight: "bold", backgroundColor: "orange" },
+              ]}
+            >
+              {data.n_profundidad}
+            </Text>
+          </View>
+
+          {data.resumen_subpuntos.map((item, idx) => (
+            <View key={idx} style={styles.tableRow}>
+              <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "#ffe0b2" }]}>
+                {`${baseIndex}.${5 + idx + 1} ${item.descripcion}`}
+              </Text>
+              <Text
+                style={[
+                  styles.cell,
+                  styles.alignRight,
+                  { fontWeight: "bold", backgroundColor: "#ffe0b2" },
+                ]}
+              >
+                {item.valor}
+              </Text>
+            </View>
+          ))}
+
+          <View style={[styles.tableRow, styles.headerRow]}>
+            <Text style={[styles.cell, styles.bold]}>Total General</Text>
+            <Text style={[styles.cell, styles.alignRight, styles.bold]}>
+              {totalGeneral}
+            </Text>
+          </View>
+
+
+
+          {/* --- ACUERDOS Y CONDICIONES --- */}
+          <View style={[styles.tableRow, styles.headerRow, { marginTop: 5}]}>
+            <Text style={[styles.cell, styles.bold]}>Acuerdos y Condiciones</Text>
+          </View>
           {data.acuerdos.map((item, index) => (
             <View key={index} style={styles.tableRow}>
               <Text style={styles.cell}>{item}</Text>
             </View>
           ))}
-
-          {/* Encabezado tabla */}
-          <View style={[styles.tableRow, styles.headerRow]}>
-            <Text style={[styles.cell, styles.bold]}>Descripción del Trabajo</Text>
           </View>
 
-
-          {/* Filas de contenido */}
-          {[
-            ["1.0 Movilización y desmovilización", ""],
-            ["1.1 Traslado de Equipos y materiales, Instalación y Desinstalación.", ""],
-            ["2.0 Perforación", ""],
-            [`2.1 Perforación Pozo Profundo mediante roto percusión, con entubación simultánea en acero de ${data.variante_metro} pulgadas de diámetro.`, ""],
-            ["3.0 Instalación de cañería de acero", ""],
-            [`3.1 Instalación de cañería de acero al carbono, A53 de ${data.variante_metro} pulgadas de diámetro, ${espesor} mm espesor.`, ""],
-            ["4.0 Instalación sello", ""],
-            ["4.1 Sello Sanitario (Dado de Hormigón)", ""],
-
-          ].map(([desc, price], index) => (
-            <View key={index} style={styles.tableRow}>
-              <Text style={styles.cell}>{desc}</Text>
-
-            </View>
-          ))}
-
-          <View style={[styles.tableRow, styles.headerRow]}>
-            <Text style={[styles.cell, styles.bold]}>Total del Pago</Text>
-          </View>
-
-          {[
-            [`5.1 Valor por Metro ${data.variante_metro}”`, data.valor_metro],
-            [`5.2 Valor del Servicio de Perforación, en Pozo Profundo de ${data.n_profundidad} Metros`, valorMetroProfundidad],
-            [`6.0 ${data.detalle_bomba}`, valorBomba],
-            [
-              `7.0 Total pozo profundo de ${data.n_profundidad} metros`,
-              totalPozo
-            ]
-          ].map(([desc, price], index) => (
-            <View key={index} style={styles.tableRow}>
-              style={ }
-              <Text style={[styles.cell, { fontWeight: "bold", backgroundColor: "orange" }]} >{desc}</Text>
-              <Text style={[styles.cell, styles.alignRight, { fontWeight: "bold", backgroundColor: "orange" }]}>{price}</Text>
-            </View>
-          ))}
-        </View>
-
-        {/* Footer con tres textos distribuidos */}
+          {/* Footer con tres textos distribuidos */}
         <Text
           style={{
             position: "absolute",
@@ -530,6 +677,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
       </Page>
 
 
+
       {/* 
     ##########################################################################################    
     ACEPTACIÓN DE LA OFERTA
@@ -563,10 +711,9 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
           en la presente Oferta Nº{data.n_referencia} Rev. {data.numero_revision}, presentada por Antilhue con fecha, {new Date().toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })}.
         </Text>
 
+        {/* Párrafo modificado para usar datos del formulario */}
         <Text style={{ fontSize: 12, lineHeight: 1.8, marginBottom: 40 }}>
-          El depósito se realizará a la cuenta corriente del Banco de Crédito e Inversiones BCI número
-          635 660 44, a nombre de Antilhue SpA, RUT: 76.876.217-1. Enviar comprobante al correo:
-          susana.loyola@antilhueing.cl
+          {`El depósito realizarlo a la cuenta ${data.tipo_cuenta}, del ${data.nombre_banco} número ${data.numero_cuenta}, a nombre de Antilhue SpA, RUT: 76.876.217-1. Enviar comprobante al correo: susana.loyola@antilhueing.cl`}
         </Text>
 
         {/* Campos estáticos */}
@@ -641,182 +788,207 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
     ##########################################################################################   
     */}
 
-      <Page size="A3" style={styles.page}>
-        <View style={{ position: "relative", width: "100%", height: "100%" }}>
-          {/* Imagen de fondo */}
-          <Image
-            src="/assets/images/imagen_pozo_limpia.png"
-            style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
-          />
+    <Page size="A3" style={styles.page}>
+      <View style={{ position: "relative", width: "100%", height: "100%" }}>
+        {/* Imagen de fondo */}
+        <Image
+          src={
+            data.tipo_tuberia === "pvc"
+              ? "/assets/images/imagen_pozo_limpia_pvc.png"
+              : "/assets/images/imagen_pozo_limpia.png"
+          }
+          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+        />
 
-          {/* Datos */}
-          <Text style={{
-            fontWeight: "bold", 
-            position: "absolute", 
-            // width: 350,           
-            // height: 100,
-            top: 55, 
-            left: 270, 
-            fontSize: 12,
-            textAlign: "center",
-           }}>{data.n_referencia} Rev. {data.numero_revision} {new Date().getDate()} de {[
-              "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-              "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-            ][new Date().getMonth()]} del {new Date().getFullYear()} {data.descripcion_proyecto}{"\n"}
-            {data.nombre_cliente}, {data.direccion_especifica_cliente}, {data.comuna_cliente}  
-          </Text>
-          
-          {/*Datos */}
+        {/* Datos */}
+        <Text style={{
+          fontWeight: "bold", 
+          position: "absolute", 
+          top: 55, 
+          left: 270, 
+          fontSize: 12,
+          textAlign: "center",
+        }}>{data.n_referencia} Rev. {data.numero_revision} {new Date().getDate()} de {[
+          "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ][new Date().getMonth()]} del {new Date().getFullYear()} {data.descripcion_proyecto}{"\n"}
+        {data.nombre_cliente}, {data.direccion_especifica_cliente}, {data.comuna_cliente}  
+        </Text>
 
-          {/* Inputs estáticos a la izquierda */}
-          <Text style={{ position: "absolute", top: 200, left: 40, fontSize: 12 }}>0.00 m</Text>
-          {data.n_profundidad - 12 > 0 && (
-              <>
-          <Text style={{ position: "absolute", top: 674, left: 40, fontSize: 12 }}>{data.n_profundidad - 12}.00 m</Text>
-          <Text style={{ position: "absolute", top: 747, left: 40, fontSize: 12 }}>{data.n_profundidad - 9}.00 m</Text>
-          <Text style={{ position: "absolute", top: 822, left: 40, fontSize: 12 }}>{data.n_profundidad - 6}.00 m</Text>
-          <Text style={{ position: "absolute", top: 904, left: 40, fontSize: 12 }}>{data.n_profundidad - 3}.00 m</Text>
-          <Text style={{ position: "absolute", top: 975, left: 40, fontSize: 12 }}>{data.n_profundidad}.00 m</Text>
+        {/* Datos estáticos */}
+        <Text style={{ position: "absolute", top: 200, left: 40, fontSize: 12 }}>0.00 m</Text>
+        {data.n_profundidad - 12 > 0 && (
+          <>
+            <Text style={{ position: "absolute", top: 674, left: 40, fontSize: 12 }}>
+              {data.n_profundidad - 12}.00 m
+            </Text>
+            <Text style={{ position: "absolute", top: 747, left: 40, fontSize: 12 }}>
+              {data.n_profundidad - 9}.00 m
+            </Text>
+            <Text style={{ position: "absolute", top: 822, left: 40, fontSize: 12 }}>
+              {data.n_profundidad - 6}.00 m
+            </Text>
+            <Text style={{ position: "absolute", top: 904, left: 40, fontSize: 12 }}>
+              {data.n_profundidad - 3}.00 m
+            </Text>
+            <Text style={{ position: "absolute", top: 975, left: 40, fontSize: 12 }}>
+              {data.n_profundidad}.00 m
+            </Text>
           </>
-          )}
-          {/*Inputs de las 7 flechas */}
+        )}
 
-          {/* Flecha 1 */}
-          <View
-            style={{
-              position: "absolute",
-              top: 844,     // <-- Cambia esta posición para mover flecha y texto juntos
-              left: 340,    // <-- También puedes mover horizontalmente desde aquí
-              flexDirection: "row", // texto a la derecha de la flecha
-              alignItems: "center"
-            }}
-          >
-            <Image
-              src="/assets/images/flecha.png"
-              style={{ width: 20, height: 20, marginRight: 5 }}
-            />
-            <Text style={{ fontSize: 12 }}>
-              {data.flechas?.find(f => f.id === 1)?.value}
-            </Text>
-          </View>
+        {/* Flechas específicas para cada tipo de tubería */}
+        {data.tipo_tuberia === 'acero' ? (
+          <>
+            {/* Flecha 1 - Acero */}
+            <View style={{ position: "absolute", top: 844, left: 340, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 1)?.value}
+              </Text>
+            </View>
 
-          {/* Flecha 2 */}
-          <View
-            style={{
-              position: "absolute",
-              top: 800,     // <-- Cambia esta posición para mover flecha y texto juntos
-              left: 352,    // <-- También puedes mover horizontalmente desde aquí
-              flexDirection: "row", // texto a la derecha de la flecha
-              alignItems: "center"
-            }}
-          >
-            <Image
-              src="/assets/images/flecha.png"
-              style={{ width: 20, height: 20, marginRight: 5 }}
-            />
-            <Text style={{ fontSize: 12 }}>
-              {data.flechas?.find(f => f.id === 2)?.value}
-            </Text>
-          </View>
+            {/* Flecha 2 - Acero */}
+            <View style={{ position: "absolute", top: 800, left: 352, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 2)?.value}
+              </Text>
+            </View>
 
-          {/* Flecha 3 */}
-          <View
-            style={{
-              position: "absolute",
-              top: 725,     // <-- Cambia esta posición para mover flecha y texto juntos
-              left: 352,    // <-- También puedes mover horizontalmente desde aquí
-              flexDirection: "row", // texto a la derecha de la flecha
-              alignItems: "center"
-            }}
-          >
-            <Image
-              src="/assets/images/flecha.png"
-              style={{ width: 20, height: 20, marginRight: 5 }}
-            />
-            <Text style={{ fontSize: 12 }}>
-              {data.flechas?.find(f => f.id === 3)?.value}
-            </Text>
-          </View>
+            {/* Flecha 3 - Acero */}
+            <View style={{ position: "absolute", top: 725, left: 352, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 3)?.value}
+              </Text>
+            </View>
 
-          {/* Flecha 4 */}
-          <View
-            style={{
-              position: "absolute",
-              top: 380,     // <-- Cambia esta posición para mover flecha y texto juntos
-              left: 352,    // <-- También puedes mover horizontalmente desde aquí
-              flexDirection: "row", // texto a la derecha de la flecha
-              alignItems: "center"
-            }}
-          >
-            <Image
-              src="/assets/images/flecha.png"
-              style={{ width: 20, height: 20, marginRight: 5 }}
-            />
-            <Text style={{ fontSize: 12 }}>
-              {data.flechas?.find(f => f.id === 4)?.value}
-            </Text>
-          </View>
+            {/* Flecha 4 - Acero */}
+            <View style={{ position: "absolute", top: 600, left: 336, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 4)?.value}
+              </Text>
+            </View>
 
-          {/* Flecha 5 */}
-          <View
-            style={{
-              position: "absolute",
-              top: 246,     // <-- Cambia esta posición para mover flecha y texto juntos
-              left: 407,    // <-- También puedes mover horizontalmente desde aquí
-              flexDirection: "row", // texto a la derecha de la flecha
-              alignItems: "center"
-            }}
-          >
-            <Image
-              src="/assets/images/flecha.png"
-              style={{ width: 20, height: 20, marginRight: 5 }}
-            />
-            <Text style={{ fontSize: 12 }}>
-              {data.flechas?.find(f => f.id === 5)?.value}
-            </Text>
-          </View>
+            {/* Flecha 5 - Acero */}
+            <View style={{ position: "absolute", top: 380, left: 352, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 5)?.value}
+              </Text>
+            </View>
 
-          {/* Flecha 6 */}
-          <View
-            style={{
-              position: "absolute",
-              top: 228,     // <-- Cambia esta posición para mover flecha y texto juntos
-              left: 395,    // <-- También puedes mover horizontalmente desde aquí
-              flexDirection: "row", // texto a la derecha de la flecha
-              alignItems: "center"
-            }}
-          >
-            <Image
-              src="/assets/images/flecha.png"
-              style={{ width: 20, height: 20, marginRight: 5 }}
-            />
-            <Text style={{ fontSize: 12 }}>
-              {data.flechas?.find(f => f.id === 6)?.value}
-            </Text>
-          </View>
+            {/* Flecha 6 - Acero */}
+            <View style={{ position: "absolute", top: 245, left: 406, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 6)?.value}
+              </Text>
+            </View>
 
-          {/* Flecha 7 */}
-          <View
-            style={{
-              position: "absolute",
-              top: 120,     // <-- Cambia esta posición para mover flecha y texto juntos
-              left: 324,    // <-- También puedes mover horizontalmente desde aquí
-              flexDirection: "row", // texto a la derecha de la flecha
-              alignItems: "center"
-            }}
-          >
-            <Image
-              src="/assets/images/flecha.png"
-              style={{ width: 20, height: 20, marginRight: 5 }}
-            />
-            <Text style={{ fontSize: 12 }}>
-              {data.flechas?.find(f => f.id === 7)?.value}
-            </Text>
-          </View>
+            {/* Flecha 7 - Acero (Ajustada) */}
+            <View style={{ position: "absolute", top: 226, left: 394, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 7)?.value}
+              </Text>
+            </View>
 
+            {/* Flecha 8 - Acero (Ajustada) */}
+            <View style={{ position: "absolute", top: 116, left: 324, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 8)?.value}
+              </Text>
+            </View>
+          </>
+        ) : (
+          <>
+            {/* Flecha 1 - PVC */}
+            <View style={{ position: "absolute", top: 888, left: 357, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 1)?.value}
+              </Text>
+            </View>
 
-        </View>
-      </Page>
+            {/* Flecha 2 - PVC */}
+            <View style={{ position: "absolute", top: 846, left: 342, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 2)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 3 - PVC */}
+            <View style={{ position: "absolute", top: 800, left: 352, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 3)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 4 - PVC */}
+            <View style={{ position: "absolute", top: 724, left: 352, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 4)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 5 - PVC */}
+            <View style={{ position: "absolute", top: 600, left: 338, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 5)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 6 - PVC */}
+            <View style={{ position: "absolute", top: 400, left: 352, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 6)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 7 - PVC */}
+            <View style={{ position: "absolute", top: 245, left: 485, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 7)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 8 - PVC */}
+            <View style={{ position: "absolute", top: 228, left: 392, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 8)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 9 - PVC */}
+            <View style={{ position: "absolute", top: 180, left: 352, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 9)?.value}
+              </Text>
+            </View>
+
+            {/* Flecha 10 - PVC */}
+            <View style={{ position: "absolute", top: 140, left: 332, flexDirection: "row", alignItems: "center" }}>
+              <Image src="/assets/images/flecha.png" style={{ width: 20, height: 20, marginRight: 5 }} />
+              <Text style={{ fontSize: 12 }}>
+                {data.flechas?.find(f => f.id === 10)?.value}
+              </Text>
+            </View>
+          </>
+        )}
+      </View>
+    </Page>
     </Document>
   )
 };
