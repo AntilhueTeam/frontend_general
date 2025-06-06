@@ -93,6 +93,15 @@ const Navbar = () => {
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           {isLoggedIn ? (
             <>
+              <Button
+                variant="text"
+                color="inherit"
+                startIcon={<AddBusiness />}
+                onClick={() => navigate('/cliente')}
+                sx={{ textTransform: 'none' }}
+              >
+                Clientes
+              </Button>
               {/* Botón Cotizaciones */}
               <Button
                 variant="text"

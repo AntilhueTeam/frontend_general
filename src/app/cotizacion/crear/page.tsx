@@ -30,6 +30,7 @@ import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useRouter } from 'next/navigation';
 import EastIcon from '@mui/icons-material/East';
+import clienteService from '../../../services/cliente.service';
 
 // Definición de la flecha y array inicial
 interface Arrow {
@@ -140,9 +141,6 @@ type FormData = {
     }[];
 
     tipo_tuberia: 'acero' | 'pvc';
-
-
- 
 };
 
 const acuerdosTemplate = [
@@ -159,6 +157,7 @@ const acuerdosTemplate = [
 ];
 
 export default function SolicitudCotizacion() {
+    const [clientes, setClientes] = useState([]);
     const router = useRouter();
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [hoveredImage, setHoveredImage] = useState<string | null>(null);
@@ -262,6 +261,20 @@ export default function SolicitudCotizacion() {
     // en el useEffect que observa `formData.tipo_tuberia`.
     const [arrows, setArrows] = useState<Arrow[]>([]);
 
+    useEffect(() => {
+    const fetchClientes = async () => {
+        try {
+        const response = await clienteService.getAll();
+        setClientes(response.data);
+        console.log("CLIENTES OBTENIDOS",response.data);
+        } catch (error) {
+        console.error("Error al cargar clientes:", error);
+        }
+    };
+
+    fetchClientes();
+    }, []);
+
     // Función que marca/desmarca la flecha (activar input debajo)
     function toggleArrow(id: number) {
     setArrows(prev =>
@@ -301,12 +314,7 @@ export default function SolicitudCotizacion() {
     }
     }, [formData.tipo_tuberia]);
 
-
-    const MAX_TOTAL_CARACTERES = 3100;
     const MAX_CARACTERES_APORTE = 300;
-
-    const totalCaracteresAportesCliente = formData.aportes_cliente.reduce((acc, item) => acc + item.length, 0);
-    const totalCaracteresAportesAntilhue = formData.aportes_antilhue.reduce((acc, item) => acc + item.length, 0);
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -466,8 +474,6 @@ export default function SolicitudCotizacion() {
         return { ...prev, descripcion_trabajo: copia };
         });
     };
-
-
 
     //funciones para propuesta economica
     // 1) Agrega un nuevo subpunto (con descripción vacía y valor 0)

@@ -2,7 +2,8 @@ import axios from 'axios';
 
 // Instancia de axios con la URL de la API desde la variable de entorno
 const axiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_AUTH_URL, // Usando la variable de entorno
+  baseURL: "http://localhost:8000/go/backend-auth", // Cambia esto por la URL de tu backend
+  // baseURL: process.env.NEXT_PUBLIC_API_AUTH_URL, // Usando la variable de entorno
   headers: {
     'Content-Type': 'application/json',
   },
