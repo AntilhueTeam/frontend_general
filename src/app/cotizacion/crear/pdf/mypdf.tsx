@@ -8,70 +8,74 @@ import React from "react";
 
 interface MyPDFProps {
   data: {
-    nombre_cliente: string;
-    direccion_especifica_cliente: string;
-    comuna_cliente: string;
+    cliente: {
+        nombre_cliente: string;
+        direccion_cliente: string;
+        comuna_cliente: string;
+        telefono: string;
+    };
     nombre_empresa: string;
     direccion_empresa: string;
     region_empresa: string;
     pais_empresa: string;
+    fecha_firma: Date | null;
     numero_telefono_empresa: string;
-    n_referencia: string;
+    n_referencia: number;
     id_proyecto: string;
     asunto_cliente: string;
     descripcion_proyecto: string;
-    id_documento: string;
-    acuerdos: string[];
+    id_documento: number;
+    carta_oferta: string;
+    oferta_economica: string;
+    requiere_respuesta: boolean;
     aportes_cliente: string[];
     aportes_antilhue: string[];
-    imagenes: string[]; // base64 strings
+    acuerdos: string[];
+    anticipo: number;
+    banco: string;
+    cuenta: string;
+    rut_banco: string;
+    nombre_firma: string;
+    rut_firma: string;
+    imagenes: string[];
     numero_revision: string;
-    requiere_respuesta: boolean;
     titulo_imagenes: string;
     descripcion_imagenes: string;
     valor_metro: number;
     valor_servicio: number;
     valor_bomba: number;
-    anticipo: number;
     variante_metro: number;
     n_profundidad: number;
     detalle_bomba: string;
-
-    tipo_cuenta: string;
-    nombre_banco: string;
-    numero_cuenta: string;
-
     columna_input_cero: string;
     columna_input_uno: string;
     columna_input_dos: string;
     columna_input_tres: string;
     columna_input_cuatro: string;
     columna_input_cinco: string;
-
-    flechas?: {
-      id: number;
-      value: string;
-    }[];
+    flechas: { id: number; label: string; value: string }[];
+    tipo_cuenta: string;
+    nombre_banco: string;
+    numero_cuenta: string;
 
     descripcion_trabajo: {
-      id: number;
-      titulo: string;
-      subpuntos: string[];
+        id: number;
+        titulo: string;
+        subpuntos: string[];
     }[];
 
     lineas_economicas: {
-      id: number;
-      descripcion: string;
-      valor: number;
+        id: number;
+        descripcion: string;
+        valor: number;
     }[];
 
-    // Array de subpuntos adicionales en propuesta economica (descripción + valor)
     resumen_subpuntos: {
-      descripcion: string;
-      valor: number;
+        descripcion: string;
+        valor: number;
     }[];
 
-    tipo_tuberia:string;
+    tipo_tuberia: 'acero' | 'pvc';
 
   };
 };
@@ -256,11 +260,11 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
           </Text>
           {/* Saludo */}
           <Text style={styles.subtitle}>{"\n"}Señor(a):</Text>
-          <Text style={styles.subtitle}>{data.nombre_cliente}</Text>
+          <Text style={styles.subtitle}>{data.cliente.nombre_cliente}</Text>
 
           {/* Dirección */}
           <Text style={styles.content}>
-            {`${data.direccion_especifica_cliente}, ${data.comuna_cliente}`}
+            {`${data.cliente.direccion_cliente}, ${data.cliente.comuna_cliente}`}
           </Text>
 
           {/*N° Referencia mas el numero_revision */}
@@ -274,8 +278,8 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
           <Text style={[styles.content, { marginTop: 20 }]}>
             <Text style={{ fontWeight: "bold" }}>Proyecto:</Text>{" "}
             {data.id_proyecto}{" "}
-            {data.nombre_cliente}{"\n"}
-            {data.direccion_especifica_cliente}
+            {data.cliente.nombre_cliente}{"\n"}
+            {data.cliente.direccion_cliente}
           </Text>
 
           {/* Asunto */}
@@ -286,7 +290,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
 
           {/* carta */}
           <Text style={[styles.content, { marginTop: 10 }]}>
-            Estimado(a) Sr(a) {data.nombre_cliente}{"\n\n\n"}
+            Estimado(a) Sr(a) {data.cliente.nombre_cliente}{"\n\n\n"}
 
             Junto con saludar y por medio de la presente, se entrega carta oferta económica, considerando
             pozo profundo de {data.n_profundidad} m, con entubación simultánea en acero de {data.variante_metro} pulgadas de diámetro, con
@@ -468,7 +472,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
 
           {/* Título principal */}
           <Text style={styles.title}>
-            {`Propuesta Económica para Sr(a) ${data.nombre_cliente}, ${data.direccion_especifica_cliente}, ${data.comuna_cliente}, ${data.descripcion_proyecto}.\nRev. ${data.numero_revision} ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}`}
+            {`Propuesta Económica para Sr(a) ${data.cliente.nombre_cliente}, ${data.cliente.direccion_cliente}, ${data.cliente.comuna_cliente}, ${data.descripcion_proyecto}.\nRev. ${data.numero_revision} ${new Date().toLocaleDateString('es-CL', { day: 'numeric', month: 'long', year: 'numeric' })}`}
           </Text>
 
           {/* ─────────────────────────────────────────────────────────────────── */}
@@ -646,7 +650,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
             color: "#444",
           }}
         >
-          {data.direccion_empresa},${data.comuna_cliente}
+          {data.direccion_empresa},${data.cliente.comuna_cliente}
         </Text>
 
         <Text
@@ -706,7 +710,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
 
         {/* Párrafo legal */}
         <Text style={{ fontSize: 12, lineHeight: 1.8, marginBottom: 15 }}>
-          Por medio del presente documento, Sr(a) {data.nombre_cliente}, cliente adjudica a Antilhue SpA,
+          Por medio del presente documento, Sr(a) {data.cliente.nombre_cliente}, cliente adjudica a Antilhue SpA,
           en adelante “Antilhue”, los servicios a ejecutarse en la forma, plazo, términos y condiciones estipuladas
           en la presente Oferta Nº{data.n_referencia} Rev. {data.numero_revision}, presentada por Antilhue con fecha, {new Date().toLocaleDateString("es-CL", { day: "numeric", month: "long", year: "numeric" })}.
         </Text>
@@ -812,7 +816,7 @@ const MyPDF: React.FC<MyPDFProps> = ({ data }) => {
           "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
           "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
         ][new Date().getMonth()]} del {new Date().getFullYear()} {data.descripcion_proyecto}{"\n"}
-        {data.nombre_cliente}, {data.direccion_especifica_cliente}, {data.comuna_cliente}  
+        {data.cliente.nombre_cliente}, {data.cliente.direccion_cliente}, {data.cliente.comuna_cliente}  
         </Text>
 
         {/* Datos estáticos */}

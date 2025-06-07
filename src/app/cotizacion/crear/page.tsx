@@ -46,103 +46,34 @@ interface Arrow {
 // ────────── 1) CONFIGURACIONES DE FLECHAS ──────────
 // Para "acero" vamos a dibujar X flechas (aquí ej. 7):
 const FLECHAS_ACERO: Omit<Arrow, "active" | "value">[] = [
-  { id: 1, top: "77%", left: "48%", rotation: 180, label: "" },
-  { id: 2, top: "72%", left: "49%", rotation: 180, label: "" },
-  { id: 3, top: "65%", left: "49%", rotation: 180, label: "" },
-  { id: 4, top: "55%", left: "48%", rotation: 180, label: "" },
-  { id: 5, top: "35%", left: "49%", rotation: 180, label: "" },
-  { id: 6, top: "21%", left: "53%", rotation: 180, label: "" },
-  { id: 7, top: "19%", left: "52%", rotation: -190, label: "" },
-  { id: 8, top: "10%", left: "47%", rotation: 190, label: "" },
+    { id: 1, top: "77%", left: "48%", rotation: 180, label: "" },
+    { id: 2, top: "72%", left: "49%", rotation: 180, label: "" },
+    { id: 3, top: "65%", left: "49%", rotation: 180, label: "" },
+    { id: 4, top: "55%", left: "48%", rotation: 180, label: "" },
+    { id: 5, top: "35%", left: "49%", rotation: 180, label: "" },
+    { id: 6, top: "21%", left: "53%", rotation: 180, label: "" },
+    { id: 7, top: "19%", left: "52%", rotation: -190, label: "" },
+    { id: 8, top: "10%", left: "47%", rotation: 190, label: "" },
 ];
 
 // Para "pvc" vamos a dibujar Y flechas (ej. 11). Ajusta las posiciones y etiquetas según tu diseño:
 const FLECHAS_PVC: Omit<Arrow, "active" | "value">[] = [
-  { id: 1, top: "81%", left: "49.5%", rotation: 180, label: "" },
-  { id: 2, top: "76%", left: "48%", rotation: 180, label: "" },
-  { id: 3, top: "72%", left: "49%", rotation: 180, label: "" },
-  { id: 4, top: "65%", left: "49%", rotation: 180, label: "" },
-  { id: 5, top: "55%", left: "48%", rotation: 180, label: "" },
-  { id: 6, top: "35%", left: "49%", rotation: 180, label: "" },
-  { id: 7, top: "21.2%", left: "58.5%", rotation: 180, label: "" },
-  { id: 8, top: "19%", left: "52%", rotation: -190, label: "" },
-  { id: 9, top: "15%", left: "49%", rotation: -190, label: "" },
-  { id: 10, top: "11%", left: "48%", rotation: -190, label: "" },
+    { id: 1, top: "81%", left: "49.5%", rotation: 180, label: "" },
+    { id: 2, top: "76%", left: "48%", rotation: 180, label: "" },
+    { id: 3, top: "72%", left: "49%", rotation: 180, label: "" },
+    { id: 4, top: "65%", left: "49%", rotation: 180, label: "" },
+    { id: 5, top: "55%", left: "48%", rotation: 180, label: "" },
+    { id: 6, top: "35%", left: "49%", rotation: 180, label: "" },
+    { id: 7, top: "21.2%", left: "58.5%", rotation: 180, label: "" },
+    { id: 8, top: "19%", left: "52%", rotation: -190, label: "" },
+    { id: 9, top: "15%", left: "49%", rotation: -190, label: "" },
+    { id: 10, top: "11%", left: "48%", rotation: -190, label: "" },
 ];
 
-type FormData = {
-    [key: string]: any;
-    nombre_cliente: string;
-    direccion_especifica_cliente: string;
-    comuna_cliente: string;
-    nombre_empresa: string;
-    direccion_empresa: string;
-    region_empresa: string;
-    pais_empresa: string;
-    fecha_firma: Date | null;
-    numero_telefono_empresa: string,
-    n_referencia: number,
-    id_proyecto: string,
-    asunto_cliente: string,
-    descripcion_proyecto: string,
-    id_documento: number,
-    carta_oferta: string,
-    oferta_economica: string,
-    requiere_respuesta: boolean,
-    aportes_cliente: string[],
-    aportes_antilhue: string[],
-    acuerdos: string[],
-    anticipo: number,
-    banco: string,
-    cuenta: string,
-    rut_banco: string,
-    nombre_firma: string,
-    rut_firma: string,
-    imagenes: string[] // base64 strings
-    numero_revision: string;
-    titulo_imagenes: string;
-    descripcion_imagenes: string;
-    valor_metro: number;
-    valor_servicio: number;
-    valor_bomba: number;
-    variante_metro: number;
-    n_profundidad: number;
-    detalle_bomba: string;
+// Máximo de caracteres por aporte
+const MAX_CARACTERES_APORTE = 300;
 
-
-    columna_input_cero: string;
-    columna_input_uno: string;
-    columna_input_dos: string;
-    columna_input_tres: string;
-    columna_input_cuatro: string;
-    columna_input_cinco: string;
-    flechas: { id: number; label: string; value: string }[];
-
-    tipo_cuenta: string;
-    nombre_banco: string;
-    numero_cuenta: string;
-
-    descripcion_trabajo: {
-    id: number;
-    titulo: string;
-    subpuntos: string[];
-    }[];
-
-    lineas_economicas: {
-        id: number;
-        descripcion: string;
-        valor: number;
-    }[];
-
-    //subpuntos dinamicos de propuesta economica
-    resumen_subpuntos: {
-    descripcion: string;
-    valor: number;
-    }[];
-
-    tipo_tuberia: 'acero' | 'pvc';
-};
-
+// Acuerdos
 const acuerdosTemplate = [
     'Los servicios que prestará Antilhue SpA son netos, se debe agregar IVA.',
     'Todos los precios están presupuestados en pesos chilenos.',
@@ -156,15 +87,100 @@ const acuerdosTemplate = [
     'El cliente debe definir la ubicación del pozo, para comenzar con la perforación respectiva.'
 ];
 
+type FormData = {
+    [key: string]: any;
+
+    cliente: {
+        nombre_cliente: string;
+        direccion_cliente: string;
+        comuna_cliente: string;
+        telefono: string;
+    };
+    nombre_empresa: string;
+    direccion_empresa: string;
+    region_empresa: string;
+    pais_empresa: string;
+    fecha_firma: Date | null;
+    numero_telefono_empresa: string;
+    n_referencia: number;
+    id_proyecto: string;
+    asunto_cliente: string;
+    descripcion_proyecto: string;
+    id_documento: number;
+    carta_oferta: string;
+    oferta_economica: string;
+    requiere_respuesta: boolean;
+    aportes_cliente: string[];
+    aportes_antilhue: string[];
+    acuerdos: string[];
+    anticipo: number;
+    banco: string;
+    cuenta: string;
+    rut_banco: string;
+    nombre_firma: string;
+    rut_firma: string;
+    imagenes: string[];
+    numero_revision: string;
+    titulo_imagenes: string;
+    descripcion_imagenes: string;
+    valor_metro: number;
+    valor_servicio: number;
+    valor_bomba: number;
+    variante_metro: number;
+    n_profundidad: number;
+    detalle_bomba: string;
+    columna_input_cero: string;
+    columna_input_uno: string;
+    columna_input_dos: string;
+    columna_input_tres: string;
+    columna_input_cuatro: string;
+    columna_input_cinco: string;
+    flechas: { id: number; label: string; value: string }[];
+    tipo_cuenta: string;
+    nombre_banco: string;
+    numero_cuenta: string;
+
+    descripcion_trabajo: {
+        id: number;
+        titulo: string;
+        subpuntos: string[];
+    }[];
+
+    lineas_economicas: {
+        id: number;
+        descripcion: string;
+        valor: number;
+    }[];
+
+    resumen_subpuntos: {
+        descripcion: string;
+        valor: number;
+    }[];
+
+    tipo_tuberia: 'acero' | 'pvc';
+};
+
 export default function SolicitudCotizacion() {
-    const [clientes, setClientes] = useState([]);
+    const [clientes, setClientes] = useState<any[]>([]);
+    const [clienteSeleccionado, setClienteSeleccionado] = useState<string>(''); // 'nuevo' o ID
+    const [registrarNuevoCliente, setRegistrarNuevoCliente] = useState(false);
+
+    // ────────── Estado “arrows” basado en tipo_tuberia ──────────
+    // Inicialmente dejamos un array vacío; luego lo llenaremos
+    // en el useEffect que observa `formData.tipo_tuberia`.
+    const [arrows, setArrows] = useState<Arrow[]>([]);
+
     const router = useRouter();
     const [selectedImages, setSelectedImages] = useState<File[]>([]);
     const [hoveredImage, setHoveredImage] = useState<string | null>(null);
     const [previewPosition, setPreviewPosition] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
     const [formData, setFormData] = useState<FormData>({
-
-        nombre_cliente: '',
+        cliente: {
+            nombre_cliente: '',
+            direccion_cliente: '',
+            comuna_cliente: '',
+            telefono: '',
+        },
         numero_revision: 'A',
         valor_metro: 180000,
         valor_servicio: 0,
@@ -181,8 +197,6 @@ export default function SolicitudCotizacion() {
         columna_input_cinco: '',
         titulo_imagenes: '',
         descripcion_imagenes: '',
-        direccion_especifica_cliente: '',
-        comuna_cliente: '',
         nombre_empresa: '',
         direccion_empresa: '',
         region_empresa: '',
@@ -218,7 +232,6 @@ export default function SolicitudCotizacion() {
         rut_firma: '',
         fecha_firma: null,
         imagenes: [],
-
         tipo_cuenta: '',
         nombre_banco: '',
         numero_cuenta: '',
@@ -227,94 +240,158 @@ export default function SolicitudCotizacion() {
         // Deja el campo `titulo` vacío; el label “Punto N:” ya lo mostrará.
         descripcion_trabajo: [
             {
-            id: 1,
-            titulo: "",                  // <-- vacío
-            subpuntos: [""]              // o [] si deseas que no haya subpunto inicial
+                id: 1,
+                titulo: "",                  // <-- vacío
+                subpuntos: [""]              // o [] si deseas que no haya subpunto inicial
             },
             {
-            id: 2,
-            titulo: "",
-            subpuntos: [""]
+                id: 2,
+                titulo: "",
+                subpuntos: [""]
             },
             {
-            id: 3,
-            titulo: "",
-            subpuntos: [""]
+                id: 3,
+                titulo: "",
+                subpuntos: [""]
             },
             {
-            id: 4,
-            titulo: "",
-            subpuntos: [""]
+                id: 4,
+                titulo: "",
+                subpuntos: [""]
             }
         ],
-    
+
         lineas_economicas: [],
 
         resumen_subpuntos: [],
 
         tipo_tuberia: 'acero',
 
-});
+    });
 
-    // ────────── Estado “arrows” basado en tipo_tuberia ──────────
-    // Inicialmente dejamos un array vacío; luego lo llenaremos
-    // en el useEffect que observa `formData.tipo_tuberia`.
-    const [arrows, setArrows] = useState<Arrow[]>([]);
+    // ########################################################################################################
+    // useEffects
+    // ########################################################################################################
+
+    // Se obtienen todos los clientes
+    useEffect(() => {
+        const fetchClientes = async () => {
+            try {
+                const response = await clienteService.getAll();
+                const adaptados = response.data.map((c: any) => ({
+                    id: c.ID,
+                    nombre_cliente: c.nombre_cliente,
+                    direccion_cliente: c.direccion_cliente,
+                    comuna_cliente: c.comuna_cliente,
+                    telefono: c.Telefono // Nota: 'Telefono' viene con mayúscula
+                }));
+                setClientes(adaptados);
+            } catch (error) {
+                console.error('Error al obtener clientes:', error);
+            }
+        };
+        fetchClientes();
+    }, []);
 
     useEffect(() => {
-    const fetchClientes = async () => {
-        try {
-        const response = await clienteService.getAll();
-        setClientes(response.data);
-        console.log("CLIENTES OBTENIDOS",response.data);
-        } catch (error) {
-        console.error("Error al cargar clientes:", error);
-        }
-    };
+        const acuerdosActualizados = generarAcuerdos(acuerdosTemplate, formData.variante_metro, formData.n_profundidad);
+        setFormData(prev => ({
+            ...prev,
+            acuerdos: acuerdosActualizados
+        }));
+    }, [formData.variante_metro, formData.n_profundidad]);
 
-    fetchClientes();
-    }, []);
+    // Cada vez que cambie `formData.tipo_tuberia` recreamos el state `arrows`
+    useEffect(() => {
+        if (formData.tipo_tuberia === "acero") {
+            // Mapeamos cada configuración de acero a un objeto Arrow completo
+            const nuevos = FLECHAS_ACERO.map(f => ({
+                ...f,
+                active: false, // inicialmente desactivada la caja de texto
+                value: ""      // valor en blanco al inicio
+            }));
+            setArrows(nuevos);
+        } else {
+            // Mapeamos configuración PVC a Arrow completo
+            const nuevos = FLECHAS_PVC.map(f => ({
+                ...f,
+                active: false,
+                value: ""
+            }));
+            setArrows(nuevos);
+        }
+    }, [formData.tipo_tuberia]);
+
+    // ########################################################################################################
+    // FUNCIONES
+    // ########################################################################################################
+    const handleSubmit = async () => {
+        // Si hay que registrar un nuevo cliente
+        if (registrarNuevoCliente) {
+            try {
+                const nuevoCliente = {
+                    nombre_cliente: formData.cliente.nombre_cliente,
+                    direccion_cliente: formData.cliente.direccion_cliente,
+                    comuna_cliente: formData.cliente.comuna_cliente,
+                    telefono: formData.cliente.telefono,
+                };
+                console.log("NUEVO CLIENTE A CREAR",nuevoCliente);
+                const response = await clienteService.create(nuevoCliente);
+                setClienteSeleccionado(response.data.id);
+            } catch (error) {
+                console.error("Error al crear nuevo cliente:", error);
+                alert("No se pudo registrar el cliente. Verifique los datos.");
+                return; // Salir de la función si hay error
+            }
+        }
+
+        // CREAR COTIZACION_CARPETA
+        const cotizacionCarpetaPayload = {
+            id_user: 1,
+            id_cliente: clienteSeleccionado,
+            // id_empresa: empresaSeleccionada,
+            // id_banco: bancoSeleccionado,
+            n_referencia: formData.n_referencia,
+            estado: 'borrador',
+            id_proyecto: formData.id_proyecto,
+            longitud: formData.longitud,
+            latitud: formData.latitud,
+        };
+
+        //.........llamada a servicio de cotizacion_carpeta
+
+        // Ahora guardamos la info del formData + la info de flechas en localStorage
+        const updatedData = {
+            ...formData,
+            id_cliente: clienteSeleccionado,
+            flechas: arrows.map(a => ({
+                id: a.id,
+                value: a.value // solo guardamos lo necesario
+            }))
+        };
+
+        // Se guarda el updatedData en el localStorage
+        localStorage.setItem("cotizacionData", JSON.stringify(updatedData));
+        router.push("/cotizacion/crear/pdf");
+    };
 
     // Función que marca/desmarca la flecha (activar input debajo)
     function toggleArrow(id: number) {
-    setArrows(prev =>
-        prev.map(item =>
-        item.id === id ? { ...item, active: !item.active } : item
-        )
-    );
+        setArrows(prev =>
+            prev.map(item =>
+                item.id === id ? { ...item, active: !item.active } : item
+            )
+        );
     }
 
     // Función que actualiza el texto de la flecha con id dado
     function updateArrowValue(id: number, text: string) {
-    setArrows(prev =>
-        prev.map(item =>
-        item.id === id ? { ...item, value: text } : item
-        )
-    );
+        setArrows(prev =>
+            prev.map(item =>
+                item.id === id ? { ...item, value: text } : item
+            )
+        );
     }
-
-    // Cada vez que cambie `formData.tipo_tuberia` recreamos el state `arrows`
-    useEffect(() => {
-    if (formData.tipo_tuberia === "acero") {
-        // Mapeamos cada configuración de acero a un objeto Arrow completo
-        const nuevos = FLECHAS_ACERO.map(f => ({
-        ...f,
-        active: false, // inicialmente desactivada la caja de texto
-        value: ""      // valor en blanco al inicio
-        }));
-        setArrows(nuevos);
-    } else {
-        // Mapeamos configuración PVC a Arrow completo
-        const nuevos = FLECHAS_PVC.map(f => ({
-        ...f,
-        active: false,
-        value: ""
-        }));
-        setArrows(nuevos);
-    }
-    }, [formData.tipo_tuberia]);
-
-    const MAX_CARACTERES_APORTE = 300;
 
     const handleChange = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -336,18 +413,6 @@ export default function SolicitudCotizacion() {
             newArray[index] = value;
             return { ...prevData, [key]: newArray };
         });
-    };
-
-    const handleSubmit = () => {
-        const updatedData = {
-            ...formData,
-            flechas: arrows.map(a => ({
-                id: a.id,
-                value: a.value // solo guardamos lo necesario
-            }))
-        };
-        localStorage.setItem("cotizacionData", JSON.stringify(updatedData));
-        router.push("/cotizacion/crear/pdf");
     };
 
     const handleSelectChange = (event: SelectChangeEvent<string>) => {
@@ -404,123 +469,114 @@ export default function SolicitudCotizacion() {
         );
     }
 
-    useEffect(() => {
-        const acuerdosActualizados = generarAcuerdos(acuerdosTemplate, formData.variante_metro, formData.n_profundidad);
-        setFormData(prev => ({
-            ...prev,
-            acuerdos: acuerdosActualizados
-        }));
-    }, [formData.variante_metro, formData.n_profundidad]);
-
-
     //Funciones para “Descripción del Trabajo”
     const handleAddPunto = () => {
         setFormData(prev => {
-        const nuevoId = prev.descripcion_trabajo.length > 0
-            ? prev.descripcion_trabajo[prev.descripcion_trabajo.length - 1].id + 1
-            : 1;
-        const nuevoPunto = { id: nuevoId, titulo: "", subpuntos: [""] };
-        return {
-            ...prev,
-            descripcion_trabajo: [...prev.descripcion_trabajo, nuevoPunto]
-        };
+            const nuevoId = prev.descripcion_trabajo.length > 0
+                ? prev.descripcion_trabajo[prev.descripcion_trabajo.length - 1].id + 1
+                : 1;
+            const nuevoPunto = { id: nuevoId, titulo: "", subpuntos: [""] };
+            return {
+                ...prev,
+                descripcion_trabajo: [...prev.descripcion_trabajo, nuevoPunto]
+            };
         });
     };
 
     const handleRemovePunto = (index: number) => {
         setFormData(prev => {
-        const copia = [...prev.descripcion_trabajo];
-        copia.splice(index, 1);
-        return { ...prev, descripcion_trabajo: copia };
+            const copia = [...prev.descripcion_trabajo];
+            copia.splice(index, 1);
+            return { ...prev, descripcion_trabajo: copia };
         });
     };
 
     const handleChangeTituloPunto = (index: number, texto: string) => {
         setFormData(prev => {
-        const copia = [...prev.descripcion_trabajo];
-        copia[index] = { ...copia[index], titulo: texto };
-        return { ...prev, descripcion_trabajo: copia };
+            const copia = [...prev.descripcion_trabajo];
+            copia[index] = { ...copia[index], titulo: texto };
+            return { ...prev, descripcion_trabajo: copia };
         });
     };
 
     const handleAddSubpunto = (index: number) => {
         setFormData(prev => {
-        const copia = [...prev.descripcion_trabajo];
-        const punto = { ...copia[index] };
-        punto.subpuntos = [...punto.subpuntos, ""];
-        copia[index] = punto;
-        return { ...prev, descripcion_trabajo: copia };
+            const copia = [...prev.descripcion_trabajo];
+            const punto = { ...copia[index] };
+            punto.subpuntos = [...punto.subpuntos, ""];
+            copia[index] = punto;
+            return { ...prev, descripcion_trabajo: copia };
         });
     };
 
     const handleRemoveSubpunto = (puntoIndex: number, subIndex: number) => {
         setFormData(prev => {
-        const copia = [...prev.descripcion_trabajo];
-        const punto = { ...copia[puntoIndex] };
-        punto.subpuntos = punto.subpuntos.filter((_, i) => i !== subIndex);
-        copia[puntoIndex] = punto;
-        return { ...prev, descripcion_trabajo: copia };
+            const copia = [...prev.descripcion_trabajo];
+            const punto = { ...copia[puntoIndex] };
+            punto.subpuntos = punto.subpuntos.filter((_, i) => i !== subIndex);
+            copia[puntoIndex] = punto;
+            return { ...prev, descripcion_trabajo: copia };
         });
     };
 
     const handleChangeSubpunto = (puntoIndex: number, subIndex: number, texto: string) => {
         setFormData(prev => {
-        const copia = [...prev.descripcion_trabajo];
-        const punto = { ...copia[puntoIndex] };
-        punto.subpuntos = punto.subpuntos.map((sp, i) =>
-            i === subIndex ? texto : sp
-        );
-        copia[puntoIndex] = punto;
-        return { ...prev, descripcion_trabajo: copia };
+            const copia = [...prev.descripcion_trabajo];
+            const punto = { ...copia[puntoIndex] };
+            punto.subpuntos = punto.subpuntos.map((sp, i) =>
+                i === subIndex ? texto : sp
+            );
+            copia[puntoIndex] = punto;
+            return { ...prev, descripcion_trabajo: copia };
         });
     };
 
     //funciones para propuesta economica
     // 1) Agrega un nuevo subpunto (con descripción vacía y valor 0)
     const handleAddResumenSubpunto = () => {
-    setFormData(prev => ({
-        ...prev,
-        resumen_subpuntos: [
-        ...prev.resumen_subpuntos,
-        { descripcion: "", valor: 0 }
-        ]
-    }));
+        setFormData(prev => ({
+            ...prev,
+            resumen_subpuntos: [
+                ...prev.resumen_subpuntos,
+                { descripcion: "", valor: 0 }
+            ]
+        }));
     };
 
     // 2) Elimina un subpunto por índice
     const handleRemoveResumenSubpunto = (index: number) => {
-    setFormData(prev => {
-        const copia = [...prev.resumen_subpuntos];
-        copia.splice(index, 1);
-        return { ...prev, resumen_subpuntos: copia };
-    });
+        setFormData(prev => {
+            const copia = [...prev.resumen_subpuntos];
+            copia.splice(index, 1);
+            return { ...prev, resumen_subpuntos: copia };
+        });
     };
 
     // 3) Cambia solo el texto (descripcion) de un subpunto
     const handleChangeResumenSubpuntoDescripcion = (index: number, texto: string) => {
-    setFormData(prev => {
-        const copia = [...prev.resumen_subpuntos];
-        copia[index] = { ...copia[index], descripcion: texto };
-        return { ...prev, resumen_subpuntos: copia };
-    });
+        setFormData(prev => {
+            const copia = [...prev.resumen_subpuntos];
+            copia[index] = { ...copia[index], descripcion: texto };
+            return { ...prev, resumen_subpuntos: copia };
+        });
     };
 
     // 4) Cambia solo el valor (valor) de un subpunto
     const handleChangeResumenSubpuntoValor = (index: number, nuevoValor: string) => {
-    const numerico = Number(nuevoValor);
-    setFormData(prev => {
-        const copia = [...prev.resumen_subpuntos];
-        copia[index] = { ...copia[index], valor: numerico };
-        return { ...prev, resumen_subpuntos: copia };
-    });
+        const numerico = Number(nuevoValor);
+        setFormData(prev => {
+            const copia = [...prev.resumen_subpuntos];
+            copia[index] = { ...copia[index], valor: numerico };
+            return { ...prev, resumen_subpuntos: copia };
+        });
     };
-    
+
     //cambio de tuberias imagen pvc o acero
     const handlePipeTypeChange = (value: 'acero' | 'pvc') => {
-    setFormData(prev => ({
-        ...prev,
-        tipo_tuberia: value
-    }));
+        setFormData(prev => ({
+            ...prev,
+            tipo_tuberia: value
+        }));
     };
 
 
@@ -575,54 +631,135 @@ export default function SolicitudCotizacion() {
                             <Grid container spacing={6}>
 
 
-                                {/* Sección Datos del Cliente */}
+                                {/* 
+                                #####################################################################################################
+                                Sección Datos del Cliente 
+                                #####################################################################################################
+                                */}
+                                
                                 <Grid size={{ xs: 12, md: 6 }}>
-                                    <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
-                                        <Typography variant="h5" sx={{
-                                            fontWeight: 600,
-                                            mb: 3,
-                                            color: '#1a237e'
-                                        }}>
-                                            📋 Datos del Cliente
+                                    <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f0f0f0' }}>
+                                        <Typography variant="h6" sx={{ fontWeight: 600, mb: 2 }}>
+                                            👤 Datos del Cliente
                                         </Typography>
-                                        <TextField
-                                            fullWidth
-                                            label="Nombre del cliente *"
-                                            variant="outlined"
-                                            size="small"
-                                            sx={{ mb: 3 }}
-                                            name="nombre_cliente" value={formData.nombre_cliente} onChange={handleChange} margin="normal"
-                                        />
 
-                                        <TextField
-                                            fullWidth
-                                            label="Asunto *"
-                                            variant="outlined"
-                                            size="small"
-                                            sx={{ mb: 3 }}
-                                            name="asunto_cliente" value={formData.asunto_cliente} onChange={handleChange} margin="normal"
-                                        />
+                                        {/* Select + Botón de registrar nuevo cliente */}
+                                        <Box sx={{ display: 'flex', gap: 2, mb: 2, alignItems: 'center' }}>
+                                            <FormControl fullWidth>
+                                                <InputLabel>Selecciona Cliente</InputLabel>
+                                                <Select
+                                                    value={clienteSeleccionado}
+                                                    onChange={(e) => {
+                                                        const val = e.target.value;
+                                                        setClienteSeleccionado(val);
+                                                        const cliente = clientes.find((c) => c.id === parseInt(val));
+                                                        setFormData((prev) => ({
+                                                            ...prev,
+                                                            cliente,
+                                                        }));
+                                                        setRegistrarNuevoCliente(false);
+                                                    }}
+                                                    label="Selecciona Cliente"
+                                                >
+                                                    <MenuItem value="">-- Selecciona una opción --</MenuItem>
+                                                    {clientes.map((c) => (
+                                                        <MenuItem key={c.id} value={c.id}>
+                                                            {c.nombre_cliente}
+                                                        </MenuItem>
+                                                    ))}
+                                                </Select>
+                                            </FormControl>
 
-                                        <TextField
-                                            fullWidth
-                                            label="Dirección específica (Calle y Número)*"
-                                            variant="outlined"
-                                            size="small"
-                                            sx={{ mb: 3 }}
-                                            name="direccion_especifica_cliente" value={formData.direccion_especifica_cliente} onChange={handleChange} margin="normal"
+                                            <FormControlLabel
+                                                control={
+                                                    <Checkbox
+                                                        checked={registrarNuevoCliente}
+                                                        onChange={(e) => {
+                                                            const checked = e.target.checked;
+                                                            setRegistrarNuevoCliente(checked);
+                                                            if (checked) {
+                                                                setClienteSeleccionado('');
+                                                                setFormData((prev) => ({
+                                                                    ...prev,
+                                                                    cliente: {
+                                                                        nombre_cliente: '',
+                                                                        direccion_cliente: '',
+                                                                        comuna_cliente: '',
+                                                                        telefono: '',
+                                                                    },
+                                                                }));
+                                                            }
+                                                        }}
+                                                    />
+                                                }
+                                                label="Registrar nuevo cliente"
+                                                sx={{ whiteSpace: 'nowrap' }}
+                                            />
+                                        </Box>
 
-                                        />
-                                        <TextField
-                                            fullWidth
-                                            label="Comuna *"
-                                            variant="outlined"
-                                            size="small"
-                                            name="comuna_cliente"
-                                            value={formData.comuna_cliente}
-                                            onChange={handleChange}
-                                            sx={{ mb: 3 }}
-                                            margin="normal"
-                                        />
+                                        {/* Inputs en 2 columnas */}
+                                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="Nombre del Cliente"
+                                                value={formData.cliente?.nombre_cliente || ''}
+                                                onChange={(e) =>
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        cliente: { ...prev.cliente, nombre_cliente: e.target.value },
+                                                    }))
+                                                }
+                                                InputProps={{
+                                                    readOnly: !registrarNuevoCliente,
+                                                }}
+                                                sx={{ flex: '1 1 45%' }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                label="Dirección"
+                                                value={formData.cliente?.direccion_cliente || ''}
+                                                onChange={(e) =>
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        cliente: { ...prev.cliente, direccion_cliente: e.target.value },
+                                                    }))
+                                                }
+                                                InputProps={{
+                                                    readOnly: !registrarNuevoCliente,
+                                                }}
+                                                sx={{ flex: '1 1 45%' }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                label="Comuna"
+                                                value={formData.cliente?.comuna_cliente || ''}
+                                                onChange={(e) =>
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        cliente: { ...prev.cliente, comuna_cliente: e.target.value },
+                                                    }))
+                                                }
+                                                InputProps={{
+                                                    readOnly: !registrarNuevoCliente,
+                                                }}
+                                                sx={{ flex: '1 1 45%' }}
+                                            />
+                                            <TextField
+                                                fullWidth
+                                                label="Teléfono"
+                                                value={formData.cliente?.telefono || ''}
+                                                onChange={(e) =>
+                                                    setFormData((prev) => ({
+                                                        ...prev,
+                                                        cliente: { ...prev.cliente, telefono: e.target.value },
+                                                    }))
+                                                }
+                                                InputProps={{
+                                                    readOnly: !registrarNuevoCliente,
+                                                }}
+                                                sx={{ flex: '1 1 45%' }}
+                                            />
+                                        </Box>
                                     </Paper>
                                 </Grid>
 
@@ -976,269 +1113,269 @@ export default function SolicitudCotizacion() {
                                         </Paper>
                                     </Grid>
 
-                        
+
 
                                 </Grid>
 
-                                
-                                
-                                                            
+
+
+
                                 {/* ────────────────────────────────────────────── */}
                                 {/* BLOQUE: Descripción del Trabajo (dinámico) */}
                                 <Grid size={{ xs: 12 }}>
-                                <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
-                                    <Box mb={2}>
-                                    <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a237e' }}>
-                                        📝 Descripción del Trabajo
-                                    </Typography>
-                                    <Typography variant="body2" color="textSecondary">
-                                        Agrega tantos puntos y subpuntos como necesites
-                                    </Typography>
-                                    </Box>
-
-                                    {/* Si no hay puntos aún: invitación a “Añadir Punto” */}
-                                    {formData.descripcion_trabajo.length === 0 && (
-                                    <Box mb={2}>
-                                        <Typography variant="body2" color="textSecondary">
-                                        No hay puntos definidos. Pulsa “+ Añadir Punto” para empezar.
-                                        </Typography>
-                                    </Box>
-                                    )}
-
-                                    {/* 1) Renderizamos cada punto y sus subpuntos habituales */}
-                                    {formData.descripcion_trabajo.map((punto, idxPunto) => (
-                                    <Box
-                                        key={punto.id}
-                                        mb={3}
-                                        sx={{ border: '1px solid #ddd', borderRadius: 2, p: 2 }}
-                                    >
-                                        {/* Título editable del punto */}
-                                        <Box display="flex" alignItems="center" mb={1}>
-                                        <TextField
-                                            fullWidth
-                                            size="small"
-                                            label={`Punto ${idxPunto + 1}:`}
-                                            placeholder="Escribe aquí la descripción del punto"
-                                            value={punto.titulo}
-                                            onChange={(e) =>
-                                            handleChangeTituloPunto(idxPunto, e.target.value)
-                                            }
-                                        />
-                                        <IconButton
-                                            color="error"
-                                            onClick={() => handleRemovePunto(idxPunto)}
-                                            sx={{ ml: 1 }}
-                                            size="large"
-                                        >
-                                            <DeleteIcon />
-                                        </IconButton>
+                                    <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
+                                        <Box mb={2}>
+                                            <Typography variant="h5" sx={{ fontWeight: 600, color: '#1a237e' }}>
+                                                📝 Descripción del Trabajo
+                                            </Typography>
+                                            <Typography variant="body2" color="textSecondary">
+                                                Agrega tantos puntos y subpuntos como necesites
+                                            </Typography>
                                         </Box>
 
-                                        {/* Subpuntos dentro de cada punto */}
-                                        <Box ml={2}>
-                                        {punto.subpuntos.map((sub, idxSub) => (
+                                        {/* Si no hay puntos aún: invitación a “Añadir Punto” */}
+                                        {formData.descripcion_trabajo.length === 0 && (
+                                            <Box mb={2}>
+                                                <Typography variant="body2" color="textSecondary">
+                                                    No hay puntos definidos. Pulsa “+ Añadir Punto” para empezar.
+                                                </Typography>
+                                            </Box>
+                                        )}
+
+                                        {/* 1) Renderizamos cada punto y sus subpuntos habituales */}
+                                        {formData.descripcion_trabajo.map((punto, idxPunto) => (
                                             <Box
-                                            key={idxSub}
-                                            display="flex"
-                                            alignItems="center"
-                                            mb={1}
+                                                key={punto.id}
+                                                mb={3}
+                                                sx={{ border: '1px solid #ddd', borderRadius: 2, p: 2 }}
                                             >
-                                            <TextField
-                                                fullWidth
-                                                size="small"
-                                                label={`Subpunto ${idxPunto + 1}.${idxSub + 1}:`}
-                                                placeholder="Escribe aquí la descripción del subpunto"
-                                                value={sub}
-                                                onChange={(e) =>
-                                                handleChangeSubpunto(idxPunto, idxSub, e.target.value)
-                                                }
-                                            />
-                                            <IconButton
-                                                color="error"
-                                                onClick={() => handleRemoveSubpunto(idxPunto, idxSub)}
-                                                sx={{ ml: 1 }}
-                                                size="large"
-                                            >
-                                                <DeleteIcon />
-                                            </IconButton>
+                                                {/* Título editable del punto */}
+                                                <Box display="flex" alignItems="center" mb={1}>
+                                                    <TextField
+                                                        fullWidth
+                                                        size="small"
+                                                        label={`Punto ${idxPunto + 1}:`}
+                                                        placeholder="Escribe aquí la descripción del punto"
+                                                        value={punto.titulo}
+                                                        onChange={(e) =>
+                                                            handleChangeTituloPunto(idxPunto, e.target.value)
+                                                        }
+                                                    />
+                                                    <IconButton
+                                                        color="error"
+                                                        onClick={() => handleRemovePunto(idxPunto)}
+                                                        sx={{ ml: 1 }}
+                                                        size="large"
+                                                    >
+                                                        <DeleteIcon />
+                                                    </IconButton>
+                                                </Box>
+
+                                                {/* Subpuntos dentro de cada punto */}
+                                                <Box ml={2}>
+                                                    {punto.subpuntos.map((sub, idxSub) => (
+                                                        <Box
+                                                            key={idxSub}
+                                                            display="flex"
+                                                            alignItems="center"
+                                                            mb={1}
+                                                        >
+                                                            <TextField
+                                                                fullWidth
+                                                                size="small"
+                                                                label={`Subpunto ${idxPunto + 1}.${idxSub + 1}:`}
+                                                                placeholder="Escribe aquí la descripción del subpunto"
+                                                                value={sub}
+                                                                onChange={(e) =>
+                                                                    handleChangeSubpunto(idxPunto, idxSub, e.target.value)
+                                                                }
+                                                            />
+                                                            <IconButton
+                                                                color="error"
+                                                                onClick={() => handleRemoveSubpunto(idxPunto, idxSub)}
+                                                                sx={{ ml: 1 }}
+                                                                size="large"
+                                                            >
+                                                                <DeleteIcon />
+                                                            </IconButton>
+                                                        </Box>
+                                                    ))}
+
+                                                    {/* Botón para añadir nuevo subpunto en este punto */}
+                                                    <Button
+                                                        size="small"
+                                                        variant="contained"
+                                                        color="primary"
+                                                        onClick={() => handleAddSubpunto(idxPunto)}
+                                                        sx={{ mt: 1 }}
+                                                    >
+                                                        + Añadir Subpunto
+                                                    </Button>
+                                                </Box>
                                             </Box>
                                         ))}
 
-                                        {/* Botón para añadir nuevo subpunto en este punto */}
+                                        {/* Botón para añadir un NUEVO punto completo */}
                                         <Button
-                                            size="small"
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => handleAddSubpunto(idxPunto)}
-                                            sx={{ mt: 1 }}
+                                            onClick={handleAddPunto}
+                                            sx={{ mb: 3 }}
                                         >
-                                            + Añadir Subpunto
+                                            + Añadir Punto
                                         </Button>
-                                        </Box>
-                                    </Box>
-                                    ))}
 
-                                    {/* Botón para añadir un NUEVO punto completo */}
-                                    <Button
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={handleAddPunto}
-                                    sx={{ mb: 3 }}
-                                    >
-                                    + Añadir Punto
-                                    </Button>
+                                        {/* ─────────── 2) BLOQUE “Resumen oferta económica” ─────────── */}
+                                        {(() => {
+                                            // Calculamos el índice donde empezará este punto:
+                                            const resumenIndex = formData.descripcion_trabajo.length; // 0-based
+                                            const numeroPuntoGeneral = resumenIndex + 1; // número humano (1-based)
 
-                                    {/* ─────────── 2) BLOQUE “Resumen oferta económica” ─────────── */}
-                                    {(() => {
-                                    // Calculamos el índice donde empezará este punto:
-                                    const resumenIndex = formData.descripcion_trabajo.length; // 0-based
-                                    const numeroPuntoGeneral = resumenIndex + 1; // número humano (1-based)
-
-                                    return (
-                                        <Box sx={{ border: '1px solid #ddd', borderRadius: 2, p: 2 }}>
-                                        {/* 2.1) Título general NO editable */}
-                                        <Box mb={2}>
-                                            <Typography
-                                                variant="h5"
-                                                sx={{ fontWeight: 600, color: '#1a237e' }}
-                                            >
-                                                💰 Propuesta Económica
-                                            </Typography>
-                                            <Typography variant="subtitle1" sx={{ fontWeight: 600, mt: 0.5 }}>
-                                                {`Punto ${numeroPuntoGeneral}: Resumen oferta económica`}
-                                            </Typography>
-                                        </Box>
+                                            return (
+                                                <Box sx={{ border: '1px solid #ddd', borderRadius: 2, p: 2 }}>
+                                                    {/* 2.1) Título general NO editable */}
+                                                    <Box mb={2}>
+                                                        <Typography
+                                                            variant="h5"
+                                                            sx={{ fontWeight: 600, color: '#1a237e' }}
+                                                        >
+                                                            💰 Propuesta Económica
+                                                        </Typography>
+                                                        <Typography variant="subtitle1" sx={{ fontWeight: 600, mt: 0.5 }}>
+                                                            {`Punto ${numeroPuntoGeneral}: Resumen oferta económica`}
+                                                        </Typography>
+                                                    </Box>
 
 
 
-                                        {/* 2.2) Subpuntos ligados a los campos de Propuesta Económica */}
-                                        <Box ml={2}>
-                                            {/* Subpunto “Valor por Metro (CLP)” */}
-                                            <Box display="flex" alignItems="center" mb={1}>
-                                            <TextField
-                                                fullWidth
-                                                size="small"
-                                                label={`Subpunto ${numeroPuntoGeneral}.1: Valor por Metro (CLP)`}
-                                                type="number"
-                                                name="valor_metro"
-                                                value={formData.valor_metro}
-                                                onChange={handleChange}
-                                            />
-                                            </Box>
+                                                    {/* 2.2) Subpuntos ligados a los campos de Propuesta Económica */}
+                                                    <Box ml={2}>
+                                                        {/* Subpunto “Valor por Metro (CLP)” */}
+                                                        <Box display="flex" alignItems="center" mb={1}>
+                                                            <TextField
+                                                                fullWidth
+                                                                size="small"
+                                                                label={`Subpunto ${numeroPuntoGeneral}.1: Valor por Metro (CLP)`}
+                                                                type="number"
+                                                                name="valor_metro"
+                                                                value={formData.valor_metro}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </Box>
 
-                                            {/* Subpunto “Detalle de la Bomba” */}
-                                            <Box display="flex" alignItems="center" mb={1}>
-                                            <TextField
-                                                fullWidth
-                                                size="small"
-                                                label={`Subpunto ${numeroPuntoGeneral}.2: Detalle de la Bomba`}
-                                                multiline
-                                                rows={2}
-                                                name="detalle_bomba"
-                                                value={formData.detalle_bomba}
-                                                onChange={handleChange}
-                                            />
-                                            </Box>
+                                                        {/* Subpunto “Detalle de la Bomba” */}
+                                                        <Box display="flex" alignItems="center" mb={1}>
+                                                            <TextField
+                                                                fullWidth
+                                                                size="small"
+                                                                label={`Subpunto ${numeroPuntoGeneral}.2: Detalle de la Bomba`}
+                                                                multiline
+                                                                rows={2}
+                                                                name="detalle_bomba"
+                                                                value={formData.detalle_bomba}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </Box>
 
-                                            {/* Subpunto “Valor de la Bomba (CLP)” */}
-                                            <Box display="flex" alignItems="center" mb={1}>
-                                            <TextField
-                                                fullWidth
-                                                size="small"
-                                                label={`Subpunto ${numeroPuntoGeneral}.3: Valor de la Bomba (CLP)`}
-                                                type="number"
-                                                name="valor_bomba"
-                                                value={formData.valor_bomba}
-                                                onChange={handleChange}
-                                            />
-                                            </Box>
+                                                        {/* Subpunto “Valor de la Bomba (CLP)” */}
+                                                        <Box display="flex" alignItems="center" mb={1}>
+                                                            <TextField
+                                                                fullWidth
+                                                                size="small"
+                                                                label={`Subpunto ${numeroPuntoGeneral}.3: Valor de la Bomba (CLP)`}
+                                                                type="number"
+                                                                name="valor_bomba"
+                                                                value={formData.valor_bomba}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </Box>
 
-                                            {/* Subpunto “Diámetro Ø del Pozo (")” */}
-                                            <Box display="flex" alignItems="center" mb={1}>
-                                            <TextField
-                                                fullWidth
-                                                size="small"
-                                                label={`Subpunto ${numeroPuntoGeneral}.4: Diámetro Ø del Pozo (")`}
-                                                type="number"
-                                                name="variante_metro"
-                                                value={formData.variante_metro}
-                                                onChange={handleChange}
-                                            />
-                                            </Box>
+                                                        {/* Subpunto “Diámetro Ø del Pozo (")” */}
+                                                        <Box display="flex" alignItems="center" mb={1}>
+                                                            <TextField
+                                                                fullWidth
+                                                                size="small"
+                                                                label={`Subpunto ${numeroPuntoGeneral}.4: Diámetro Ø del Pozo (")`}
+                                                                type="number"
+                                                                name="variante_metro"
+                                                                value={formData.variante_metro}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </Box>
 
-                                            {/* Subpunto “Profundidad Estimada del Pozo (m)” */}
-                                            <Box display="flex" alignItems="center" mb={2}>
-                                            <TextField
-                                                fullWidth
-                                                size="small"
-                                                label={`Subpunto ${numeroPuntoGeneral}.5: Profundidad Estimada del Pozo (m)`}
-                                                type="number"
-                                                name="n_profundidad"
-                                                value={formData.n_profundidad}
-                                                onChange={handleChange}
-                                            />
-                                            </Box>
+                                                        {/* Subpunto “Profundidad Estimada del Pozo (m)” */}
+                                                        <Box display="flex" alignItems="center" mb={2}>
+                                                            <TextField
+                                                                fullWidth
+                                                                size="small"
+                                                                label={`Subpunto ${numeroPuntoGeneral}.5: Profundidad Estimada del Pozo (m)`}
+                                                                type="number"
+                                                                name="n_profundidad"
+                                                                value={formData.n_profundidad}
+                                                                onChange={handleChange}
+                                                            />
+                                                        </Box>
 
-                                            {/* 2.3) Renderizamos cada subpunto adicional con descripción + valor */}
-                                            {formData.resumen_subpuntos.map((item, idx) => (
-                                            <Box
-                                                key={idx}
-                                                display="flex"
-                                                alignItems="center"
-                                                mb={1}
-                                            >
-                                                {/* Campo para la descripción del subpunto */}
-                                                <TextField
-                                                sx={{ flex: 7, mr: 1 }}
-                                                size="small"
-                                                label={`Subpunto ${numeroPuntoGeneral}.${idx + 6}: Descripción`}
-                                                placeholder="Texto adicional..."
-                                                value={item.descripcion}
-                                                onChange={(e) =>
-                                                    handleChangeResumenSubpuntoDescripcion(idx, e.target.value)
-                                                }
-                                                />
+                                                        {/* 2.3) Renderizamos cada subpunto adicional con descripción + valor */}
+                                                        {formData.resumen_subpuntos.map((item, idx) => (
+                                                            <Box
+                                                                key={idx}
+                                                                display="flex"
+                                                                alignItems="center"
+                                                                mb={1}
+                                                            >
+                                                                {/* Campo para la descripción del subpunto */}
+                                                                <TextField
+                                                                    sx={{ flex: 7, mr: 1 }}
+                                                                    size="small"
+                                                                    label={`Subpunto ${numeroPuntoGeneral}.${idx + 6}: Descripción`}
+                                                                    placeholder="Texto adicional..."
+                                                                    value={item.descripcion}
+                                                                    onChange={(e) =>
+                                                                        handleChangeResumenSubpuntoDescripcion(idx, e.target.value)
+                                                                    }
+                                                                />
 
-                                                {/* Campo para el valor asociado a este subpunto */}
-                                                <TextField
-                                                sx={{ flex: 4, mr: 1 }}
-                                                size="small"
-                                                label={`Subpunto ${numeroPuntoGeneral}.${idx + 6}: Valor (CLP)`}
-                                                type="number"
-                                                // Si item.valor es 0, mostramos cadena vacía, de lo contrario mostramos el número
-                                                value={item.valor === 0 ? '' : item.valor}
-                                                onChange={(e) =>
-                                                    handleChangeResumenSubpuntoValor(idx, e.target.value)
-                                                }
-                                                />
+                                                                {/* Campo para el valor asociado a este subpunto */}
+                                                                <TextField
+                                                                    sx={{ flex: 4, mr: 1 }}
+                                                                    size="small"
+                                                                    label={`Subpunto ${numeroPuntoGeneral}.${idx + 6}: Valor (CLP)`}
+                                                                    type="number"
+                                                                    // Si item.valor es 0, mostramos cadena vacía, de lo contrario mostramos el número
+                                                                    value={item.valor === 0 ? '' : item.valor}
+                                                                    onChange={(e) =>
+                                                                        handleChangeResumenSubpuntoValor(idx, e.target.value)
+                                                                    }
+                                                                />
 
 
-                                                {/* Botón para borrar este subpunto extra */}
-                                                <IconButton
-                                                color="error"
-                                                onClick={() => handleRemoveResumenSubpunto(idx)}
-                                                size="large"
-                                                >
-                                                <DeleteIcon />
-                                                </IconButton>
-                                            </Box>
-                                            ))}
+                                                                {/* Botón para borrar este subpunto extra */}
+                                                                <IconButton
+                                                                    color="error"
+                                                                    onClick={() => handleRemoveResumenSubpunto(idx)}
+                                                                    size="large"
+                                                                >
+                                                                    <DeleteIcon />
+                                                                </IconButton>
+                                                            </Box>
+                                                        ))}
 
-                                            {/* 2.4) Botón para añadir un nuevo subpunto (descripción + valor) */}
-                                            <Button
-                                            size="small"
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={handleAddResumenSubpunto}
-                                            >
-                                            + Añadir Subpunto
-                                            </Button>
-                                        </Box>
-                                        </Box>
-                                    );
-                                    })()}
-                                    {/* ────────────────────────────────────────────────────────────────────── */}
-                                </Paper>
+                                                        {/* 2.4) Botón para añadir un nuevo subpunto (descripción + valor) */}
+                                                        <Button
+                                                            size="small"
+                                                            variant="contained"
+                                                            color="primary"
+                                                            onClick={handleAddResumenSubpunto}
+                                                        >
+                                                            + Añadir Subpunto
+                                                        </Button>
+                                                    </Box>
+                                                </Box>
+                                            );
+                                        })()}
+                                        {/* ────────────────────────────────────────────────────────────────────── */}
+                                    </Paper>
                                 </Grid>
                                 {/* ────────────────────────────────────────────── */}
 
@@ -1301,108 +1438,10 @@ export default function SolicitudCotizacion() {
                                         />
                                     </Paper>
                                 </Grid>
-
-                                {/* Sección Firma 
-                                <Grid size={{ xs: 12 }}>
-                                    <Paper sx={{ p: 4, borderRadius: 3, bgcolor: '#f8f9fa' }}>
-                                        <Typography variant="h5" sx={{ fontWeight: 600, mb: 3, color: '#1a237e' }}>
-                                            ✍️ Anexo de Aceptación
-                                        </Typography>
-                                        <Grid container spacing={3}>
-                                            <Grid size={{ xs: 12, md: 4 }} >
-                                                <DatePicker
-                                                    label="Fecha de Firma *"
-
-                                                    value={formData.fecha_firma}
-                                                    onChange={(newValue) => {
-                                                        setFormData({ ...formData, fecha_firma: newValue });
-                                                    }}
-
-                                                    slotProps={{
-                                                        textField: {
-                                                            fullWidth: true,
-                                                            size: 'small',
-                                                            sx: { marginTop: 2, marginBottom: 1 } // Alineación vertical
-                                                        }
-                                                    }}
-                                                />
-                                            </Grid>
-                                            <Grid size={{ xs: 12, md: 4 }}>
-                                                <TextField
-                                                    fullWidth
-                                                    label="Nombre Completo *"
-                                                    variant="outlined"
-                                                    size="small"
-                                                    name="nombre_firma"
-                                                    value={formData.nombre_firma}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                />
-                                            </Grid>
-                                            <Grid size={{ xs: 12, md: 4 }} >
-                                                <TextField
-                                                    fullWidth
-                                                    label="RUT *"
-                                                    variant="outlined"
-                                                    size="small"
-                                                    name="rut_firma"
-                                                    value={formData.rut_firma}
-                                                    onChange={handleChange}
-                                                    margin="normal"
-                                                />
-                                            </Grid>
-                                        </Grid>
-
-                                        <Box sx={{ mt: 4, p: 3, bgcolor: '#e8eaf6', borderRadius: 2 }}>
-                                            <Typography variant="subtitle2" sx={{ mb: 2, fontWeight: 600 }}>
-                                                Datos Bancarios
-                                            </Typography>
-                                            <Grid container spacing={2}>
-                                                <Grid size={{ xs: 12, md: 4 }}>
-                                                    <TextField
-                                                        fullWidth
-                                                        label="Banco"
-                                                        variant="filled"
-                                                        size="small"
-                                                        name="banco"
-                                                        value={formData.banco}
-                                                        InputProps={{ readOnly: true }}
-                                                        margin="normal"
-                                                    />
-                                                </Grid>
-                                                <Grid size={{ xs: 12, md: 4 }}>
-                                                    <TextField
-                                                        fullWidth
-                                                        label="Cuenta"
-                                                        variant="filled"
-                                                        size="small"
-                                                        name="cuenta"
-                                                        value={formData.cuenta}
-                                                        InputProps={{ readOnly: true }}
-                                                        margin="normal"
-                                                    />
-                                                </Grid>
-                                                <Grid size={{ xs: 12, md: 4 }} >
-                                                    <TextField
-                                                        fullWidth
-                                                        label="RUT Banco"
-                                                        variant="filled"
-                                                        size="small"
-                                                        name="rut_banco"
-                                                        value={formData.rut_banco}
-                                                        InputProps={{ readOnly: true }}
-                                                        margin="normal"
-                                                    />
-                                                </Grid>
-                                            </Grid>
-                                        </Box>
-                                    </Paper>
-                                </Grid>
-                                */}
                             </Grid>
 
                             {/* Requiere Respuesta */}
-                            <Grid size={{ xs: 12 }} sx={{ mt:2}}>
+                            <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
                                 <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
                                     <FormControlLabel
                                         control={
@@ -1419,63 +1458,63 @@ export default function SolicitudCotizacion() {
 
                             {/* ──────────────────────────────────────────────────────────────────── */}
                             {/* NUEVO BLOQUE: Datos Bancarios */}
-                            <Grid size={{ xs: 12 }}  sx={{ mt: 2, mb: 2 }}>
-                            <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
-                                <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#1a237e' }}>
-                                🏦 Datos Bancarios
-                                </Typography>
+                            <Grid size={{ xs: 12 }} sx={{ mt: 2, mb: 2 }}>
+                                <Paper sx={{ p: 3, borderRadius: 3, bgcolor: '#f8f9fa' }} elevation={0}>
+                                    <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, color: '#1a237e' }}>
+                                        🏦 Datos Bancarios
+                                    </Typography>
 
-                                <Grid container spacing={4}>
-                                {/* Tipo de Cuenta */}
-                                <Grid size={{ xs: 12, md: 4 }}>
-                                    <FormControl fullWidth size="small">
-                                    <InputLabel>Tipo de Cuenta</InputLabel>
-                                    <Select
-                                        label="Tipo de Cuenta"
-                                        name="tipo_cuenta"
-                                        value={formData.tipo_cuenta}
-                                        onChange={(e) => {
-                                        // Reutilizamos handleChange para Select
-                                        const ev = e as unknown as React.ChangeEvent<HTMLInputElement>;
-                                        handleChange(ev);
-                                        }}
-                                    >
-                                        <MenuItem value="Corriente">Corriente</MenuItem>
-                                        <MenuItem value="Ahorro">Ahorro</MenuItem>
-                                        <MenuItem value="Vista">Vista</MenuItem>
-                                    </Select>
-                                    </FormControl>
-                                </Grid>
+                                    <Grid container spacing={4}>
+                                        {/* Tipo de Cuenta */}
+                                        <Grid size={{ xs: 12, md: 4 }}>
+                                            <FormControl fullWidth size="small">
+                                                <InputLabel>Tipo de Cuenta</InputLabel>
+                                                <Select
+                                                    label="Tipo de Cuenta"
+                                                    name="tipo_cuenta"
+                                                    value={formData.tipo_cuenta}
+                                                    onChange={(e) => {
+                                                        // Reutilizamos handleChange para Select
+                                                        const ev = e as unknown as React.ChangeEvent<HTMLInputElement>;
+                                                        handleChange(ev);
+                                                    }}
+                                                >
+                                                    <MenuItem value="Corriente">Corriente</MenuItem>
+                                                    <MenuItem value="Ahorro">Ahorro</MenuItem>
+                                                    <MenuItem value="Vista">Vista</MenuItem>
+                                                </Select>
+                                            </FormControl>
+                                        </Grid>
 
-                                {/* Nombre del Banco */}
-                                <Grid size={{ xs: 12, md: 4 }}>
-                                    <TextField
-                                    fullWidth
-                                    label="Nombre del Banco"
-                                    size="small"
-                                    name="nombre_banco"
-                                    value={formData.nombre_banco}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
+                                        {/* Nombre del Banco */}
+                                        <Grid size={{ xs: 12, md: 4 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="Nombre del Banco"
+                                                size="small"
+                                                name="nombre_banco"
+                                                value={formData.nombre_banco}
+                                                onChange={handleChange}
+                                            />
+                                        </Grid>
 
-                                {/* Número de Cuenta */}
-                                <Grid size={{ xs: 12, md: 4 }}>
-                                    <TextField
-                                    fullWidth
-                                    label="Número de Cuenta"
-                                    size="small"
-                                    name="numero_cuenta"
-                                    value={formData.numero_cuenta}
-                                    onChange={handleChange}
-                                    />
-                                </Grid>
-                                </Grid>
-                            </Paper>
+                                        {/* Número de Cuenta */}
+                                        <Grid size={{ xs: 12, md: 4 }}>
+                                            <TextField
+                                                fullWidth
+                                                label="Número de Cuenta"
+                                                size="small"
+                                                name="numero_cuenta"
+                                                value={formData.numero_cuenta}
+                                                onChange={handleChange}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                </Paper>
                             </Grid>
                             {/* ──────────────────────────────────────────────────────────────────── */}
-                            
-                        
+
+
 
 
                             {/* Imagen del Pozo con Flechas */}
@@ -1508,7 +1547,7 @@ export default function SolicitudCotizacion() {
                                         position: 'relative',
                                         width: '100%',
                                         height: '100%',
-                                        backgroundImage: formData.tipo_tuberia === 'acero'  ? `url("/assets/images/imagen_pozo_limpia.png")`  : `url("/assets/images/imagen_pozo_limpia_pvc.png")`,
+                                        backgroundImage: formData.tipo_tuberia === 'acero' ? `url("/assets/images/imagen_pozo_limpia.png")` : `url("/assets/images/imagen_pozo_limpia_pvc.png")`,
                                         backgroundSize: 'contain',
                                         backgroundRepeat: 'no-repeat',
                                         backgroundPosition: 'center'
@@ -1516,70 +1555,70 @@ export default function SolicitudCotizacion() {
                                 >
                                     {/* Imagen con flechas predefinidas */}
                                     {arrows.map(({ id, top, left, rotation, active, value, label }) => {
-                                    // Calculamos un top alternativo para los casos especiales:
-                                    let inputTop;
-                                    if (formData.tipo_tuberia === "acero" && id === 7) {
-                                        // En acero, para la flecha id=7, subimos el input 10px
-                                        inputTop = `calc(${top} - 10px)`;
-                                    } else if (formData.tipo_tuberia === "pvc" && id === 8) {
-                                        // En pvc, para la flecha id=8, subimos el input 10px
-                                        inputTop = `calc(${top} - 8px)`;
-                                    } else if (formData.tipo_tuberia === "pvc" && id === 10) {
-                                        // En pvc, para la flecha id=8, subimos el input 10px
-                                        inputTop = `calc(${top} - 10px)`;
-                                    } else if (formData.tipo_tuberia === "pvc" && id === 9) {
-                                        // En pvc, para la flecha id=8, subimos el input 10px
-                                        inputTop = `calc(${top} - 10px)`;
-                                    } else {
-                                        // Para todos los demás casos, mantenemos el desplazamiento base:
-                                        inputTop = `calc(${top} + 5px)`;
-                                    }
+                                        // Calculamos un top alternativo para los casos especiales:
+                                        let inputTop;
+                                        if (formData.tipo_tuberia === "acero" && id === 7) {
+                                            // En acero, para la flecha id=7, subimos el input 10px
+                                            inputTop = `calc(${top} - 10px)`;
+                                        } else if (formData.tipo_tuberia === "pvc" && id === 8) {
+                                            // En pvc, para la flecha id=8, subimos el input 10px
+                                            inputTop = `calc(${top} - 8px)`;
+                                        } else if (formData.tipo_tuberia === "pvc" && id === 10) {
+                                            // En pvc, para la flecha id=8, subimos el input 10px
+                                            inputTop = `calc(${top} - 10px)`;
+                                        } else if (formData.tipo_tuberia === "pvc" && id === 9) {
+                                            // En pvc, para la flecha id=8, subimos el input 10px
+                                            inputTop = `calc(${top} - 10px)`;
+                                        } else {
+                                            // Para todos los demás casos, mantenemos el desplazamiento base:
+                                            inputTop = `calc(${top} + 5px)`;
+                                        }
 
-                                    return (
-                                        <React.Fragment key={id}>
-                                        {/* Flecha tenúe sobre la imagen */}
-                                        <EastIcon
-                                            onClick={() => toggleArrow(id)}
-                                            sx={{
-                                            position: "absolute",
-                                            top,
-                                            left,
-                                            fontSize: 40,
-                                            transform: `rotate(${rotation}deg) scaleX(1.3) scaleY(0.7)`,
-                                            opacity: active ? 1 : 0.3,
-                                            color: "#000",
-                                            cursor: "pointer",
-                                            transition: "opacity 150ms",
-                                            }}
-                                        />
+                                        return (
+                                            <React.Fragment key={id}>
+                                                {/* Flecha tenúe sobre la imagen */}
+                                                <EastIcon
+                                                    onClick={() => toggleArrow(id)}
+                                                    sx={{
+                                                        position: "absolute",
+                                                        top,
+                                                        left,
+                                                        fontSize: 40,
+                                                        transform: `rotate(${rotation}deg) scaleX(1.3) scaleY(0.7)`,
+                                                        opacity: active ? 1 : 0.3,
+                                                        color: "#000",
+                                                        cursor: "pointer",
+                                                        transition: "opacity 150ms",
+                                                    }}
+                                                />
 
-                                        {/* Input que aparece sólo si la flecha está activa */}
-                                        {active && (
-                                            <TextField
-                                            size="small"
-                                            placeholder={label}
-                                            value={value}
-                                            onChange={(e) => updateArrowValue(id, e.target.value)}
-                                            sx={{
-                                                position: "absolute",
-                                                top: inputTop,
-                                                left: `calc(${left} + 45px)`,
-                                                width: 100,
+                                                {/* Input que aparece sólo si la flecha está activa */}
+                                                {active && (
+                                                    <TextField
+                                                        size="small"
+                                                        placeholder={label}
+                                                        value={value}
+                                                        onChange={(e) => updateArrowValue(id, e.target.value)}
+                                                        sx={{
+                                                            position: "absolute",
+                                                            top: inputTop,
+                                                            left: `calc(${left} + 45px)`,
+                                                            width: 100,
 
-                                                // Reducir la altura total del TextField (contenedor)
-                                                "& .MuiInputBase-root": {
-                                                height: 30,
-                                                },
-                                                // Reducir el padding interno de la etiqueta/texto
-                                                "& .MuiInputBase-input": {
-                                                padding: "4px 8px",
-                                                fontSize: 12,
-                                                },
-                                            }}
-                                            />
-                                        )}
-                                        </React.Fragment>
-                                    );
+                                                            // Reducir la altura total del TextField (contenedor)
+                                                            "& .MuiInputBase-root": {
+                                                                height: 30,
+                                                            },
+                                                            // Reducir el padding interno de la etiqueta/texto
+                                                            "& .MuiInputBase-input": {
+                                                                padding: "4px 8px",
+                                                                fontSize: 12,
+                                                            },
+                                                        }}
+                                                    />
+                                                )}
+                                            </React.Fragment>
+                                        );
                                     })}
 
 

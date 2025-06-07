@@ -3,53 +3,76 @@ import { useState, useEffect } from "react";
 import { PDFViewer, PDFDownloadLink } from "@react-pdf/renderer";
 import MyPDF from "./mypdf";
 
-
 // Definir tipo para el formulario
 interface FormData {
-    nombre_cliente: string;
-    direccion_especifica_cliente: string;
-    comuna_cliente: string;
+    cliente: {
+        nombre_cliente: string;
+        direccion_cliente: string;
+        comuna_cliente: string;
+        telefono: string;
+    };
     nombre_empresa: string;
     direccion_empresa: string;
     region_empresa: string;
     pais_empresa: string;
+    fecha_firma: Date | null;
     numero_telefono_empresa: string;
-    n_referencia: string;
+    n_referencia: number;
     id_proyecto: string;
     asunto_cliente: string;
     descripcion_proyecto: string;
-    id_documento: string;
-    acuerdos: string[];
+    id_documento: number;
+    carta_oferta: string;
+    oferta_economica: string;
+    requiere_respuesta: boolean;
     aportes_cliente: string[];
     aportes_antilhue: string[];
-    imagenes: string[]; // base64 strings
+    acuerdos: string[];
+    anticipo: number;
+    banco: string;
+    cuenta: string;
+    rut_banco: string;
+    nombre_firma: string;
+    rut_firma: string;
+    imagenes: string[];
     numero_revision: string;
-    requiere_respuesta: boolean;
     titulo_imagenes: string;
     descripcion_imagenes: string;
     valor_metro: number;
     valor_servicio: number;
     valor_bomba: number;
-    anticipo: number;
     variante_metro: number;
     n_profundidad: number;
     detalle_bomba: string;
-
-    tipo_cuenta: string;
-    nombre_banco: string;
-    numero_cuenta: string;
-
     columna_input_cero: string;
     columna_input_uno: string;
     columna_input_dos: string;
     columna_input_tres: string;
     columna_input_cuatro: string;
     columna_input_cinco: string;
+    flechas: { id: number; label: string; value: string }[];
+    tipo_cuenta: string;
+    nombre_banco: string;
+    numero_cuenta: string;
 
-    flechas?: {
-      id: number;
-      value: string;
+    descripcion_trabajo: {
+        id: number;
+        titulo: string;
+        subpuntos: string[];
     }[];
+
+    lineas_economicas: {
+        id: number;
+        descripcion: string;
+        valor: number;
+    }[];
+
+    resumen_subpuntos: {
+        descripcion: string;
+        valor: number;
+    }[];
+
+    tipo_tuberia: 'acero' | 'pvc';
 }
 
 function App() {
@@ -82,7 +105,7 @@ function App() {
 
     // 2) Construir la base del nombre de archivo:
     //    "<n_referencia> <nombre_cliente> <comuna_cliente> Rev <numero_revision> <fechaFormateada>"
-    const fileNameBase = `${formData.n_referencia} ${formData.nombre_cliente} ${formData.comuna_cliente} Rev ${formData.numero_revision} ${fechaFormateada}`;
+    const fileNameBase = `${formData.n_referencia} ${formData.cliente.nombre_cliente} ${formData.cliente.comuna_cliente} Rev ${formData.numero_revision} ${fechaFormateada}`;
 
     // 3) Agregar la extensión ".pdf"
     const fileName = `${fileNameBase}.pdf`;
